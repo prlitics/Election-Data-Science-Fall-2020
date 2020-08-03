@@ -1,0 +1,70 @@
+---
+title: "Election Data Science 2020"
+output: 
+  revealjs::revealjs_presentation:
+    theme: serif
+    self_contained: FALSE
+    highlight: pygments
+    reveal_plugins: ["notes"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Welcome!
+
+<h3>*Welcome to Election Data Sciences!*</h3>
+
+<style type="text/css">
+  .reveal p {
+    text-align: left;
+
+</style>
+
+>- Going to talk about 
+
+# What is Data Science?
+
+>- When I say the word ``Data Science" what's the kind of stuff that pops into your mind?
+
+<aside class="notes">
+Get people's opinions about data science, maybe spend about 5 minutes?
+</aside>
+
+## What Does Data Science Mean?
+
+```{r pic1, echo=F, fig.align = "center", out.width= "50%"}
+knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic1.png')
+```
+
+>- Data science is in many ways a new field. But also not?
+
+<aside class="notes">
+-Can trace its intellectual origins to the 1950s and 60s.\n
+-As a term it's really only come about over the last 15 or so years.
+  -That term has changed meanings.
+- Because of that, a lot of people think that "Data Science" is just a sexy new way to describe "Applied statistics." 
+</aside>
+
+## Brief History of Data Science
+
+## What does it connote *now*? Like. Right now.
+
+>- Instead it's helpful to think of data science not as a rigid field but as a constellation of competencies. 
+
+---
+```{r pic2, echo=F, fig.align = "center", out.width= "50%"}
+knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic2.png')
+```
+
+>- Except this is wrong
+
+# Cool. And *Election* Data Science?
+
+
+# What Are **Not** Going to Learn in this Course
+>- Here are some things you are not going to learn in this class that are **crucial** if you want to get paid as a Data Scientist.
+
+  >+ test?
+
