@@ -20,6 +20,7 @@ knitr::opts_chunk$set(echo = FALSE)
   .reveal p {
     text-align: left;
 
+  
 </style>
 
 >- Going to talk about 
@@ -58,13 +59,46 @@ knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-F
 knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic2.png')
 ```
 
+<style type="text/css">
+  .reveal ul {
+    text-align: left;
+
+  
+</style>
 >- Except this is wrong
 
 # Cool. And *Election* Data Science?
 
 
 # What Are **Not** Going to Learn in this Course
->- Here are some things you are not going to learn in this class that are **crucial** if you want to get paid as a Data Scientist.
+>- Here are some things you are not going to learn in this class that are **crucial** if you want to get paid as a Data Scientist:
 
-  >+ test?
+>- Python
+>- SQL
+>- AWS/Google/Azure cloud computing
+>- Neural networks and "deep" learning.
+>- Tableau
+>- Calculus/Matrix algebra/Probability theory
 
+<aside class="notes">
+That's not even the SOFT skills. That they'll be asking for too.
+</aside>
+
+## Twi
+
+# what You *_Are_* Going to Learn
+
+## If You Learn Nothing Else:
+
+>- Programming languages are just that: **languages**
+>- Computers are the dumbest kind of magic.
+>- Data **never** speak for themselves. 
+>- As data professionals, you have an inherent obligation to be ethical in your handling of data and in your presentation of your results. Every point is a *person.* 
+>- Analytical procedures do not make anything *objective.* **ALL** analyses are biased. 
+>- *All* data are artifacts of the time, place, people, and culture that it is generated from.
+>- **All** models are fiction. Some fictions are illuminating. 
+
+
+<aside class="notes">
+You know how many words are in English? Over 600,000 by some estimates. The average person knows between 30-60,000. We get along just fine. | No special sauce. The fundamental element of computing is 0 and 1s; discrete either ors. Everything that they could do YOU could too if you had enough time and/or desire on your hands.| This is a common saying, but it's wrong. Let me give you a number 1.13. What the hell does that mean? LEt's say it's Poisson. So? What does THAT even mean too? In the greater context. We give voice to patterns by ensconscing them in frames and narratives. | Every data point is a life as complex and richly felt as yours. | Data does not exist | Nothing is objective. The fact that you even chose this subject to study betrays some ideological commitment over another. (Elections as a good thing to preserve and study). Further, because we are attempting to translate reality and all it's ineffable, beautiful messiness into something that can be parsed by, again, really dumb machines, there will always be a bias. Not in the "lib/con" sense (althoug, also sometimes yes). | Next two are worth their own slides. 
+</aside>
