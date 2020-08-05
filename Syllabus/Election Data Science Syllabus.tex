@@ -1,0 +1,425 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage[colorlinks = true,
+            linkcolor = blue,
+            urlcolor  = blue,
+            citecolor = blue,
+            anchorcolor = blue,bookmarks={true},pdfpagelabels=true,
+  pdftitle={POS 3204, Fall 20202},
+  pdfauthor={Peter R. Licari},]{hyperref}
+\usepackage{bookmark}
+\makeatletter
+\renewcommand\@seccntformat[1]{}
+\makeatother
+\usepackage[pdftex]{graphicx}
+\usepackage[table]{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage{pdfpages}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{ulem}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+\def\tabularxcolumn#1{m{#1}}
+
+\def\doubleq#1{``#1''}
+\def\singleq#1{`#1'}
+
+\pagestyle{plain}
+\setlength\parindent{0pt}
+
+\begin{document}
+
+\begin{center}
+{\Huge POS 3204: ELECTION DATA SCIENCE}\\\vspace{1mm}
+{\Large University of Florida | Fall 2020}\\\vspace{1mm}
+{\Large Online, T 8:30AM--10:25AM; TR 9:35AM--10:25AM}
+\end{center}
+\bigskip
+\begin{center}
+{\LARGE Peter R. Licari}\\\vspace{5mm}
+\setlength{\tabcolsep}{20pt}
+\begin{tabular}{ c c c}
+  {\href{https://ufl.zoom.us/j/8174990226}{Zoom Office}} & Office/Student Hours:\\
+    {\href{mailto:plicari13@ufl.edu}{plicari13@ufl.edu}} & Wednesdays 1:00PM--2:00PM \\
+  {\href{tel:3522732353}{352-273-2353}} & , and by appointment \\
+  {\href{https://www.peterlicari.com}{peterlicari.com}} & \href{https://github.com/prlitics/Election-Data-Science-Fall-2020}{Course Github Repository}
+\end{tabular}
+\end{center}
+
+\section{Course Description} 
+
+Politics is often defined as the study of "who gets what, when, and why?" Although we often approach politics as if it's a confusing game or arcane art, this definition reveals what's really at the center of the subject: People. After all, they're right there in the very first word (\textit{"who"}). Political behavior investigates this fundamental unit of politics in the aims of better understanding the institutional, social, and psychological influences on what/how people think/act.   
+\\\\
+We often think of people, and their thoughts and actions, in an individualistic sense--often with simple, unidirectional causes. \textit{People vote Republican because X; People vote Democrat because Y; They take to Twitter when A happens and take to the streets with B happens.} Such generalizations are, at best, drastic oversimplifications. This course will start by looking at behavior on the foundational level of the individual person. We will look at the structure of political opinions and current theories of how they form. We will imagine people as simple, mathematical objects. And then we will flesh them out by investigating the influence of genetics, biology, and entrenched psychological predispositions. We will look at how groups, identities, and media affect what we believe and how/when we act upon them. We will even see how events long-past culminate in the behaviors we observe today and how they will continue to affect those that will come tomorrow.  
+\\\\
+The behavior of people in and around the political arena is complex, messy, and wondrous. This course will provide students with the knowledge and competence to better understand the complex ways that behaviors and attitudes emerge--and their effects on the individual as well as the nation as a whole. This knowledge can be useful to those hoping for a career in activism, government, campaigning, and the non-profit sector. It can be a foundation for those looking to expand their knowledge of politics to the completion of an undergraduate degree in the social sciences and for those eyeing higher education. It may also provide clarity and insight in these politically tumultuous times. Ultimately, this course, and its usefulness, will be what you, the students, make of it. 
+\\\\
+I am excited to see where it takes us.   
+
+\subsection{Structure of the Course}
+This course will guide students through the use of reading assignments, weekly lecture (Tuesdays), a weekly hands-on lab (Thursday), and practical projects to help students acquire the basic skills needed to do election data science. Due to the Coronavirus pandemic, all class lectures, labs, and meetings will be held online. These meetings will be held synchronously through Zoom and will be published to YouTube for those who were unable to attend the lecture during class time. These videos will be private and viewable only to those enrolled in the class and will be available until January 1st, 2021. 
+\\\\
+Data science is all about transparency. So, in that spirit, I'd like to explain the logic for these structural components. 
+\begin{itemize}
+\item \textbf{Weekly Readings:} The weekly readings are meant to be an initial introduction to the concepts and coding techniques required to excel as a election data science practitioner. The examples in the texts are usually geared towards general audiences. But they introduce the fundamentals. Some weeks will have a suggested set of readings as well. As the name ``suggested" implies, \textit{these are not required for your progress in the course.} They are usually examples of the processes described in the general readings applied to the domain of elections and electoral behavior.
+\item \textbf{Lectures:} The lectures are meant to reinforce and expand that initial introduction. They will be broken down into three parts. The first part will be dedicated to going over standing questions pertaining to the prior week's lab.
+ The second will largely be more ``theoretical." It will break-down the underlying logic of the week's topic with the aim of giving your a better grasp of the core concepts at work. It will also provide examples of these concepts in practice, explaining and expanding upon the suggested readings mentioned above. The second will be more of a tutorial. I will demonstrate how to apply some of these techniques using real election data. Students are expected to follow along and are strongly encouraged to frequently ask questions. 
+\item \textbf{Labs:} Labs are meant to provide you with the opportunity to strengthen (and ideally \textit{solidify}) the skills that we have learned about during that week and over the ones preceding. These are tasks and challenges that will be made available before class on Thursday. \textit{Some of these may be tough, some of them easy, all of them are doable.} Here, you will learn through doing---but doing in a supportive environment where I and your fellow learners are available to help should you want/need it. 
+\item \textbf{Practical projects:} If you are taking this class, there is a good chance that you are interested in elections, data, and/or electoral data. You might be so interested that you can see yourself having an enjoyable career in it. (Or, there's a chance you just needed a credit. I get it! No judgments here.) \textit{As your instructor, I want all of you to be happy and successful in your endeavors.} For data science/data analyst positions, most people do not get hired unless they have some kind of tangible example of their skill that is readily findable by prospective employers. You need to have a portfolio. You don't need to reinvent the wheel or solve the optimal stopping problem, but you need to have something that proves you know what you're doing. These practical experiences are the seeds of that portfolio. You will be writing blog posts that demonstrate your ability to question, communicate, visualize, and write code. (It will also allow you to claim some rudimentary experience with GitHub.) Your final project will show that you understand how to think of a research question, how to pursue it using the techniques of data analysis, and how to communicate it coherently using images and text. Ideally, you might also be able to get a publication credit under your belt. (More on that in class.) All in all, these are to help you take your first steps into doing this professionally. 
+\end{itemize}
+
+\subsection{Required Readings}
+There is one required textbook for this class. It is available through the publisher as well as Amazon. It is also on reserve {\href{https://cms.uflib.ufl.edu/accesssupport/howtostudents}{reserve}} at {\href{https://cms.uflib.ufl.edu}{Library West}}.
+
+\begin{itemize}
+\item Elizabeth A. Theiss-Morse, Michael W. Wagner, William H. Flanigan, and Nancy H. Zingale. (2018) \textit{Political Behavior of the American Electorate: Fourteenth Edition.} New York: CQ Press. ISBN{\href{https://www.amazon.com/Political-Behavior-Electorate-Elizabeth-Theiss-Morse/dp/1506367739}{1506367739}}.
+\end{itemize}
+
+Throughout this course, we will also be reading articles and book chapters from a number of sources. These will either be posted as pdfs or html links on {\href{http://ufl.instructure.com/}{Canvas}}. Regardless of if the readings come from Canvas or the core textbook, they ought to be considered required unless informed otherwise. 
+\\\\
+I strongly encourage students to subscribe to \textit{{\href{https://www.nytimes.com/newsletters}{The New York Times'}}} \doubleq{Morning Briefing} email newsletter. It's free and provides news and information on the United States, Canada, and the Americas, each weekday morning. I also recommend following a combination of major news sources (e.g., \textit{Wall Street Journal}, \textit{NPR}, \textit{Washington Post}), political news sources (e.g., \textit{The Hill} and \textit{Politico}), and academic-oriented blogs (e.g., \textit{Mischiefs of Faction} and \textit{Monkey Cage}). I also challenge you to make a concerted effort to read from a source that cuts against your prior beliefs. If you see yourself as a political liberal (or leaning that way), I recommend that you try to read from places such as \textit{The Economist} and/or \textit{The National Review}. If you see yourself as a political conservative (or leaning that way), I recommend that you add outlets such as \textit{Vice}, and/or \textit{The Atlantic} to your reading diet. It's important to understand the roots of others' positions--especially when studying how/why they behave the way they do.
+
+\subsection{Learning Outcomes} 
+By the end of the semester, students enrolling in the course should be able to:
+\begin{itemize}
+\item \textit{Understand} the various, overlapping causes of political behavior in the United States--as well as appreciate the various forms behaviors can take;
+\item \textit{Evaluate} popular and academic claims pertaining to the way people act and think in the political sphere;
+\item \textit{Describe and synthesize} facts about American political behavior in order to pose and answer questions (both simple and integral) on the subject; and
+\item \textit{Think critically} about current events and engage with others, especially those with opposing viewpoints, in articulate, considerate, and logical ways.
+\end{itemize}
+
+\section{Assignments \& Course Requirements}
+There are a number of different kinds of assignments that students are responsible for throughout the semester. \textbf{The course will be graded out of a total of 1000 possible points.} Letter grades will be assigned per the following numerical scales:\vspace{5mm}\\\vspace{5mm}
+\hspace*{40mm}
+\begin{tabular}{ c c}
+\textgreater= 930 & A  \\
+900 -- 920 & A- \\
+870 -- 890 & B+ \\
+830 -- 860 & B \\
+800 -- 820 & B- \\
+770 -- 790 & C+ \\
+730 -- 760 & C \\
+700 -- 720 & C- \\
+670 -- 690 & D+ \\
+630 -- 660 & D \\
+600 -- 620 & D- \\
+\textless= 600 & E \\
+\end{tabular}\\
+Points will be rounded to the nearest whole-number (\textit{e.g.}, $869.5 \rightarrow 870; 869.4 \rightarrow 869$). Additional extra credit will not be provided, aside from that stipulated below.
+\begin{itemize}
+	\item \textbf{Attendance and Participation}: Attendance will be taken at the beginning of every class via a sign-in sheet that will be passed around. \textbf{Attendance will be worth 5 percent of the total grade, or 50 points.} You are allowed up to 2 \textbf{un}excused absences throughout the semester. Excused absences include those taken for medical purposes, school-sanctioned events, and family emergencies. They also include notable family and life events (weddings, birthdays, etc). If you know in advance that you will miss a class, please let me know ahead of time. In the event of an unforeseen absence that you want excused, please contact me within \textbf{one week} of the date missed and we will discuss it. Exceptions to this rule are at my discretion. Each unexcused day after those two will result in a loss of 10 points apiece to the participation grade.
+	\item \textbf{Reading Quizzes}: Quizzes test your knowledge and understanding of the reading and lectures for the week. Every Monday and Friday that there is class (except during exams), there will be a short (3-5 question) reading quiz covering the assigned reading material. \textbf{Reading quizzes are worth 15 percent of the total grade, or 150 points.} These quizzes are due before class on Monday and Friday. One of the questions on the Monday quizzes will be short response. In this section, write a short (between a sentence and a paragraph) question that you have about the reading. This question can stem from confusion, curiosity, or be a short critique of something you read. I will go over a handful of these questions in Friday’s class. Questions that are selected will give the student(s) who submitted it an additional 5 bonus points towards their cumulative quiz grade. (There will not be a reading quiz in the first week of the semester. Instead, that week will have a 10 question syllabus quiz due \textbf{Friday, January 10th}. This will be weighted as 2 quizzes since it takes up both quizzes for the first week).  
+	\item \textbf{Exams}: There will be two multiple choice exams, one midterm and one during finals week. \textbf{Both exams are weighted the same, 15 percent apiece, for a total of 30 percent of the final grade, or 300 points.} They will be 40 questions in length and will be completed in class. Approximately 60 percent of the questions stem from the readings and 40 percent will come from lecture. Lecture materials will be posted to canvas after each class. However, that does not mean that all of the relevant information covered in class will be included on the slides. Students are encouraged to be an active listener during lectures; active listening, for many, involves taking notes to solidify the information covered on the slides and record important information that is otherwise not on the slides. 
+	\item \textbf{Short Papers}: Each week (besides the first week, the week of spring break, and the week of the two exams, and the final week of classes), there will be a set of questions that accompanying readings. These are meant to guide our thoughts through the week but also serve as prompts for the course's writing assignments. There are 12 prompts across the entire course; \textbf{Students are responsible for answering 4 of them}. \textbf{Responses are due the following Friday.} They are expected to be approximately 2-4 pages, double-spaced, with 1 inch margins. You will need in-text citations for the sources backing-up your statements, in your chosen citation style, but you are not expected to perform additional research. If you elect to do additional research, you will be required to also provide a bibliography in the same style as your in-text citations. The bibliography does not count towards the page length. The lowest scoring paper will be dropped from the final grade. \textbf{These assignments are worth 100 points apiece for a total of 300 points}
+	\item \textbf{Final Paper}: Students will take one of the 12 questions and respond to them in a final essay. \textbf{Essays will be due by Midnight on Sunday, April 26th.} Essays are expected to be between 5-8 pages, double-spaced, with 1 inch margins.\textbf{ Students are allowed to expand on a previously-submitted writing assignment, provided that they are not simply fluffed-up reiterations of the original submission.} Each student can email me their paper once for a preliminary review, provided that it is submitted prior to Wednesday, April 1st. \textbf{The Final Paper will be worth 20 percent of the total grade, or 200 points.} You will need in-text citations for the sources backing-up your statements, in your chosen citation style, but you are not expected to perform additional research. If you elect to do additional research, you will be required to also provide a bibliography in the same style as your in-text citations. The bibliography does not count towards the page length.
+\end{itemize}
+
+\section{Course Policies}
+\begin{itemize}
+	\item \textbf{Office Hours:} During the semester, office hours are an opportunity to get help with assignments and discuss course material, including grading. Students will be required to attend one office hour session (see assignments above). Aside from this, students are strongly encouraged to take advantage of this time to ask questions or just swing by so I can get to know you better. The better I know about you, the more I can write for a letter of recommendation or talk about as a reference to a potential employer. Appointments are also available.
+	\item \textbf{Lecture:} You are expected to attend the synchronous lectures as best as can reasonably be expected. Normally, these class meetings be required. But, also, normally we'd be meeting \textit{in an actual class without a pandemic going on.} Some of you might not have reliable internet to get to classes live. Some of you might be in a timezone where an 8:30AM class is unreasonable. (e.g., if you're living in California, you don't need to wake up at 5:00AM just for my class. Get some sleep; watch it on YouTube.) "Attendance" will be taken in a way that accommodates both those who could attend live and those who are unable to.
+	\item \textbf{Late Assignments:} Without any notice of mitigating circumstances, I will deduct \textbf{10 points} for every day that an assignment is late beyond the original due date. Most assignments will be due at midnight. However, I do not start work until 8:00 AM---so consider the period between 12:00--8:00 AM as an ``emergency buffer." This means that I won't hold it against you if an assignment is occasionally submitted during that time frame. Do not make a habit of it though. I reserve the right to count submissions as late if they are submitted during this time-frame if it appears that the student is abusing this policy. \textbf{If you have a mitigating circumstance that prohibited you from reasonably completing the assignment on time, please reach out to let me know. I can't help if I don't know.} 
+	\item \textbf{Children in Class:} For students with children (or living with younger siblings), it is understandable that unforeseen disruptions in childcare can occur. While not a long-term solution, bringing a child to ``class" with you when such disruptions occur is acceptable. In those cases, please be courteous to your fellow students and mute your microphone if they are becoming too disruptive. Likewise, all other students should work together to create a welcoming environment for both the parent/caregiver and child---which means being kind and encouraging as well as patient of minor disruptions. \textbf{If you are unable to come to a long-term solution, \textit{please contact me via email.} We will work towards a solution.}
+	\item \textbf{Disruptions in Class:} Please silence your phone, emails, and chat applications during class meetings. If you are in a noisy environment, please mute your microphone when you are not talking or asking/answering a question. We are meeting early so I will not be offended if you eat/drink breakfast during the scheduled time---but please be sure to mute your microphone should you decide to do that. Most importantly though: Remember that we are all trying to do our best in a very weird time. Please be patient with your fellow students if a disruption occurs. Also: Never apologize if your pet, child, or younger sibling spontaneously pops-in despite your best efforts. Animals and small children are objectively adorable and quick adorable distractions are always welcome. 
+	\item \textbf{Class Demeanor:} Students are expected to arrive to class on time and behave in a manner that is respectful to the instructor and to fellow students. Derogatory comments, personal attacks on others, or interrupting the class will not be accepted. Please avoid the use of cell phones and electronics for extraneous purposes. Opinions held by other students should be respected in discussion, and conversations that do not contribute to the discussion should be held at minimum, if present at all.
+	\item \textbf{Recording:} The {\href{https://sccr.dso.ufl.edu/policies/student-honor-code-student-conduct-code/}{Student Honor Code}} prohibits the unauthorized recording -- video or audio -- of any academic activity, including lecture. (It's also kind of a moot point this semester since I'll be putting recorded meetings on YouTube---but, still. Don't do it without securing my permission first.)
+	\item \textbf{Technology:} You are expected to have a laptop and/or computer that is capable of running R and RStudio. Please limit all non-class related activity during class time as much as possible.
+	\item \textbf{Course Evaluation:} Students are expected to provide feedback on the quality of instruction in this course by completing online evaluations via GatorEvals at {\href{https://ufl.bluera.com/ufl/}{ufl.bluera.com/ufl}}. Students will be notified when the evaluation period opens at the end of the semester. Summary results are available to students at {\href{https://gatorevals.aa.ufl.edu/public-results/}{gatorevals.aa.ufl.edu/public-results}}.
+	\item \textbf{Subject to Change:} This syllabus is subject to change at the discretion of the instructor to accommodate instructional and/or student needs. Proper notification will be provided to students of relevant changes.
+	\end{itemize}
+
+\section{University Policies}
+\begin{itemize}
+	\item \textbf{Accommodation:} Students requesting accommodations should first register with the {\href{https://disability.ufl.edu}{Disability Resource Center}} ({\href{tel:3523928565}{352-392-8565}}) by providing appropriate documentation. Once registered, students will receive an accommodation letter which must be presented to the instructor when requesting accommodation. Students with disabilities should follow this procedure as early as possible in the semester.
+	\item \textbf{Non-Medical Accommodation:} Many students are involved involved with school sanctioned extracurricular activities and/or have other professional commitments (\textit{e.g.}, work, military obligations, etc.). If your schedule for these activities/obligations will conflict with the meetings for this class, please let me know ahead of time.
+	\item \textbf{Plagiarism:} Plagiarism -- that is, lifting without giving credit from something someone else has written such as a published book, article, or even a student paper -- is forbidden. As a writer, I can tell you that the words people pen are more than just ink on a page or pixels behind a screen. They are the result of deliberate effort and represent part of their contribution to the cumulative human experience. Taking those words and passing it off as your own is deeply unethical and will not be tolerated. Modern technology means that plagiarism is fairly easily detected. \textbf{Do not do it. You will get caught. There will be consequences.}
+\item \textbf{Academic Honesty:} Academic honesty and integrity, more broadly, are fundamental values of the University community. Cheating in any form undermines the integrity and mutual trust essential to a community of learning and places at a comparative disadvantage those students who respect and work by the rules of that community. It is understood that any work a student submits is indeed his/her own. There are other, more obvious forms of academic dishonesty, such as turning in work completed by someone else, and offering or receiving whispered, signaled, or other forms of assistance during an exam. Working with fellow students in exam/study groups is not only acceptable but also encouraged so long as one is refining ideas that are essentially their own. Please review the University's policies regarding {\href{https://sccr.dso.ufl.edu}{student conduct and conflict resolution}}, available through the {\href{https://dso.ufl.edu}{Dean of Students Office}}. Any violations of the Student Honor Code will result in a failing grade for the course and referral to Student Judicial Affairs.
+	\item \textbf{Communication Courtesy:} Per {\href{http://teach.ufl.edu/wp-content/uploads/2012/08/NetiquetteGuideforOnlineCourses.pdf}{university policy}}, all members of the class are expected to follow rules of common courtesy in all messages and other electronic communications. Under Florida law ({\href{http://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0119/Sections/0119.07.html}{FS 119.07}}), GatorLink emails are public records. If you do not want your email to be released in response to a public records request, contact the instructor in person. Per university and federal policies, grades may not be discussed via e-mail or over the phone. Please allow 24-48 hours for a response.
+	\item \textbf{Counseling and Wellness Center:} Contact information for the Counseling and Wellness Center: {\href{https://counseling.ufl.edu}{counseling.ufl.edu}}, {\href{tel:3523921575}{352-392-1575}}; and the University Police Department: {\href{tel:3523921111}{352-392-1111}} or 9-1-1 for emergencies.
+	\end{itemize}
+
+\section{Important Dates}
+\begin{tabular}{ l l}
+Jan. 10 & Last Day to Add or Drop a Course \\
+Jan. 20 & No Class (Martin Luther King, Jr. Day) \\
+Feb. 26 & First Exam \\
+Feb. 29 & First Day of Spring Break \\
+Mar. 7 & Final Day of Spring Break \\
+Mar. 17 & Florida Presidential Primary \\
+Apr. 10 & Last Day to Drop with a \doubleq{W} \\
+Apr. 11 & Course Evaluations Open \\
+Apr. 15 & No Class (Get your taxes done) \\
+Apr. 23 \& 24 & Reading Days \\
+Apr. 24 & Course Evaluations Close \\
+Apr. 26 & Final Essays Due \\
+Apr. 29 & Final Exam \\
+May 7 & Final Grades Available \\
+\end{tabular}
+
+\section{Course Schedule}
+The following outline reflects my expectations before the class begins, but weekly coverage may change depending on the progress of the class. However, you must keep up with the reading assignments for the assigned week and day. 
+
+\textbf{Week 1, January 6--10: Course Structure and What Is Political Behavior}
+\begin{itemize}
+\item \textbf{M:} \textit{No assignment due; first day of class}
+\item \textbf{W:} Syllabus 
+\item \textbf{W:} \doubleq{How to Read Political Science: A Guide in Four Steps} (Canvas)
+\item \textbf{F:} Textbook, Chapter 1. 
+\begin{itemize}
+\item \underline{Syllabus Quiz Due}
+\end{itemize}
+
+\end{itemize}
+\textbf{Week 2, January 13--17: Political Knowledge}
+\\
+\textit{I don't know what I don't know, you know?}
+\\\\
+\textbf{Guiding Prompt:} How would you describe the state of political knowledge in America? Why? Do you see this as problematic? If you do, imagine that you’re given total control over the US for a day: Given what we know about information seeking and motivated reasoning, how would you try to make it less problematic? If you do not see the state of political knowledge in America as problematic, how would you improve upon the current situation? 
+\begin{itemize}
+\item \textbf{M:} \doubleq{Uniformed} by Arthur Lupia (Canvas, part 1)
+\begin{itemize}
+\item \underline{Reading Quiz}
+\end{itemize} 
+\item \textbf{W:} \doubleq{Uniformed} (Canvas, part 2)
+\item \textbf{F:} \doubleq{Motivated Skepticism in the Evaluation of Political Beliefs} by Taber \& Lodge (Canvas)
+\begin{itemize}
+\item \underline{Reading Quiz}
+\end{itemize}
+
+\end{itemize}
+\textbf{Week 3, January 20--24: Opinions, Attitudes, and Ideologies}
+\\
+\textit{But are we really hooked on our feelings?}
+\\\\
+\textbf{Guiding Prompt:} Where do our opinions come from? How are they shaped by our attitude structures, values, and ideologies? When are they more/less stable? More/less malleable--and who’s capable of encouraging these changes? 
+\begin{itemize}
+\item \textbf{M:} \textit{No class; MLK day}
+\item \textbf{W:} Textbook, Chapter 6
+\item \textbf{F:} \href{https://www.people-press.org/2017/10/05/8-partisan-animosity-personal-politics-views-of-trump/}{The Partisan Divide on Political Values Grows Even Wider} by Pew Research (Web Pages 1-8). 
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+
+\textbf{Week 4, January 27--31: Rational Choice Models of Politics}
+\\
+\textit{Suffrago ergo sum}
+\\\\
+\textbf{Guiding Prompt:} What does it mean to approach political behavior from a "rational choice" perspective? What are some of the notable contributions of this vein of thought? In what ways is a "rational choice" approach helpful? In what ways does it fall short? Justify your answers.
+\begin{itemize}
+\item \textbf{M:} \doubleq{Rational Choice Theory: An Overview} by Green (Canvas, p. 2-20; Examples D-G in section 5).  
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{An Economic Theory of Political Action in a Democracy} by Downs (Canvas, p. 135-145)  
+\item \textbf{W:} \doubleq{A Theory of the Calculus of Voting} by Riker and Ordeshook (Canvas, p. 25-28) 
+\item \textbf{F:} \doubleq{Pathologies of Rational Choice Theory} by Green \& Shapiro (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 5, February 3--7: Genetics, Personality, and Emotions}
+\\
+\textit{Don't blame me, it's just in my nature!}
+\\\\
+\textbf{Guiding Prompt:} Of the three more biological factors discussed this week (genes, personality, and emotions), which do you see as more important for political behavior? Why? Might some factors matter more to some kind of behaviors? To what extent are you comfortable saying that any of them ``cause'' political behavior? Justify your answer. 
+\begin{itemize}
+\item \textbf{M:}\doubleq{Predisposed} by Alford, Hibbing \& and Smith (Canvas, part 1).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Predisposed} (Canvas, part 2)
+\item \textbf{F:} \doubleq{Election Night's Alright for Fighting: The Role of Emotions in Political Participation}
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 6, February 10--14: Proximate Groups}
+\\
+\textit{I \sout{get by} participate with a little help from my friends.}
+\\\\
+\textbf{Guiding Prompt:} How do social groups affect our political behavior? Of the three groups we talk about this week (Family, Friends, and Neighbors), which do you believe will have a greater influence on political behavior. Are these influences contingent on time and/or space?  Justify your response.
+\begin{itemize}
+\item \textbf{M:} paper1
+\item \begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize} \doubleq{Politics across Generations} by Jennings, Stoker, and Bowers (Canvas)
+\item \textbf{W:} \doubleq{Social Networks and Political Participation} by McClurg (Canvas)
+\item \textbf{F:} \doubleq{Social Pressure and Voter Turnout} by Gerber, Green \& Larimer (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 7, February 17--21: Identity}
+\\
+\textit{Identities: We've all got 'em (and some of us more than others).}
+\\\\
+\textbf{Guiding Prompt:} Why are identities important to the study of political behavior? What sort of factors precipitate the formation of politically-relevant identities--and how might our identities be shaped by political forces? When are identities likely to cause us to feel disdain towards ``them'' versus simply feeling a preference towards ``us.'' Do you think identities are a problematic part of our politics? Why or why not? 
+\begin{itemize}
+\item \textbf{M:} \doubleq{Uncivil Agreement} by Mason (Canvas, Part 1)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Racial Formation in the United States} by Omi \& Winant (Canvas)
+\item \textbf{F:} \doubleq{The Gender Gap is a Race Gap: Women Voters in US Presidential Elections} by Junn and Masuoka (Canvas)
+\item \textbf{F:} Textbook, Chapter 5 (p. 132-156)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+\textbf{Week 8, February 24--28: Midterm Exam}
+\\
+\textit{Relax. Breath. Imagine somewhere calm. Imagine yourself in a frozen forest.}
+\begin{itemize}
+\item \textbf{M:} Study Session \textit{(Optional)}
+\item \textbf{W:} Exam
+\item \textbf{F:} Exam Review
+\end{itemize}
+
+\textbf{Week 9, March 2--6: Spring Break}
+\\
+\textit{Have fun, be safe--and wear your seat-belt.}
+\\\\
+
+
+\textbf{Week 10, March 9--13, Political Identity and Polarization}
+\\
+\textit{``Red and blue are [not] the same!''}
+\\\\
+\textbf{Guiding Prompt:} Is partisanship an identity similar to race and gender? If so, what explains the large plurality of Americans who claim to be independent--that is, just how ``independent'' are they really? What are the mechanisms behind such strong feelings of partisan animosity in the United States? Do you think political polarization always leads to contention in the mass public? Why or why not?
+
+\begin{itemize}
+\item \textbf{M:} Textbook, Chapter 4 (85-104)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Uncivil Agreement} (Canvas, part 2).
+\item \textbf{F:} \doubleq{Uncivil Agreement} (Canvas, part 3).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 11, March 16--20  Turnout, Campaigns, and Chance}
+\\
+\textit{\doubleq{And now...I take you to: The Weather}}
+\\\\
+\textbf{Guiding Prompt:} Characterize election turnout in the United States. How does this compare to other forms of political activity? To other nations? What effects (if any) do campaigns have on elections? When/how do they mobilize? When/how do they persuade? Do you think these effects are larger than idiosyncratic effects such as the weather and precinct location?   
+\begin{itemize}
+\item \textbf{M:} Textbook, chapter 3 (Special emphasis on pages 55-63 \& 72-78)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \href{https://www.vox.com/policy-and-politics/2017/9/28/16367580/campaigning-doesnt-work-general-election-study-kalla-broockman}{\doubleq{A massive new study reviews the evidence on whether campaigning works. The answer's bleak.}} by Matthews (Vox).
+\item \textbf{W:} \href{https://www.washingtonpost.com/news/monkey-cage/wp/2017/10/11/our-research-shows-that-persuading-voters-is-hard-that-doesnt-mean-campaigns-should-give-up/}{\doubleq{Persuading voters is hard. That doesn't mean campaigns should give up.}} by Kalla and Broockman (Monkey Cage).
+\item \textbf{F:} \doubleq{Deus Ex Machina: The Influence of Polling Place on Voting Behavior} by Rutchick (Canvas)
+\item \textbf{F:} \doubleq{Weather conditions and voter turnout in Dutch national parliament elections, 1971–2010} by Eisinga, Te Grotenhuis, and Pelzer (Canvas).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 12, March 23--27: Violence and Revolution}
+\\
+\textit{\doubleq{Violence, give me violence; `cause they say we're the worthless ones}}
+\\\\
+\textbf{Guiding Prompt:} What are (some) of the causes of revolution? Of political violence? What is the difference between "revolution" and political violence more generally? Why ought we be leery of violent rhetoric? Justify your response. 
+\begin{itemize}
+\item \textbf{M:} \doubleq{Why Men Rebel} by Gur (Canvas)
+\item \textbf{M:}\href{https://www.e-ir.info/2011/11/17/why-men-rebel-redux-how-valid-are-its-arguments-40-years-on/}{``Why Men Rebel Redux: How Valid are its Arguments 40 years on?''} by Gur (E-International Relations).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Fueling the Fire} by Kalmoe (Canvas)
+\item \textbf{W:}\href{https://www.washingtonpost.com/news/monkey-cage/wp/2018/05/21/trump-isnt-the-only-one-who-calls-opponents-animals-democrats-and-republicans-do-it-to-each-other/}{``Trump Is Not the Only One Who Calls Opponents `Animals.'Democrats and Republicans Do It to Each Other.''} by Theodoris \& Martherus (Monkey Cage)
+\item \textbf{F:} ``Lethal Mass Partisanship'' by Kalmoe \& Mason (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+
+\textbf{Week 13, March 30-- April 3: Media}
+\\
+\textit{YouTube Killed the TV Star}
+\\\\
+\textbf{Guiding Prompt:} How does media affect political attitudes and behaviors? Are the effects limited to news media? If not, how are the mechanisms similar/different across different media modes? Can fictitious information be as impactful as factful information? Justify your response.
+\begin{itemize}
+\item \textbf{M:} Textbook, chapter 7 (p. 205-224).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Frenemies} by Settle (Canvas).
+\begin{itemize}
+\item \underline{Last day to send first draft of the final paper for review.}
+\end{itemize}
+\item \textbf{F:} \doubleq{Press B to March} by Licari (Canvas).
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 14, April 6--10: Political Structures}
+\\
+\textit{``I'm not a part of your system--MAN!''}
+\\\\
+\textbf{Guiding Prompt:} How can the ballot itself affect one's vote? How about who (and when) we allow access to it? How do broader political structures shape our political behaviors in general?   
+\begin{itemize}
+\item \textbf{M:} {The Impact of Candidate Name Order on Election Outcomes} by Miller and Krosnick (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \doubleq{Convenience Voting} by Gronke et al. (Canvas) 
+\item \textbf{W:} \doubleq{Disagreement over ID Requirements and Minority Voter Turnout} by Burden (Canvas)
+\item \textbf{F:} \href{https://www.youtube.com/watch?v=s7tWHJfhiyo}{\doubleq{The Problems with First Past the Post Voting Explained}} CGP Grey (YouTube)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+\textbf{Week 15, April 13--17: History}
+\\
+\textit{``History repeats itself because nobody listens the first time.''}
+\\\\
+\textbf{Guiding Prompt:} Why is history important to modern politics? In what ways does it make itself felt? Does path dependence mean that we are cordoned to a single historical trajectory? Why or why not? \textbf{(Final Paper Assignment Opportunity)}
+\begin{itemize}
+\item \textbf{M:} \doubleq{Increasing Returns, Path Dependence, and the Study of Politics} by Pierson (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \textit{No class; do your taxes.}
+\item \textbf{F:} \doubleq{Making Democracy Work} by Putnam (Canvas)
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\end{itemize}
+
+\textbf{Week 16, April 20--24: What next?}
+\\
+\textit{``I don't know why you say `goodbye,' I say `hello.'"}
+
+\begin{itemize}
+\item \textbf{M:} Textbook, Appendix
+\begin{itemize}
+\item\underline{Reading Quiz}
+\end{itemize}
+\item \textbf{W:} \textit{No assigned reading}
+\item \textbf{F:} \textit{No class; possible (optional) exam review day.}
+\end{itemize}
+
+
+\textit{My deepest appreciation goes to Stephen Philips, who graciously allowed me to recycle materials from his prior syllabi. (See how easy it is to not plagiarize!)}
+\\\\
+After having reviewed the entire syllabus, do not forget the syllabus quiz due \textbf{January 10th}. To confirm that you’ve read the syllabus all the way through, please e-mail me your favorite picture involving a dinosaur. If you don’t have a favorite picture of a dinosaur, there’s never a wrong time to find one! Doing so will give you one bonus point towards your cumulative quiz grade. 
+
+\end{document}
