@@ -37,7 +37,7 @@
 \begin{document}
 
 \begin{center}
-{\Huge POS 3204: ELECTION DATA SCIENCE}\\\vspace{1mm}
+{\Huge POS 4931: ELECTION DATA SCIENCE}\\\vspace{1mm}
 {\Large University of Florida | Fall 2020}\\\vspace{1mm}
 {\Large Online, T 8:30AM--10:25AM; TR 9:35AM--10:25AM}
 \end{center}
@@ -47,10 +47,14 @@
 \setlength{\tabcolsep}{20pt}
 \begin{tabular}{ c c c}
   {\href{https://ufl.zoom.us/j/8174990226}{Zoom Office}} & Office/Student Hours:\\
-    {\href{mailto:plicari13@ufl.edu}{plicari13@ufl.edu}} & Wednesdays 1:00PM--2:00PM \\
-  {\href{tel:3522732353}{352-273-2353}} & , and by appointment \\
+    {\href{mailto:plicari13@ufl.edu}{plicari13@ufl.edu}} & Wednesdays 8:00AM--10:00AM \\
+  {\href{tel:3522732353}{352-273-2353}} &  and by appointment \\
   {\href{https://www.peterlicari.com}{peterlicari.com}} & \href{https://github.com/prlitics/Election-Data-Science-Fall-2020}{Course Github Repository}
 \end{tabular}
+\end{center}
+
+\begin{center}
+\tableofcontents
 \end{center}
 
 \section{Course Description} 
@@ -58,7 +62,7 @@
 It is increasingly said that data is power. Politics is, at its heart, the study of power---and elections are venues where some of that power is contested. Perhaps it should be no surprise then that there is such fruitful ground to be explored at the intersection of the two...
 \\\
 
-This course is fundamentally about data: How find it, wrangle it, model it, and extract practical insight from it. It will be unlike many standard political science courses. Most political science courses expose students to important themes, findings, and ideas in the multifaceted study of power. Most of the effort \textit{here}, though, is less about ideas in (and of) politics and more about developing a particular skill-set. We will be using the programming language R---one of the most popular programming languages in data science and statistical computing---and learning how gain a myriad of different insights from machine-readable data. You will get a hands-on understanding of basic-to-intermediate R programming. You will gain an practical appreciation of, and introductory insight to, text as data, spatial data, and prominent machine learning algorithms. You will learn the logic of exploratory, inferential, and causal data analysis. You will learn these things the only way they \textit{can} be learned: Through doing and guided practice. You will be able to walk away at the end of this class having learned a set of valuable and in-demand skills.
+This course is fundamentally about data: How to find it, wrangle it, model it, and extract practical insight from it. It will be unlike many standard political science courses. Most political science courses expose students to important themes, findings, and ideas in the multifaceted study of power. Most of the effort \textit{here}, though, is less about ideas in (and of) politics and more about developing a particular skill-set. We will be using the programming language R---one of the most popular programming languages in data science and statistical computing---and learning how gain a myriad of different insights from machine-readable data. You will get a hands-on understanding of basic-to-intermediate R programming. You will gain an practical appreciation of, and introductory insight to, data collection, spatial data, and prominent machine learning algorithms. You will learn the logic of exploratory, inferential, and causal data analysis. You will learn these things the only way they \textit{can} be learned: Through doing and guided practice. You will be able to walk away at the end of this class having learned a set of valuable and in-demand skills.
 \\\
 
 But this course is also fundamentally about elections. (And, therefore, poltics.) Because the dirty little secret about data is that it doesn't just appear from thin air. Data isn't important due to some intrinsic, magical property, but because it \textit{relates to things we already deem important.} As denizens of a nation committed to authorizing governing power through democratic means, we hold \textbf{elections} as important. And machine-readable data can be gathered at all stages and venues of the democratic process. State voter files can help us give candidates a cutting edge and/or identify instances of unfair election practices. Census geographic and demographic data can help us shape district boundaries to be competitive and fair. Data from well-crafted experiments can tell us how we can get voters to participate more. And data from high-quality survey projects can give us insight into the thoughts and motivations of voters before, during, and after the election transpires. 
@@ -71,30 +75,46 @@ I am excited to see where it takes us.
 
 
 
-\subsection{Structure of the Course}
-This course will guide students through the use of reading assignments, weekly lecture (Tuesdays), a weekly hands-on lab (Thursday), and practical projects to help students acquire the basic skills needed to do election data science. Due to the Coronavirus pandemic, all class lectures, labs, and meetings will be held online. These meetings will be held synchronously through Zoom and will be published to YouTube for those who were unable to attend the lecture during class time. These videos will be private and viewable only to those enrolled in the class and will be available until January 1st, 2021. 
+\section{Structure of the Course}
+This course will guide students through the use of reading assignments, weekly lecture (Tuesdays), a weekly hands-on lab (Thursday), and practical projects to help students acquire the basic skills needed to do election data science. Due to the Coronavirus pandemic, all class lectures, labs, and meetings will be held online. These meetings will be held synchronously through Zoom and the Tuesday lectures will be published to YouTube for those who were unable to attend the lecture during class time. These videos will be private and viewable only to those enrolled in the class and will be available until January 1st, 2021. 
 \\\\
 Data science is all about transparency. So, in that spirit, I'd like to explain the logic for these structural components. 
 \begin{itemize}
-\item \textbf{Weekly Readings:} The weekly readings are meant to be an initial introduction to the concepts and coding techniques required to excel as a election data science practitioner. The examples in the texts are usually geared towards general audiences. But they introduce the fundamentals. Some weeks will have a suggested set of readings as well. As the name ``suggested" implies, \textit{these are not required for your progress in the course.} They are usually examples of the processes described in the general readings applied to the domain of elections and electoral behavior.
+\item \textbf{Weekly Readings:} The weekly readings are meant to be an initial introduction to the concepts and coding techniques required to excel as a election data science practitioner. The examples in the texts are usually geared towards general audiences and not towards political science. But they are excellent introductions to the fundamentals..
 \item \textbf{Lectures:} The lectures are meant to reinforce and expand that initial introduction. They will be broken down into three parts. The first part will be dedicated to going over standing questions pertaining to the prior week's lab.
- The second will largely be more ``theoretical." It will break-down the underlying logic of the week's topic with the aim of giving your a better grasp of the core concepts at work. It will also provide examples of these concepts in practice, explaining and expanding upon the suggested readings mentioned above. The second will be more of a tutorial. I will demonstrate how to apply some of these techniques using real election data. Students are expected to follow along and are strongly encouraged to frequently ask questions. 
+ The second will largely be more ``theoretical." It will break-down the underlying logic of the week's topic with the aim of giving your a better grasp of the core concepts at work. It will also provide examples of these concepts in practice in the US elections context. The second will be more of a tutorial. I will demonstrate how to apply some of these techniques using real election data. Students are expected to follow along and are strongly encouraged to frequently ask questions. 
 \item \textbf{Labs:} Labs are meant to provide you with the opportunity to strengthen (and ideally \textit{solidify}) the skills that we have learned about during that week and over the ones preceding. These are tasks and challenges that will be made available before class on Thursday. \textit{Some of these may be tough, some of them easy, all of them are doable.} Here, you will learn through doing---but doing in a supportive environment where I and your fellow learners are available to help should you want/need it. 
 \item \textbf{Practical projects:} If you are taking this class, there is a good chance that you are interested in elections, data, and/or electoral data. You might be so interested that you can see yourself having an enjoyable career in it. (Or, there's a chance you just needed a credit. I get it! No judgments here.) \textit{As your instructor, I want all of you to be happy and successful in your endeavors.} For data science/data analyst positions, most people do not get hired unless they have some kind of tangible example of their skill that is readily findable by prospective employers. You need to have a portfolio. You don't need to reinvent the wheel or solve the optimal stopping problem, but you need to have something that proves you know what you're doing. These practical experiences are the seeds of that portfolio. You will be writing blog posts that demonstrate your ability to question, communicate, visualize, and write code. (It will also allow you to claim some rudimentary experience with GitHub.) Your final project will show that you understand how to think of a research question, how to pursue it using the techniques of data analysis, and how to communicate it coherently using images and text. Ideally, you might also be able to get a publication credit under your belt. (More on that in class.) All in all, these are to help you take your first steps into doing this professionally. 
 \end{itemize}
 
-\subsection{Required Readings}
-There is one required textbook for this class. It is available through the publisher as well as Amazon. It is also on reserve {\href{https://cms.uflib.ufl.edu/accesssupport/howtostudents}{reserve}} at {\href{https://cms.uflib.ufl.edu}{Library West}}.
+\section{Required Readings}
+There are required readings for the class but there are none that you are required to purchase. All of the reading materials are available freely online or will be provided through Canvas. 
 
 \begin{itemize}
-\item Elizabeth A. Theiss-Morse, Michael W. Wagner, William H. Flanigan, and Nancy H. Zingale. (2018) \textit{Political Behavior of the American Electorate: Fourteenth Edition.} New York: CQ Press. ISBN{\href{https://www.amazon.com/Political-Behavior-Electorate-Elizabeth-Theiss-Morse/dp/1506367739}{1506367739}}.
+\item \href{https://rstudio-education.github.io/hopr/index.html}{\textit{Hands on Programming with R} by Garrett Grolemund.}
+\item  \href{https://bookdown.org/yihui/rmarkdown/}{\textit{R Markdown: The Definitive Guide} by Yihui Xie, J. J. Allaire, and Garrett Grolemund}
+\item  \href{https://bookdown.org/yihui/blogdown/}{\textit{blogdown: Creating Websites with R Markdown} by yihui Xie, Amber Thomas, and Alison Presmanes Hill}
+\item \href{https://moderndive.com/index.html}{\textit{Statistical Inference via Data Science: A ModernDive into R and the Tidyverse} by Chester Ismay and Albert Y. Kim}
+\item \href{https://r4ds.had.co.nz/index.html}{\textit{R for Data Science} by Hadley Wickham and Garrett Grolemund}
+\item \href{https://dcl-wrangle.stanford.edu/index.html}{\textit{Data Wrangling} by Sara Altman and Bill Behrman}
+\item \href{https://steviep42.github.io/webscraping/book/}{\textit{Web Scraping with R} by Steve Pittard}
+\item \href{https://geocompr.robinlovelace.net/}{\textit{Geocomputation with R} by Robin Lovelace, Jakub Nowosad, and Jannes Muenchow}
+\item \href{https://bookdown.org/rdpeng/exdata/}{\textit{Exploratory Data Analysis with R} by Roger Peng}
 \end{itemize}
 
-Throughout this course, we will also be reading articles and book chapters from a number of sources. These will either be posted as pdfs or html links on {\href{http://ufl.instructure.com/}{Canvas}}. Regardless of if the readings come from Canvas or the core textbook, they ought to be considered required unless informed otherwise. 
-\\\\
-I strongly encourage students to subscribe to \textit{{\href{https://www.nytimes.com/newsletters}{The New York Times'}}} \doubleq{Morning Briefing} email newsletter. It's free and provides news and information on the United States, Canada, and the Americas, each weekday morning. I also recommend following a combination of major news sources (e.g., \textit{Wall Street Journal}, \textit{NPR}, \textit{Washington Post}), political news sources (e.g., \textit{The Hill} and \textit{Politico}), and academic-oriented blogs (e.g., \textit{Mischiefs of Faction} and \textit{Monkey Cage}). I also challenge you to make a concerted effort to read from a source that cuts against your prior beliefs. If you see yourself as a political liberal (or leaning that way), I recommend that you try to read from places such as \textit{The Economist} and/or \textit{The National Review}. If you see yourself as a political conservative (or leaning that way), I recommend that you add outlets such as \textit{Vice}, and/or \textit{The Atlantic} to your reading diet. It's important to understand the roots of others' positions--especially when studying how/why they behave the way they do.
+A few notes about the readings:
+\begin{itemize}
+\item Most of these readings include snidbits of code so that the reader can type them into their own copy of R (or copy/paste them) and then run them on their own. \textbf{While I highly encourage you to do this as you read, you are not required to.} Your grades come from the assessments and tasks listed within the syllabus. 
+\item \textbf{It is perfectly natural to not understand every bit of every detail presented in these books.} By assigning these readings, I am not asking you to commit all of their details and code to memory. I am asking your to extract the \textit{logic} of their individual examples with an aim of being able to apply it to election contexts.
+\item It is a normal part of a programmer's progression to simply copy-paste code and tweak it slightly to fit their needs before. Do not feel like you must become as skilled as these writers are in wrangling R over the course of this semester. Imitation comes before understanding comes before creative synthesis comes before mastery. \textbf{It's a process.}
+\end{itemize}
 
-\subsection{Learning Outcomes} 
+I strongly encourage you to read sites such as \href{https://www.r-bloggers.com/}{R-Bloggers} and \href{https://towardsdatascience.com/}{Towards Data Science} in your free time---especially if you're interested in translating this into a career. These resources are like immersion for language learning. You will learn R and data science far faster, and be far more adroit, if you read materials on these topics regularly aimed at different levels of understanding and skill. 
+
+\vspace{1em}
+I also encourage students to subscribe to \textit{{\href{https://www.nytimes.com/newsletters}{The New York Times'}}} \doubleq{Morning Briefing} email newsletter. It's free and provides news and information on the United States, Canada, and the Americas, each weekday morning. I also recommend following a combination of major news sources (e.g., \textit{Wall Street Journal}, \textit{NPR}, \textit{Washington Post}), political news sources (e.g., \textit{The Hill} and \textit{Politico}), and academic-oriented blogs (e.g., \textit{Mischiefs of Faction} and \textit{Monkey Cage}). I also challenge you to make a concerted effort to read from a source that cuts against your prior beliefs. If you see yourself as a political liberal (or leaning that way), I recommend that you try to read from places such as \textit{The Economist} and/or \textit{The National Review}. If you see yourself as a political conservative (or leaning that way), I recommend that you add outlets such as \textit{Vice}, and/or \textit{The Atlantic} to your reading diet. It's important to understand the roots of others' positions--especially when studying how/why they behave the way they do.
+
+\section{Learning Outcomes} 
 By the end of the semester, students enrolling in the course should be able to:
 \begin{itemize}
 \item \textit{Understand} the logic of various data science techniques and their applicability to elections;
@@ -102,10 +122,11 @@ By the end of the semester, students enrolling in the course should be able to:
 \item \textit{Describe}, to both technical and lay audiences, the insights constructed from the analysis of data--as well as intermediate-to-advanced facets of statistical programming in R; 
 \item \textit{Think critically} about data, its sources, its analysis, its audience, and its impact--especially in the domain of US elections. 
 \end{itemize}
-
+\newpage
 \section{Assignments \& Course Requirements}
-There are a number of different kinds of assignments that students are responsible for throughout the semester. \textbf{The course will be graded out of a total of 1000 possible points.} Letter grades will be assigned per the following numerical scales:\vspace{5mm}\\\vspace{5mm}
-\hspace*{40mm}
+There are a number of different kinds of assignments that students are responsible for throughout the semester. \textbf{The course will be graded out of a total of 1000 possible points.} Letter grades will be assigned per the following numerical scales:
+\begin{table}[H]
+\centering
 \begin{tabular}{ c c}
 \textgreater= 930 & A  \\
 900 -- 920 & A- \\
@@ -119,7 +140,10 @@ There are a number of different kinds of assignments that students are responsib
 630 -- 660 & D \\
 600 -- 620 & D- \\
 \textless= 600 & E \\
-\end{tabular}\\
+\end{tabular}
+\end{table}
+
+
 Points will be rounded to the nearest whole-number (\textit{e.g.}, $869.5 \rightarrow 870; 869.4 \rightarrow 869$). Additional extra credit will not be provided, aside from that stipulated below.
 \begin{itemize}
 	\item \textbf{Attendance}: \textbf{Attendance will be worth 5 percent of the total grade, or 50 points.} The grade will comprise of two main elements. 
@@ -127,7 +151,7 @@ Points will be rounded to the nearest whole-number (\textit{e.g.}, $869.5 \right
 	\item The first is attendance to be ``taken" every lecture class, \textit{via} Google Forms. Each lecture will have a unique ``key-phrase" that I will provide to the students. Students will then input the key-phrase and UFID into the Google Form. (If you are unable to attend the virtual lectures live due to Internet or personal issues, you can get the key-phrase by watching the lectures posted on YouTube.) Students are allowed up to 2 \textbf{un}excused absences throughout the semester. Excused absences include those taken for medical purposes, school-sanctioned events (however many exist during this time of COVID), and family emergencies. They also include notable family and life events (weddings, birthdays, etc). If you know in advance that you will miss a class, please let me know ahead of time. In the event of an unforeseen absence that you want excused, please contact me within \textbf{one week} of the date missed and we will discuss it. Exceptions to this rule are at my discretion. Each unexcused day after those two will result in a loss of 10 points apiece to the participation grade.
 	\item The second is office hours. \textbf{Students are required to attend at least one office hour session throughout the semester.} Not attending at least one office hours session will result in a 20 point loss to your attendance grade. The intent of this policy is so I can get to know you as students better so that I can help you should you need a letter of recommendation, a reference for a job or internship, etc. If you aren't able to make any of the posted office hours, please e-mail me and we'll set up an appointment at a time that works for both of us.  
 	\end{enumerate}	 
-	\item \textbf{Check-In Quizzes}: Each week before class, students are expected to respond to a check-in quiz on Canvas, comprised of three questions: One will ask students to reflect on the material that they were assigned to read before that week; another will ask them if there were any questions from the lab that stumped them; and a third asks if there are any concepts that they are still having a hard time understanding. These are all intended to help you deepen your understanding and skills over the course of the semester. These are due \textbf{the Monday before class at 11:59 PM}. (Note: There will not be a check-in quiz covering the first week of the semester. Instead, there  will have a 10 question syllabus quiz due \textbf{Monday, September 7th}.) Each quiz is weighted the same and all of the quizzes, cumulatively, amount to \textbf{5 percent of the total grade, or 50 points.} 
+	\item \textbf{Check-In Quizzes}: Each week before class, students are expected to respond to a check-in quiz on Canvas, comprised of three questions: One will ask students to reflect on the material that they were assigned to read before that week; another will ask them if there were any questions from the lab that stumped them; and a third asks if there are any concepts that they are still having a hard time understanding. These are all intended to help you deepen your understanding and skills over the course of the semester. These are due \textbf{the Monday before class at 11:59 PM}. (Note: There will not be a check-in quiz covering the first week of the semester. Instead, there  will have a 10 question syllabus quiz due \textbf{Thursday, September 10th}.) Each quiz is weighted the same and all of the quizzes, cumulatively, amount to \textbf{5 percent of the total grade, or 50 points.} 
 \item \textbf{Weekly Labs}: Every Thursday, students will be provided with a set of tasks to be accomplished. These will be an extension of the concepts and skills learned from the lecture and reading. Each assignment is due \textbf{the following Tuesday at 11:59 PM through Canvas}. Students are given the whole of Thursday's class to complete the assignment. If you run into a problem, you are encouraged to ask me and your classmates for assistance. You are welcome to consult the almighty oracles (Google and Stack Exchange) for assistance. Each question will come with an additional ``challenge." Challenges are worth extra credit applied to that week's lab; students can earn a maximum of 10 percent above the original maximum score for the assignment. Each challenge accomplished will provide extra credit for that week's assignment. \textbf{Labs are equally weighted and worth 30 percent of the overall grade, for a total of 300 points.}
 \item \textbf{Blog Posts}: Throughout the semester, students will be responsible for making their own blog through the blogdown package in R and hosting it on a personal GitHub page. They will also be responsible for populating it with at least three posts. Each post must contain the following attributes:
 \begin{itemize}
@@ -135,7 +159,7 @@ Points will be rounded to the nearest whole-number (\textit{e.g.}, $869.5 \right
 \item It must include highlighted code that is functional (i.e., it would run if someone followed the steps you describe).
 \item It must contain a visualization that clarifies or illuminates the post's point. This can be a table, graph, interactive plot, dashboard, etc. So long as it is more than simply prose on the page. 
 \end{itemize}
-\textbf{Blog posts will be worth approximately 7 percentage points apiece for a total of 20 percent of the final grade, or 200 points.}(If students catch the blogging bug and wish to write more, I will allow them to identify the posts they want me to grade.) Links to blog posts will be submitted through Canvas. 
+\textbf{Blog posts will be worth approximately 7 percentage points apiece for a total of 20 percent of the final grade, or 200 points.}(If students catch the blogging bug and wish to write more, I will allow them to identify the posts they want me to grade.) Links to blog posts will be submitted through Canvas. \textbf{The links can be submitted throughout the semester but are due to me \textit{at latest} on December 10th}
 
 \item \textbf{Final Project}: Students will be responsible for completing an original Election Data Science project. Students can work alone or in groups of up to 4. (If students opt to work in groups, we will need to schedule a time to meet to make sure the work is divided fairly.) The project requires the following attributes:
 
@@ -148,7 +172,7 @@ Points will be rounded to the nearest whole-number (\textit{e.g.}, $869.5 \right
 Students are expected to make two deliverables. \textbf{Both are worth 15 percent of the total grade, or 150 points apiece} 
 
 \begin{itemize}
-\item \textit{A Technical Report}: This is to be made as an R Markdown document. The report should describe the motivation behind the project, sources of data, the theory driving your approach, challenges faced in the analysis process, how you surmounted them, and the results of your hard work. This should provide all the code chunks and visualizations that allow a technically-inclined reader to understand what your project is, how you did it, and why it's important. The report should be between 1,000-3,000 words (not including code chunks and text embedded in the visualization) and is to be submitted to me \textit{via} Canvas no \textbf{later than the course's final exam day (December 15th).}
+\item \textit{A Technical Report}: This is to be made as an R Markdown document. The report should describe the motivation behind the project, sources of data, the theory driving your approach, challenges faced in the analysis process, how you surmounted them, and the results of your hard work. This should provide all the code chunks and visualizations that allow a technically-inclined reader to understand what your project is, how you did it, and why it's important. The report should be between 1,000-2,000 words (not including code chunks and text embedded in the visualization), written as an RMarkdown document, and is to be submitted to me \textit{via} Canvas no \textbf{later than the course's final exam day (December 15th).}
 \item \textit{A Public-Facing Output}: This is so you can describe the project, the general logic, its importance, and your findings to a \textit{non}- technical audience. This is to be shared/presented to the class. The default option is a PowerPoint (or Slidy/Beamer/etc.) presentation, but you have full creative freedom in how you approach this. It can be a Medium blog post, a video, a dashboard, a scrolly-telling story, a podcast--sky's the limit; go for it! This should take between 5-12 minutes to present. Presentations will begin the week after Thanksgiving and will (ideally) be completed prior to the start of reading days. However, we will use the Final Exam block to wrap-up presentations if need be.
 \item \textit{Students/groups that use GitHub for version control and/or code sharing will receive 20 points extra credit on the assignment.}
 \end{itemize} 
@@ -172,7 +196,7 @@ Students will submit a short proposal (roughly 1--2 double-spaced pages, or 100-
 	\item \textbf{Children in Class:} For students with children (or living with younger siblings), it is understandable that unforeseen disruptions in childcare can occur. While not a long-term solution, bringing a child to ``class" with you when such disruptions occur is acceptable. In those cases, please be courteous to your fellow students and mute your microphone if they are becoming too disruptive. Likewise, all other students should work together to create a welcoming environment for both the parent/caregiver and child---which means being kind and encouraging as well as patient of minor disruptions. \textbf{If you are unable to come to a long-term solution, \textit{please contact me via email.} We will work towards a solution.}
 	\item \textbf{Disruptions in Class:} Please silence your phone, emails, and chat applications during class meetings. If you are in a noisy environment, please mute your microphone when you are not talking or asking/answering a question. We are meeting early so I will not be offended if you eat/drink breakfast during the scheduled time---but please be sure to mute your microphone should you decide to do that. Most importantly though: Remember that we are all trying to do our best in a very weird time. Please be patient with your fellow students if a disruption occurs. Also: Never apologize if your pet, child, or younger sibling spontaneously pops-in despite your best efforts. Animals and small children are objectively adorable and quick adorable distractions are always welcome. 
 	\item \textbf{Class Demeanor:} Students are expected to arrive to class on time and behave in a manner that is respectful to the instructor and to fellow students. Derogatory comments, personal attacks on others, or interrupting the class will not be accepted. Please avoid the use of cell phones and electronics for extraneous purposes. Opinions held by other students should be respected in discussion, and conversations that do not contribute to the discussion should be held at minimum, if present at all.
-	\item \textbf{Recording:} The {\href{https://sccr.dso.ufl.edu/policies/student-honor-code-student-conduct-code/}{Student Honor Code}} prohibits the unauthorized recording -- video or audio -- of any academic activity, including lecture. (It's also kind of a moot point this semester since I'll be putting recorded meetings on YouTube---but, still. Don't do it without securing my permission first.)
+	\item \textbf{Recording:} Our Tuesday lessons (after the first class) will be visually recorded for students in the class to refer back and for enrolled students who are unable to attend live. Students who participate with their camera engaged or utilize a profile image are agreeing to have their video or image recorded.  If you are unwilling to consent to have your profile or video image recorded, be sure to keep your camera off and do not use a profile image. Likewise, students who un-mute during class and participate orally are agreeing to have their voices recorded.  If you are not willing to consent to have your voice recorded during class, you will need to keep your mute button activated and communicate exclusively using the "chat" feature, which allows students to type questions and comments live. The chat will not be recorded or shared. As in all courses, unauthorized recording and unauthorized sharing of recorded materials is prohibited. 
 	\item \textbf{Technology:} You are expected to have a laptop and/or computer that is capable of running R and RStudio. Please limit all non-class related activity during class time as much as possible.
 	\item \textbf{Course Evaluation:} Students are expected to provide feedback on the quality of instruction in this course by completing online evaluations via GatorEvals at {\href{https://ufl.bluera.com/ufl/}{ufl.bluera.com/ufl}}. Students will be notified when the evaluation period opens at the end of the semester. Summary results are available to students at {\href{https://gatorevals.aa.ufl.edu/public-results/}{gatorevals.aa.ufl.edu/public-results}}.
 	\item \textbf{Subject to Change:} This syllabus is subject to change at the discretion of the instructor to accommodate instructional and/or student needs. Proper notification will be provided to students of relevant changes.
@@ -189,280 +213,213 @@ Students will submit a short proposal (roughly 1--2 double-spaced pages, or 100-
 	\end{itemize}
 
 \section{Important Dates}
+\begin{table}[H]
+\centering
 \begin{tabular}{ l l}
-Jan. 10 & Last Day to Add or Drop a Course \\
-Jan. 20 & No Class (Martin Luther King, Jr. Day) \\
-Feb. 26 & First Exam \\
-Feb. 29 & First Day of Spring Break \\
-Mar. 7 & Final Day of Spring Break \\
-Mar. 17 & Florida Presidential Primary \\
-Apr. 10 & Last Day to Drop with a \doubleq{W} \\
-Apr. 11 & Course Evaluations Open \\
-Apr. 15 & No Class (Get your taxes done) \\
-Apr. 23 \& 24 & Reading Days \\
-Apr. 24 & Course Evaluations Close \\
-Apr. 26 & Final Essays Due \\
-Apr. 29 & Final Exam \\
-May 7 & Final Grades Available \\
+Aug. 31 & Classes Begin \\
+Sep. 4 & Last Day to Add or Drop a Course \\
+Sep. 7 & No Classes (labor day) \\
+Sep. 10 & Syllabus Quiz Due \\
+Sep. 18 & S\textbackslash U grade option \\
+Oct. 2 \& 3 & Homecoming \\
+Oct. 13 & Proposal Due \\
+Oct. 24 & Early Voting Begins in Florida \\
+Nov. 3 & Election Day \\
+Nov. 11 & No Classes (veterans day) \\
+Nov. 13 & Progress Report Due \\
+Nov. 23 & Last Day to Drop with a \doubleq{W} \\
+Nov. 24 & Course Evaluations Open \\
+Nov. 25--28 & Thanksgiving Break \\
+Dec. 1 & Presentations Begin \\
+Dec. 10 & Blog Posts Due \\
 \end{tabular}
+\end{table}
+\newpage
+\begin{table}[H]
+\centering
+\begin{tabular}{ l l}
 
+Dec. 10 \& 11 & Reading Days \\
+Dec. 15 & Final Assignment Due \\
+Dec. 15 & Final Exam Day\\
+Dec. 23 & Final Grades Available \\
+\end{tabular}
+\end{table}
+\newpage
 \section{Course Schedule}
-The following outline reflects my expectations before the class begins, but weekly coverage may change depending on the progress of the class. However, you must keep up with the reading assignments for the assigned week and day. 
-
-\textbf{Week 1, January 6--10: Course Structure and What Is Political Behavior}
+The following outline reflects my expectations before the class begins, but weekly coverage may change depending on the progress of the class. 
+\\\\
+\textbf{Week 1, August 31-- September 6: Course Structure and What Is Data Science}
+\\ \textit{In God we trust: All others must bring data --- \textbf{W. Edwards Demming}}
 \begin{itemize}
-\item \textbf{M:} \textit{No assignment due; first day of class}
-\item \textbf{W:} Syllabus 
-\item \textbf{W:} \doubleq{How to Read Political Science: A Guide in Four Steps} (Canvas)
-\item \textbf{F:} Textbook, Chapter 1. 
+\item \textbf{T:} \textit{No assignment due; first day of class}
+\item \textbf{TH:} Week 1 lab
+\item \textbf{TH:} \href{https://github.com/Quartz/bad-data-guide}{The Quartz Bad Data Guide} 
+\end{itemize}
+\vspace{1em}
+\textbf{Week 2, September 7--13: Programming \& Reporting Basics}
+\\
+\textit{Life is what happens when your code is compiling.}
+\begin{itemize}
+\item \textbf{T:} \href{https://rstudio-education.github.io/hopr/basics.html}{\textit{Grolemund}, Chapters 1--3} 
+\item \textbf{T:} \href{https://bookdown.org/yihui/rmarkdown/basics.html}{\textit{Xie et al.}, Chapter 2.1--2.6} 
+\item \textbf{T:} \href{https://bookdown.org/yihui/blogdown/}{\textit{Xie et al.}, Chapters 1--2}
+\item \textbf{TH:} Week 2 lab
 \begin{itemize}
 \item \underline{Syllabus Quiz Due}
-\end{itemize}
-
-\end{itemize}
-\textbf{Week 2, January 13--17: Political Knowledge}
-\\
-\textit{I don't know what I don't know, you know?}
-\\\\
-\textbf{Guiding Prompt:} How would you describe the state of political knowledge in America? Why? Do you see this as problematic? If you do, imagine that you’re given total control over the US for a day: Given what we know about information seeking and motivated reasoning, how would you try to make it less problematic? If you do not see the state of political knowledge in America as problematic, how would you improve upon the current situation? 
-\begin{itemize}
-\item \textbf{M:} \doubleq{Uniformed} by Arthur Lupia (Canvas, part 1)
-\begin{itemize}
-\item \underline{Reading Quiz}
 \end{itemize} 
-\item \textbf{W:} \doubleq{Uniformed} (Canvas, part 2)
-\item \textbf{F:} \doubleq{Motivated Skepticism in the Evaluation of Political Beliefs} by Taber \& Lodge (Canvas)
-\begin{itemize}
-\item \underline{Reading Quiz}
 \end{itemize}
+\vspace{1em}
 
-\end{itemize}
-\textbf{Week 3, January 20--24: Opinions, Attitudes, and Ideologies}
+\textbf{Week 4, September 14--20: Data Manipulation \& Munging}
 \\
-\textit{But are we really hooked on our feelings?}
-\\\\
-\textbf{Guiding Prompt:} Where do our opinions come from? How are they shaped by our attitude structures, values, and ideologies? When are they more/less stable? More/less malleable--and who’s capable of encouraging these changes? 
+\textit{Facts are stubborn, but statistics are more pliable---\textbf{Mark Twain}}
 \begin{itemize}
-\item \textbf{M:} \textit{No class; MLK day}
-\item \textbf{W:} Textbook, Chapter 6
-\item \textbf{F:} \href{https://www.people-press.org/2017/10/05/8-partisan-animosity-personal-politics-views-of-trump/}{The Partisan Divide on Political Values Grows Even Wider} by Pew Research (Web Pages 1-8). 
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} \href{https://moderndive.com/3-wrangling.html}{\textit{Ismay and Kim}, Chapter 3} 
+\item \textbf{T:} \href{https://r4ds.had.co.nz/transform.html}{\textit{Wickham and Grolemund}, Chapter 5} 
+\item \textbf{TH:} Week 4 lab
 \end{itemize}
-\end{itemize}
-
-
-\textbf{Week 4, January 27--31: Rational Choice Models of Politics}
+\vspace{1em}
+\textbf{Week 5, September 21--27: Data Acquisition}
 \\
-\textit{Suffrago ergo sum}
-\\\\
-\textbf{Guiding Prompt:} What does it mean to approach political behavior from a "rational choice" perspective? What are some of the notable contributions of this vein of thought? In what ways is a "rational choice" approach helpful? In what ways does it fall short? Justify your answers.
+\textit{``Data! Data! Data!" He cried impatiently. ``I Can't Make bricks without clay!"---\textbf{Sherlock Holmes}}
 \begin{itemize}
-\item \textbf{M:} \doubleq{Rational Choice Theory: An Overview} by Green (Canvas, p. 2-20; Examples D-G in section 5).  
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} \href{https://moderndive.com/4-tidy.html}{\textit{Ismay and Kim}, Chapter 4} 
+\item \textbf{T:} \href{https://steviep42.github.io/webscraping/book/}{\textit{Altman and Behrman}, Chapters 1--2} 
+\item \textbf{T:} \href{https://dcl-wrangle.stanford.edu/api-basics.html}{\textit{Altman and Behrman}, Chapter 12} 
+\item \textbf{TH:} Week 5 lab
 \end{itemize}
-\item \textbf{W:} \doubleq{An Economic Theory of Political Action in a Democracy} by Downs (Canvas, p. 135-145)  
-\item \textbf{W:} \doubleq{A Theory of the Calculus of Voting} by Riker and Ordeshook (Canvas, p. 25-28) 
-\item \textbf{F:} \doubleq{Pathologies of Rational Choice Theory} by Green \& Shapiro (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-
-\textbf{Week 5, February 3--7: Genetics, Personality, and Emotions}
+\vspace{1em}
+\textbf{Week 6, September 28--October 4: Data Visualization}
 \\
-\textit{Don't blame me, it's just in my nature!}
-\\\\
-\textbf{Guiding Prompt:} Of the three more biological factors discussed this week (genes, personality, and emotions), which do you see as more important for political behavior? Why? Might some factors matter more to some kind of behaviors? To what extent are you comfortable saying that any of them ``cause'' political behavior? Justify your answer. 
+\textit{Above all else, show the data.---\textbf{Edward Tufte}}
 \begin{itemize}
-\item \textbf{M:}\doubleq{Predisposed} by Alford, Hibbing \& and Smith (Canvas, part 1).
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} \href{https://r4ds.had.co.nz/data-visualisation.html}{\textit{Wickham and Grolemund}, Chapter 3} 
+\item \textbf{T:} \href{https://medium.com/nightingale/topics-in-dataviz-a-primer-for-getting-started-5d60c5b77d0c}{\textit{Rules for Making Great Charts} by Martin Telefont} 
+\item \textbf{TH:} Week 6 lab
 \end{itemize}
-\item \textbf{W:} \doubleq{Predisposed} (Canvas, part 2)
-\item \textbf{F:} \doubleq{Election Night's Alright for Fighting: The Role of Emotions in Political Participation}
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
+\vspace{1em}
 
-\textbf{Week 6, February 10--14: Proximate Groups}
+\textbf{Week 7, October 5--11: Mapping}
 \\
-\textit{I \sout{get by} participate with a little help from my friends.}
-\\\\
-\textbf{Guiding Prompt:} How do social groups affect our political behavior? Of the three groups we talk about this week (Family, Friends, and Neighbors), which do you believe will have a greater influence on political behavior. Are these influences contingent on time and/or space?  Justify your response.
-\begin{itemize}
-\item \textbf{M:} paper1
-\item \begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize} \doubleq{Politics across Generations} by Jennings, Stoker, and Bowers (Canvas)
-\item \textbf{W:} \doubleq{Social Networks and Political Participation} by McClurg (Canvas)
-\item \textbf{F:} \doubleq{Social Pressure and Voter Turnout} by Gerber, Green \& Larimer (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
+\textit{``We actually made a map of the country, on the scale of a mile to the mile!"}
 
-\textbf{Week 7, February 17--21: Identity}
+\textit{``Have you used it much?" I inquired.}
+
+\textit{``It has never been spread out yet."}
+\textit{---\textbf{Alice Through the Looking Glass}}
+
+\begin{itemize}
+\item \textbf{T:} \href{https://r4ds.had.co.nz/data-visualisation.html}{\textit{Wickham and Grolemund}, Chapter 3} 
+\item \textbf{T:} \href{https://geocompr.robinlovelace.net/}{\textit{Lovelace et al.} Chapters 2 \& 8} 
+\item \textbf{TH:} Week 7 lab
+\end{itemize}
+\vspace{1em}
+
+\textbf{Week 8, October 12--18: Exploration I}
 \\
-\textit{Identities: We've all got 'em (and some of us more than others).}
-\\\\
-\textbf{Guiding Prompt:} Why are identities important to the study of political behavior? What sort of factors precipitate the formation of politically-relevant identities--and how might our identities be shaped by political forces? When are identities likely to cause us to feel disdain towards ``them'' versus simply feeling a preference towards ``us.'' Do you think identities are a problematic part of our politics? Why or why not? 
+\textit{``Would you tell me, please, which way I ought to go from here?"}
+
+\textit{``That depends a good deal on where you want to get to."}
+
+\textit{``I don't much care where."}
+
+\textit{``Then it doesn't much matter which way you go."--\textbf{Alice in Wonderland}}
 \begin{itemize}
-\item \textbf{M:} \doubleq{Uncivil Agreement} by Mason (Canvas, Part 1)
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} \href{https://r4ds.had.co.nz/exploratory-data-analysis.html}{\textit{Wickham and Grolemund}, Chapter 7} 
+\item \textbf{T:} \href{https://bookdown.org/rdpeng/exdata/}{\textit{Peng} Chapters 4 \& 6} 
+\item \textbf{TH:} Week 8 lab
 \end{itemize}
-\item \textbf{W:} \doubleq{Racial Formation in the United States} by Omi \& Winant (Canvas)
-\item \textbf{F:} \doubleq{The Gender Gap is a Race Gap: Women Voters in US Presidential Elections} by Junn and Masuoka (Canvas)
-\item \textbf{F:} Textbook, Chapter 5 (p. 132-156)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-\textbf{Week 8, February 24--28: Midterm Exam}
+\vspace{1em}
+\textbf{Week 9, October 19--25: Inference I}
 \\
-\textit{Relax. Breath. Imagine somewhere calm. Imagine yourself in a frozen forest.}
+\textit{A pebble in the water makes a ripple effect; every action in this world will bear a consequence.--\textbf{The Red Jumpsuit Apparatus}}
 \begin{itemize}
-\item \textbf{M:} Study Session \textit{(Optional)}
-\item \textbf{W:} Exam
-\item \textbf{F:} Exam Review
+\item \textbf{T:} \href{https://www.youtube.com/watch?v=PaFPbb66DxQ}{\textit{StatQuest:Fitting a line to data}} 
+\item \textbf{T:} Canvas Readings (Woolridge) 
+\item \textbf{TH:} Week 9 lab
 \end{itemize}
+\vspace{1em}
 
-\textbf{Week 9, March 2--6: Spring Break}
+\textbf{Week 10, October 26-- November 1: Prediction I}
 \\
-\textit{Have fun, be safe--and wear your seat-belt.}
-\\\\
+\textit{It's tough to make predictions, especially about the future---\textbf{Yogi Bera}}
+\begin{itemize}
 
+\item \textbf{T:} \href{https://bradleyboehmke.github.io/HOML/intro.html}{\textit{Boehmke \& Greenwell}, Chapters 1, 2, and 4.} 
+\begin{itemize}
+\item \textit{Short proposal due on Canvas.}
+\end{itemize}
+\item \textbf{TH:} Week 10 lab
+\end{itemize}
+\vspace{1em}
 
-\textbf{Week 10, March 9--13, Political Identity and Polarization}
+\textbf{Week 11, November 2--8: Exploration II}
 \\
-\textit{``Red and blue are [not] the same!''}
-\\\\
-\textbf{Guiding Prompt:} Is partisanship an identity similar to race and gender? If so, what explains the large plurality of Americans who claim to be independent--that is, just how ``independent'' are they really? What are the mechanisms behind such strong feelings of partisan animosity in the United States? Do you think political polarization always leads to contention in the mass public? Why or why not?
+\textit{Judging a book by all the surrounding covers.}
+\begin{itemize}
+\item \textbf{T:} \href{https://bookdown.org/rdpeng/exdata/}{\textit{Peng}, Chapters 12--13.} 
+\item \textbf{T:} \href{https://bookdown.org/rdpeng/exdata/}{\textit{Boehmke \& Greenwell}, Chapter 8.} 
+\item \textbf{TH:} Week 11 lab
+\end{itemize}
+\vspace{1em}
 
-\begin{itemize}
-\item \textbf{M:} Textbook, Chapter 4 (85-104)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\item \textbf{W:} \doubleq{Uncivil Agreement} (Canvas, part 2).
-\item \textbf{F:} \doubleq{Uncivil Agreement} (Canvas, part 3).
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-
-\textbf{Week 11, March 16--20  Turnout, Campaigns, and Chance}
+\textbf{Week 12, November 9--15: Prediction II}
 \\
-\textit{\doubleq{And now...I take you to: The Weather}}
-\\\\
-\textbf{Guiding Prompt:} Characterize election turnout in the United States. How does this compare to other forms of political activity? To other nations? What effects (if any) do campaigns have on elections? When/how do they mobilize? When/how do they persuade? Do you think these effects are larger than idiosyncratic effects such as the weather and precinct location?   
+\textit{Those who have knowledge don't predict. Those who predict, don't have knowledge.--\textbf{Lao Tzu}}
 \begin{itemize}
-\item \textbf{M:} Textbook, chapter 3 (Special emphasis on pages 55-63 \& 72-78)
+\item \textbf{T:} \href{https://bookdown.org/rdpeng/exdata/}{\textit{Peng}, Chapters 5, 6, 14} 
+\item \textbf{T:} \href{https://www.pewresearch.org/fact-tank/2018/02/06/use-of-election-forecasts-in-campaign-coverage-can-confuse-voters-and-may-lower-turnout/}{\textit{Use of election forecasts in campaign coverage can confuse voters and may lower turnout.}} 
+\item \textbf{TH:} Week 12 lab
 \begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\item \textbf{W:} \href{https://www.vox.com/policy-and-politics/2017/9/28/16367580/campaigning-doesnt-work-general-election-study-kalla-broockman}{\doubleq{A massive new study reviews the evidence on whether campaigning works. The answer's bleak.}} by Matthews (Vox).
-\item \textbf{W:} \href{https://www.washingtonpost.com/news/monkey-cage/wp/2017/10/11/our-research-shows-that-persuading-voters-is-hard-that-doesnt-mean-campaigns-should-give-up/}{\doubleq{Persuading voters is hard. That doesn't mean campaigns should give up.}} by Kalla and Broockman (Monkey Cage).
-\item \textbf{F:} \doubleq{Deus Ex Machina: The Influence of Polling Place on Voting Behavior} by Rutchick (Canvas)
-\item \textbf{F:} \doubleq{Weather conditions and voter turnout in Dutch national parliament elections, 1971–2010} by Eisinga, Te Grotenhuis, and Pelzer (Canvas).
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textit{Check-in report due.}
 \end{itemize}
 \end{itemize}
+\vspace{1em}
 
-\textbf{Week 12, March 23--27: Violence and Revolution}
+\textbf{Week 13, November 16--22: Inference II}
 \\
-\textit{\doubleq{Violence, give me violence; `cause they say we're the worthless ones}}
-\\\\
-\textbf{Guiding Prompt:} What are (some) of the causes of revolution? Of political violence? What is the difference between "revolution" and political violence more generally? Why ought we be leery of violent rhetoric? Justify your response. 
+\textit{I love fools' experiments. I am always making them--\textbf{Charles Darwin}}
 \begin{itemize}
-\item \textbf{M:} \doubleq{Why Men Rebel} by Gur (Canvas)
-\item \textbf{M:}\href{https://www.e-ir.info/2011/11/17/why-men-rebel-redux-how-valid-are-its-arguments-40-years-on/}{``Why Men Rebel Redux: How Valid are its Arguments 40 years on?''} by Gur (E-International Relations).
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} Canvas Reading (Gerber and Green) 
+\item \textbf{TH:} Week 13 lab
 \end{itemize}
-\item \textbf{W:} \doubleq{Fueling the Fire} by Kalmoe (Canvas)
-\item \textbf{W:}\href{https://www.washingtonpost.com/news/monkey-cage/wp/2018/05/21/trump-isnt-the-only-one-who-calls-opponents-animals-democrats-and-republicans-do-it-to-each-other/}{``Trump Is Not the Only One Who Calls Opponents `Animals.'Democrats and Republicans Do It to Each Other.''} by Theodoris \& Martherus (Monkey Cage)
-\item \textbf{F:} ``Lethal Mass Partisanship'' by Kalmoe \& Mason (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-
-
-\textbf{Week 13, March 30-- April 3: Media}
+\vspace{1em}
+\textbf{Week 14, November 23--29: Thanksgiving}
 \\
-\textit{YouTube Killed the TV Star}
-\\\\
-\textbf{Guiding Prompt:} How does media affect political attitudes and behaviors? Are the effects limited to news media? If not, how are the mechanisms similar/different across different media modes? Can fictitious information be as impactful as factful information? Justify your response.
+\textit{Consider the turkey that is fed every day. Every single feeding will firm up the bird's belief that it is the general rule of life to be fed every day by friendly members of the human race...On the afternoon of the Wednesday before thanksgiving, something \textit{unexpected} will happen to the turkey. It will incur a revision of belief.--\textbf{Nassim N. Taleb}}
 \begin{itemize}
-\item \textbf{M:} Textbook, chapter 7 (p. 205-224).
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{No class. Stay safe.}
 \end{itemize}
-\item \textbf{W:} \doubleq{Frenemies} by Settle (Canvas).
-\begin{itemize}
-\item \underline{Last day to send first draft of the final paper for review.}
-\end{itemize}
-\item \textbf{F:} \doubleq{Press B to March} by Licari (Canvas).
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-
-\textbf{Week 14, April 6--10: Political Structures}
+\vspace{1em}
+\textbf{Week 16, November 30-- December 6: Presentations I}
 \\
-\textit{``I'm not a part of your system--MAN!''}
-\\\\
-\textbf{Guiding Prompt:} How can the ballot itself affect one's vote? How about who (and when) we allow access to it? How do broader political structures shape our political behaviors in general?   
+\textit{The numbers never speak for themselves.}
 \begin{itemize}
-\item \textbf{M:} {The Impact of Candidate Name Order on Election Outcomes} by Miller and Krosnick (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} Presentations 
+\item \textbf{TH:} Presentations
 \end{itemize}
-\item \textbf{W:} \doubleq{Convenience Voting} by Gronke et al. (Canvas) 
-\item \textbf{W:} \doubleq{Disagreement over ID Requirements and Minority Voter Turnout} by Burden (Canvas)
-\item \textbf{F:} \href{https://www.youtube.com/watch?v=s7tWHJfhiyo}{\doubleq{The Problems with First Past the Post Voting Explained}} CGP Grey (YouTube)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-\textbf{Week 15, April 13--17: History}
+\vspace{1em}
+\textbf{Week 17, December 7-- December 13: Presentations II}
 \\
-\textit{``History repeats itself because nobody listens the first time.''}
-\\\\
-\textbf{Guiding Prompt:} Why is history important to modern politics? In what ways does it make itself felt? Does path dependence mean that we are cordoned to a single historical trajectory? Why or why not? \textbf{(Final Paper Assignment Opportunity)}
+\textit{Tell me, and I forget; teach me, and I may remember; involve me, and I'll understand--\textbf{Xunzi}}
 \begin{itemize}
-\item \textbf{M:} \doubleq{Increasing Returns, Path Dependence, and the Study of Politics} by Pierson (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
+\item \textbf{T:} Canvas Reading (Gerber and Green) 
+\item \textbf{TH:} \textit{\textbf{No class; reading day}}
 \end{itemize}
-\item \textbf{W:} \textit{No class; do your taxes.}
-\item \textbf{F:} \doubleq{Making Democracy Work} by Putnam (Canvas)
-\begin{itemize}
-\item\underline{Reading Quiz}
-\end{itemize}
-\end{itemize}
-
-\textbf{Week 16, April 20--24: What next?}
+\vspace{1em}
+\textbf{Week 18, December 14-- December 20: Final Exam Day}
 \\
-\textit{``I don't know why you say `goodbye,' I say `hello.'"}
-
+\textit{The further one goes, the less one knows.--\textbf{Lao Tzu}}
 \begin{itemize}
-\item \textbf{M:} Textbook, Appendix
+\item \textbf{T:} Final exam day. (Possible presentation day).
 \begin{itemize}
-\item\underline{Reading Quiz}
+\item \textit{Final projects due.}
 \end{itemize}
-\item \textbf{W:} \textit{No assigned reading}
-\item \textbf{F:} \textit{No class; possible (optional) exam review day.}
 \end{itemize}
-
-
+\vspace{2em}
 \textit{My deepest appreciation goes to Stephen Philips, who graciously allowed me to recycle materials from his prior syllabi. (See how easy it is to not plagiarize!)}
 \\\\
-After having reviewed the entire syllabus, do not forget the syllabus quiz due \textbf{January 10th}. To confirm that you’ve read the syllabus all the way through, please e-mail me your favorite picture involving a dinosaur. If you don’t have a favorite picture of a dinosaur, there’s never a wrong time to find one! Doing so will give you one bonus point towards your cumulative quiz grade. 
+After having reviewed the entire syllabus, do not forget the syllabus quiz due \textbf{September 10}. To confirm that you’ve read the syllabus all the way through, please e-mail me your favorite picture involving a dinosaur. If you don’t have a favorite picture of a dinosaur, there’s never a wrong time to find one! Doing so will give you 5 points towards your final grade.
 
 \end{document}
