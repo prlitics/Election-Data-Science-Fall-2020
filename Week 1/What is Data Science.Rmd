@@ -32,7 +32,17 @@ xaringanExtra::use_xaringan_extra()
 
 # Welcome to Election Data Science!
 
-- Here's what we're gonna talk about.
+--
+- What is data science?
+--
+
+- The main approaches to it.
+--
+
+- Some critical things to keep in mind about it.
+--
+
+- What we are and aren't going to learn in this class.
 
 ---
 

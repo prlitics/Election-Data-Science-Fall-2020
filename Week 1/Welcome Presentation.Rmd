@@ -1,102 +1,130 @@
 ---
-title: "Election Data Science 2020"
-output: 
-  revealjs::revealjs_presentation:
-    theme: serif
-    self_contained: FALSE
-    highlight: pygments
-    reveal_plugins: ["notes"]
+title: "Welcome to Election Data Science!"
+subtitle: "Election Data Science"  
+author: 
+  - "Peter Licari"
+date: '9/1/2020'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+options(htmltools.dir.version = FALSE)
 ```
 
-# Welcome!
-
-<h3>*Welcome to Election Data Sciences!*</h3>
-
-<style type="text/css">
-  .reveal p {
-    text-align: left;
-
-  
-</style>
-
->- Going to talk about 
-
-# What is Data Science?
-
->- When I say the word ``Data Science" what's the kind of stuff that pops into your mind?
-
-<aside class="notes">
-Get people's opinions about data science, maybe spend about 5 minutes?
-</aside>
-
-## What Does Data Science Mean?
-
-```{r pic1, echo=F, fig.align = "center", out.width= "50%"}
-knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic1.png')
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
+)
+style_duo_accent
+xaringanExtra::use_xaringan_extra()
 ```
 
->- Data science is in many ways a new field. But also not?
+# Welcome to the Course!
 
-<aside class="notes">
--Can trace its intellectual origins to the 1950s and 60s.\n
--As a term it's really only come about over the last 15 or so years.
-  -That term has changed meanings.
-- Because of that, a lot of people think that "Data Science" is just a sexy new way to describe "Applied statistics." 
-</aside>
+--
+- Learn a little about me.
 
-## What does it connote *now*? Like. Right now.
+--
+- Learn a little about you
+--
 
->- Instead it's helpful to think of data science not as a rigid field but as a constellation of competencies. 
+- Learn a little about the course.
+
 
 ---
-```{r pic2, echo=F, fig.align = "center", out.width= "50%"}
-knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic2.png')
-```
-<style type="text/css">
-  .reveal p {
-    text-align: left;
+# Slide with all the important stuff on it
 
+- My name: Peter Licari
+  - Call me "Mr", "Professor", "Peter"-whatever (just not **Dr** - except on October 13th)
+- Class times: Tuesday (*8:30-10:25*); Thursday (*9:35-10:25*)
+- Email: [plicari13@ufl.edu](mailto:plicari13@ufl.edu)
+- Office hours: Wednesday (*8:00-10:00* or by appointment)
+---
+
+# A little about me
+--
+
+- 6th year PhD candidate in Political Science
+  - Dissertation looks at how video games increase political participation
+--
+
+- Got my B.A. in Political Science at UNF, M.A. here at UF.
+--
+
+- Data Scientist at Morning Consult (As of, like, literally yesterday `r emo::ji("geek")`)
+--
+
+- Dog dad, cat dad, and *dad* dad.
+  - Dude, Asia, and Rosalina, respectively.
+--
+
+- My teams...
+---
+# A little about you
+
+- Name
+- Major
+- What made you interested in this course
+- What lady luck decides...
+  1. Book
+  2. Movie
+  3. Sports Team
+  4. TV Show (YouTube Channel is acceptable)
+  5. Game
+  6. Non-U.S. Media 
+
+???
+1. Once a Runner
+2. Without Limits
+3. San Fran
+4. Avatar the Last Air Bender/ Evan and Kaitlyn
+5. Scrabble/Fallout New Vegas.
+6. My Hero Academia.
+---
+# Assignments
+Class is scored out of 1,000 points.
+- **Attendance:** 50 points (5%)
+- **Check-In Quizzes:** 50 points (5%)
+- **Weekly Labs:** 300 points (30%)
+- **Blog Posts:** 200 points (20%)
+- **Final Project:** 400 points (40%)
+  - *Proposal:* 50 points
+  - *Check-in:* 50 points
+  - *Technical Report:* 150 points
+  - *Public-Facing Output:* 150 points
   
-</style>
+???
+The syllabus details some extra credit opportunities.
+Give R bloggers as an example. Use your doggo one for the project.
+---
+# Course Policies
 
->- Except this is wrong
+- Office Hours
+- Attendance
+- Late assignments
+- Children/Disruptions in class
+- Demeanor
+- Technology
 
-# Cool. And *Election* Data Science?
+---
+# What to expect in a given week.
+- **Tuesday**
+  - Lab
+  - Conceptual Lecture
+  - Practical Lecture/Tutorial
+- **Thursday**
+  - Practical lab.
+  - Work in break-out groups
 
-
-# What Are **Not** Going to Learn in this Course
->- Here are some things you are not going to learn in this class that are **crucial** if you want to get paid as a Data Scientist:
-
->- Python
->- SQL
->- AWS/Google/Azure cloud computing
->- Neural networks and "deep" learning.
->- Tableau
->- Calculus/Matrix algebra/Probability theory
-
-<aside class="notes">
-That's not even the SOFT skills. That they'll be asking for too.
-</aside>
-
-## Twi
-
-# what You *_Are_* Going to Learn
-
-## If You Learn Nothing Else:
-
->- Programming languages are just that: **languages**
->- Computers are the dumbest kind of magic.
->- Data **never** speak for themselves. 
->- As data professionals, you have an inherent obligation to be ethical in your handling of data and in your presentation of your results. Every point is a *person.* 
->- Analytical procedures do not make anything *objective.* **ALL** analyses are biased. 
->- *All* data are artifacts of the time, place, people, and culture that it is generated from.
->- **All** models are fiction. Some fictions are illuminating. 
-
-
-<aside class="notes">
-You know how many words are in English? Over 600,000 by some estimates. The average person knows between 30-60,000. We get along just fine. | No special sauce. The fundamental element of computing is 0 and 1s; discrete either ors. Everything that they could do YOU could too if you had enough time and/or desire on your hands.| This is a common saying, but it's wrong. Let me give you a number 1.13. What the hell does that mean? LEt's say it's Poisson. So? What does THAT even mean too? In the greater context. We give voice to patterns by ensconscing them in frames and narratives. | Every data point is a life as complex and richly felt as yours. | Data does not exist | Nothing is objective. The fact that you even chose this subject to study betrays some ideological commitment over another. (Elections as a good thing to preserve and study). Further, because we are attempting to translate reality and all it's ineffable, beautiful messiness into something that can be parsed by, again, really dumb machines, there will always be a bias. Not in the "lib/con" sense (althoug, also sometimes yes). | Next two are worth their own slides. 
-</aside>
+- Also, lots of memes.
