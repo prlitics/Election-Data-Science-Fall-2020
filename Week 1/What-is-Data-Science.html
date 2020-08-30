@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>What is Data Science?</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x43f05650bc141dda2cac099fa67a35a","expires":1}</script>
+    <script src="libs/himalaya/himalaya.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <link href="libs/editable/editable.css" rel="stylesheet" />
+    <script src="libs/editable/editable.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# What is Data Science?
+## Election Data Science
+### Peter Licari
+### 9/1/2020
+
+---
+
+
+
+
+
+
+# Welcome to Election Data Science!
+
+- Here's what we're gonna talk about.
+
+---
+
+# What Is Data Science **To You?**
+
+
+.can-edit.key-likes[
+- What do y'all think?
+
+]
+
+???
+Spend maybe 5 minutes on this.
+---
+
+# What Does Data Science Mean?
+
+--
+
+&lt;img src="pic1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+--
+- It's a new field, but also not?
+
+--
+- Instead it's helpful to think of data science not as a rigid field but as a *constellation* of competencies. 
+
+???
+- Can trace its intellectual origins to the 1950s and 60s.
+- A lot of the techniques used have been theorized for decades but we lacked the computational power
+- As a term it's really only come about over the last 15 or so years.
+  - That term has changed meanings.
+- Because of that, a lot of people think that "Data Science" is just a sexy new way to describe "Applied statistics." 
+
+---
+class: center, middle
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+These competencies guide practitioners in the art of *constructing narratives* resting upon information *curated* and *synthesized* from machine-readable data.]  
+
+???
+- "narrative" is kind of a bing word but throughout the semester, you'll see that it's
+actually the perfect way to describe what it is we do.
+---
+class: center, middle
+&lt;img src="pic2.png" width="60%" style="display: block; margin: auto;" /&gt;
+--
+.bg-washed-red.b--dark-red.ba.bw2.br3.shadow-5.ph4.mt5[
+Except this is wrong]
+
+---
+# What's missing?
+
+--
+
+.pull-left[
+- *Domain Expertise.*
+- *User Experience (UX) and Design*
+- *Ethics*
+- *Social Theory*
+- **and more...**]
+
+--
+
+.pull-right[&lt;img src = "https://i.imgflip.com/19p75k.jpg"&gt;]
+
+
+---
+
+# 3 Main Approaches to Data Science
+--
+
+1. **Data Exploration:** 
+  - Looking for correlations and correspondences between different data objects.
+  - Used to segment voters by issue, explore results and turnout patterns, etc.
+
+--
+
+2. **Prediction:**
+  - Using data about what *has* happened (or is happening) to predict what *will* happen.
+  - Turnout predictions, likely voter models, etc.
+--
+
+3. **Causal Inference:**
+  - Going *deeper* than association. Seeing if two (or more things) are causally linked.
+  - Do campaign adverts *actually* work? When and for whom?
+  - Most commonly aped. Not most commonly done.]
+
+
+???
+A fourth approach is to build the tools that we need for the other 3.
+In my personal opinion, the thing that separates bad/good data scientists from good/great ones are two things
+
+---
+# 2 Big Things
+
+--
+
+.pull-left[
+1. A drive to continuously learn.
+  - There are always new techniques to learn.
+  - There is always new, helpful knowledge to be gained.
+  - But it's deliberate, purposeful learning. 
+2. Deep consideration of the **D.G.P**
+  - **D**ata **G**eneration **P**rocess.]
+
+
+.pull-right[&lt;img src = "https://i.imgflip.com/3fqvqc.jpg"&gt;]
+
+
+---
+# The DL on the DGP
+
+&lt;img src="pic5.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+???
+At every stage of the process, there is not only the opportunity for human error, but there is unavoidable informational limits that are basically set by reality.
+
+- For example: Does nature generate the phenomenon if human events have catalyzed it? How much of it is due to how things are versus how we set them up to be? 
+- How is the phenomenon witnessed? Some things aren't even witnessable unless you look at it with the right perspective. 
+- Then you get into things like sampling frames, selection, etc. Where is the information even coming from?
+- Information encoding runs up to issues with floating point numbers because our computers are all ultimately based around base two. On the human end of things continuous phenomena are discretized. 
+- Some information is nixed. Or it's simplified. Or it's framed a certain way.
+- Sometimes you get aggregated data, or data that has undergone a more advanced procedure.
+- By the time information has been delivered to you, ready to import into R and analyze, it is irreparably different than how "nature" generated it.
+- Then once you analyze it you can still mess up. 
+
+
+---
+class: center, middle
+.bg-washed-red.b--dark-red.ba.bw2.br3.shadow-5.ph4.mt5[
+You need to get in the habit of **knowing** that your data are invariably *wrong.* They will carry bias---some obvious, some subterranean. Data are always mere **_approximations_** of nature.]
+
+???
+We have a word for constructing simplifications out of messy realities with the intention of someone, somewhere, getting something useful out of it: Telling stories. The models we provide are stories that we tell. 
+---
+class: center, middle
+# All models are *fictions*. Some fictions are *illuminating*.
+
+---
+# What you are *not* going to learn in this class
+
+--
+
+.pull-left[
+**Important technologies:**
+  - Python
+  - SQL
+  - AWS/Google/Azure cloud computing
+  - Tableau
+  - Docker
+]
+.pull-right[
+**Important concepts:**
+  - Calculus
+  - Matrix algebra
+  - Neural networks
+  - Natural language processing (NLP)
+  - Neural networks and "deep" learning
+]
+--
+&lt;br&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;center&gt;**And more**
+
+---
+# What you *are* going to learn (at least I hope).
+
+- Programming languages are just that--*languages*
+  - So is maths, for that matter.
+- Computers are the dumbest kind of magic.
+- Data **never** speak for themselves.
+- As data professionals, you have an inherent obligation to be ethical in your handling of data and in your presentation of your results. Every point is a *person.* Every narrative impacts **real people.**
+- Analytical procedures never make anything *objective.* Objectivity is not a thing that actually exists. (Or, at the very least, is not attainable by us mere mortals.)
+- All data are artifacts of the time, place, people, and culture they are generated from. There meanings are laden with this context.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

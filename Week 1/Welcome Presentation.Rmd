@@ -48,8 +48,6 @@ knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-F
 - Because of that, a lot of people think that "Data Science" is just a sexy new way to describe "Applied statistics." 
 </aside>
 
-## Brief History of Data Science
-
 ## What does it connote *now*? Like. Right now.
 
 >- Instead it's helpful to think of data science not as a rigid field but as a constellation of competencies. 
@@ -58,13 +56,13 @@ knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-F
 ```{r pic2, echo=F, fig.align = "center", out.width= "50%"}
 knitr::include_graphics('C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Week 1/Pics/pic2.png')
 ```
-
 <style type="text/css">
-  .reveal ul {
+  .reveal p {
     text-align: left;
 
   
 </style>
+
 >- Except this is wrong
 
 # Cool. And *Election* Data Science?
