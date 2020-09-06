@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to R Coding</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-06" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to R Coding
+## Election Data Science
+### Peter Licari
+### 2020-09-06
+
+---
+
+
+
+
+
+class: center, middle
+# Let's get coding in R
+
+---
+# Let's get acquainted with R Studio.
+
+- Console
+- R scripts
+- Plot window
+
+---
+# Data types in R
+
+1. Character (`"Alabama"`)
+2. Numeric (`1.3`, `2.0`)
+3. Integer (`13`, `13L`)
+4. Logical (`TRUE` and `FALSE`)
+5. Imaginary (`i`)
+6. Raw
+
+--
+
+Don't really use 5 and 6 much, but they're important to know.
+
+---
+
+
+```r
+typeof("Alabama")
+```
+
+```
+## [1] "character"
+```
+
+```r
+typeof(1.3)
+```
+
+```
+## [1] "double"
+```
+
+```r
+typeof(13L)
+```
+
+```
+## [1] "integer"
+```
+
+```r
+typeof(TRUE)
+```
+
+```
+## [1] "logical"
+```
+
+---
+# There are also missing values:
+
+- `NA` `Inf` `NaN` `NULL`
+
+
+---
+# You can combine multiple elements together with `c()`
+
+
+```r
+c(1,2,3,4,5)
+```
+
+```
+## [1] 1 2 3 4 5
+```
+
+```r
+c("Alabama","Alaska","Arizona","Arkansas")
+```
+
+```
+## [1] "Alabama"  "Alaska"   "Arizona"  "Arkansas"
+```
+
+```r
+c(TRUE, FALSE, TRUE, TRUE, FALSE)
+```
+
+```
+## [1]  TRUE FALSE  TRUE  TRUE FALSE
+```
+---
+
+# Mathematical, Relational, and Logical Operations
+--
+
+- **Mathematical:** `+` `^` `-` `/` `*` `%%` `%/%`
+- **Relational Operations:** `&lt;` `&gt;` `&gt;=` `&lt;=` `==` `!=` `()`
+- **Logical:** `!` `&amp;` `&amp;&amp;` `|` `||`
+
+--
+
+```r
+5*4
+```
+
+```
+## [1] 20
+```
+
+```r
+42000/1609
+```
+
+```
+## [1] 26.10317
+```
+
+```r
+5 &lt;= 8
+```
+
+```
+## [1] TRUE
+```
+
+```r
+TRUE | FALSE
+```
+
+```
+## [1] TRUE
+```
+
+# Can assign values to other objects:
+
+
+```r
+x &lt;- "apple"
+x
+```
+
+```
+## [1] "apple"
+```
+
+```r
+y &lt;- c(1,2,3,4,5,6)
+y 
+```
+
+```
+## [1] 1 2 3 4 5 6
+```
+
+--
+
+Object naming rules:
+- Must only use letters, numbers, `.`, and `_`
+- But they cannot begin with a `_` or a number.*
+- There are also certain reserved names like `TRUE` and `if`
+
+---
+# You can also assign objects to other objects (including the same object)
+
+
+```r
+x &lt;- 1
+x
+```
+
+```
+## [1] 1
+```
+
+```r
+y &lt;- x
+y
+```
+
+```
+## [1] 1
+```
+
+```r
+y &lt;- y + 3
+y
+```
+
+```
+## [1] 4
+```
+
+
+---
+
+# And do operations on longer objects:
+
+
+```r
+y &lt;- c(1,2,3,4,5,6)
+y * 5
+```
+
+```
+## [1]  5 10 15 20 25 30
+```
+
+```r
+y &lt; 3
+```
+
+```
+## [1]  TRUE  TRUE FALSE FALSE FALSE FALSE
+```
+
+```r
+typeof(y)
+```
+
+```
+## [1] "double"
+```
+
+```r
+sum(y)
+```
+
+```
+## [1] 21
+```
+---
+
+# You can nest functions and store outputs
+
+```r
+y &lt;- c(1,2,3,4,5,6)
+y1 &lt;- typeof(mean(y))
+y
+```
+
+```
+## [1] 1 2 3 4 5 6
+```
+
+```r
+y1
+```
+
+```
+## [1] "double"
+```
+--
+
+It's similar to when you'd have `\(h(g(f(x)))\)` back in algebra. Things are evaluated inside out. (Mostly).
+
+---
+
+# You can create your own functions
+
+
+```r
+f &lt;- function(x){
+  x^2-1
+}
+
+f(2)
+```
+
+```
+## [1] 3
+```
+
+```r
+values &lt;- c(1,2,35,3,5,323,44,NA,445)
+
+f(values)
+```
+
+```
+## [1]      0      3   1224      8     24 104328   1935     NA 198024
+```
+
+---
+
+#Functions can take in multiple values.
+
+
+```r
+f &lt;- function(x,y){
+  print(x ^ y)
+  
+}
+
+f(13,2)
+```
+
+```
+## [1] 169
+```
+
+
+---
+# You can loop through things.
+
+
+```r
+for(i in c("apple","banana","orange","cucumber")){
+  x &lt;- paste(i,"is my favorite fruit", sep = " ")
+  print(x)
+  }
+```
+
+```
+## [1] "apple is my favorite fruit"
+## [1] "banana is my favorite fruit"
+## [1] "orange is my favorite fruit"
+## [1] "cucumber is my favorite fruit"
+```
+
+---
+# And use logical relationships to better control the flow of your steps.
+
+
+```r
+for(i in c("apple","banana","orange","cucumber")){
+  if(i=="apple"){
+  x &lt;- paste(i,"is my favorite fruit", sep = " ")
+  print(x)
+  }
+  else if(i == "banana"){
+    x &lt;- paste(i,"is pretty good on a sunday", sep = " ")
+    print(x)
+  }  else {
+    x &lt;- paste(i, "is as terrible as pineapple on pizza.", sep = " ")
+    print(x)
+  }
+}
+```
+
+```
+## [1] "apple is my favorite fruit"
+## [1] "banana is pretty good on a sunday"
+## [1] "orange is as terrible as pineapple on pizza."
+## [1] "cucumber is as terrible as pineapple on pizza."
+```
+
+---
+# The limits of R.
+
+- You can do a *lot* with so-called "Base R." But there's a lot you either can't do or, frankly, don't want to do because it's too onerous.
+- Because R is open source, thousands of people have contributed "packages" that you can download to add additional functionality.
+- You can install many of these packages with the `install.packages` function.
+
+```r
+install.packages("nnet")
+```
+
+---
+# More on packages
+
+- Once you've installed the package, you don't have to do it again (unless you want updates.)
+- But *installing* it does not mean it's immediately available like the Base R functions (e.g., `sum`, `mean`, etc.)
+  - When you run R (and RStudio), you're operating within a particular *environment.*
+  - Everytime you reopen RStudio, you're operating in a *different* environment.
+--
+
+- Two options for package management.
+  - Use `::` to reference functions within specific packages (`nnet::multinom`)
+  - Use the `library` function at the beginning of your script (generally, but not always, preferred)
+  
+---
+
+```r
+library(nnet)
+```
+---
+
+The goal when writing code isn't to write code that works and that is only decipherable by machines. It's to write functional code that's readable by people. Either collaborators or your future self.
+
+
+---
+# Style guidelines and tips.
+
+- Make your object names understandable and readable. 
+  - If you have a row of voter IDs, don't call it `var9930`, call it `Voter_ID`
+  - Be consistent with your naming conventions: snake_case, camelCase, dot.case, etc.
+--
+
+- Use `#` to write comments to yourself and your collaborators in your code.
+
+```r
+# The machine won't read this line, but you'll be able to. 
+
+# This function takes its input and squares it.
+f&lt;-function(x){x^2}
+f(2)
+```
+
+```
+## [1] 4
+```
+
+---
+#Style guidelinees (continued)
+
+- Limit your lines to ~80-100 characters. 
+  -You can end lines with `,` and/or `+` depending on the function.
+
+--
+
+- Don't be afraid of white space and `()`
+
+```r
+x&lt;-7*max(c(1,2,3,4,5))+1
+# Is way less readable
+
+x &lt;- (7 * max( c(1,2,3,4,5) )) + 1
+# Than this.
+```
+
+--
+
+- [Check out this style guide for other good practices](http://adv-r.had.co.nz/Style.html)
+
+
+---
+# Quick look over at RStudio. 
+
+???
+Emphasize the multiline nature of R documents as well reproducible code.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

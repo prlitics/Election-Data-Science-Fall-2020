@@ -1,0 +1,169 @@
+---
+title: "R Markdown Challenge"
+author: "Peter Licari"
+date: "July 17, 2020"
+output: html_document
+ 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Wherefor "R"t Thou. 
+Hello! Welcome to Week 2: The week that we sink our teeth into some R programming basics. Non-coincidentally, it's also the week that you'll start feeling (and feeding) embers of rage and exasperation that were previously lying unacknowledged in the depths of your psyche...
+
+```{r rproject, echo=F, fig.align = "center", out.width= "50%", fig.cap= "In all seriousness, R is just like any other language in that it takes consistent practice to summit the learning curve."}
+knitr::include_graphics('C:/Users/prlic/Dropbox/classes/Election Data Science/Labs/pics/wk2/lovethislanguage.png')
+
+```
+
+So let's jump into it! `r emo::ji("grin")`
+
+## <a name ="anchor1"></a> Challenge 1: R Code
+Arguably, the most important part of learning `R Markdown` is learning how to share and visualize your R code. So, your first challenge. Make a code chunk where you:
+
+- Install the tidyverse package
+
+- Use `library()` to bring the tidyverse package into the current session.
+
+- Set up your working directory
+
+- Make a character string containing your 3 favorite bands. Assign it to an appropriately named variable.
+
+- Make a function that looks to see if a number is even. Make your function tell the user whether it is or isn't.
+
+- Call the function with any number you choose.
+
+
+
+```{r funsetup, echo=F}
+library(ggplot2)
+
+divisible_by_13 <- function(x){
+  if(x%%13 == 0){
+    print("Don't show this number to someone suffering from triskaidekaphobia")
+  } else {
+    print("Jason Vorhees is sad.")
+  }
+}
+
+```
+
+
+```{r funexecute}
+divisible_by_13(169)
+
+
+
+divisible_by_13(666)
+
+```
+
+<center>
+*Bonus: Make a vector of all the numbers between 1-1000 **without** writing them all out* 
+</center>
+
+## Challenge 2: Prettify your text. 
+
+The other core idea for R Markdown is to, you know, write stuff. Writing is one of humanity's oldest technologies. It is also, in my opinion, its most magical:
+
+
+
+>This sentence has five words. Here are five more words. Five word sentences are fine. But several together become monotonous. Listen to what is happening. The writing is getting boring. The sound of it drones. It's like a stuck record. The ear demands some variety."
+>
+>Now listen. I vary sentence length, and I create music. *Music.* I use short sentences. And I use sentences of medium length. And sometimes when I am certain the reader is rested, I will engage them with a sentence of considerable length, a sentence that burns with energy and **builds** with all the impetus of a crescendo, the roll of the drums, the *crash* of the cymbals---sounds that say **_listen to this, it is important._**
+>
+>So write with a combination of short, medium, and long setnences. Create a sound that pleases the reader's ear. Don't just write **words**. *Write music.*
+>
+>`r tufte::quote_footer('Adapted from Gary Provost')`
+
+This isn't English class; I'm not going to judge you on the quality or sonorousness of your prose. However, there are simple tricks to make **anyone's** text more engaging---and that's with the judicious use of formating. So, for the next challenge: Write me a paragraph. It doesn't have to be long; I'm not going to count periods and dock you because *according to the standards of the FCAT/FSA/FTS, a paragraph is technically at least three complete sentences* and yadda yadda yadda. Go nuts. Write about anything you want. Just make sure that you've shown that you know how to do the following: 
+
+- **Bold words.**
+
+- *Italicize words*
+
+- **_Bold & Italicize words_**
+
+- Use an em dash--- like this. 
+
+- Use an en dash, as if you were talking about a scale from 0--100.
+
+- ~~Strike through your text.~~
+
+- [Add a hyperlink](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+
+<center>
+*Bonus: Add emojis* `r emo::ji("fire")` `r emo::ji("fire")` `r emo::ji("fire")` `r emo::ji("fire")` `r emo::ji("fire")` </center>
+
+## Challenge 3: Show Me the Data
+
+In general, you want to be as visible and open with your data as possible. It's not only good scientific practice, but it's tremendously helpful for catching errors. The one of the ironclad laws of the internet is if you post something that's erroneous, someone is bound to appear to tell you what you did wrong. And while this is often something we dread in our day-to-day lives---as scientists, its tremendously helpful! If we're in the pursuit of "Truth" (or at least reliably actionable information), then being corrected is a good thing! (Although many correcters could learn to be a bit less stuck-up about it...)
+
+So show off your data! Or at least a few rows of it. In this case, show me a preview of the in-built `mtcars` dataset. 
+```{r echo=FALSE}
+library(knitr)
+kable(head(mtcars))
+
+```
+<center>
+*Bonus: Make it a pretty table like this rather than just the default R output.*
+</center>
+
+## Challenge 5: Just the Facts, Ma'am. (Or at least the chart).
+
+I know I just said that you want to be as open as possible---and that's true!---but sometimes you don't **want** to show off everything that's going on under the hood. Sometimes you're working with data or a package that's proprietary. Sometimes you're showing off a model with output code that runs *forever* and you really just want to show the set up. Sometimes (read: often) you're presenting to an audience that couldn't give a flip less about the code but want to see the results. Sometimes it just gets in the way of communicating the story you're trying to present with the data. For example, the function `divide_by_13` I used in [Challenge 1](#anchor1) isn't in base R. I made the function in a hidden code chunk just before I ran it publicly. Why didn't I show it? Because it would have deleteriously affected the flow of information. (And, also, y'all would've been able to just change 2 characters to get the correct answer and that kinda defeats the whole purpose of a **challenge,** right?).
+
+So I want you to do two things using the code from the first figure in section [3.2.2 in *R for Data Science*](https://r4ds.had.co.nz/data-visualisation.html).
+
+1. Make a chunk where the code is visualized but isn't *evaluated*. Like this:
+
+```{r eval=FALSE}
+
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+```
+
+2. Make a chunk where the code is evaluated but isn't *visible*. Like this:
+
+```{r echo=FALSE}
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+```
+
+
+## Challenge 6: Add a Picture
+
+If you use R Markdown for blogging (as I do---and as you will at least 3 times over the next few weeks), you might not want to **just** limit yourself to text. *"A picture is worth 1,000 words"*, as the saying goes. Sometimes only pictures can truly express how you feel.
+
+```{r pika, echo=F, fig.align = "center", fig.pos= "!h", out.width= "50%", fig.cap= "Send me your memes!"}
+knitr::include_graphics('C:/Users/prlic/Dropbox/Classes/Election Data Science/labs/pics/pikameme.png')
+```
+
+Add a picture to your rmarkdown document. 
+
+<center>
+*Bonus: Center the image and add a caption*
+</center>
+
+## Challenge 7: Make your Github site. 
+
+Last week, you installed GitHub and reserved space for your blog. Right now, though, if you went to the site, you'll probably just get a lonely little "hello world" among a barren sea of white internet space. Today, we're going to make that space into an actual, functional blog that you'll use for your assignments. (And, hopefully, to write about all the cool election science stuff you'll be doing once you're done with this class.) 
+
+*If you're having difficulty getting the blog set-up before next class, be sure to come to office hours ASAP or email me for an appointment.*
+
+Go to [this site](https://bookdown.org/yihui/blogdown/) to the free online version of *blogdown: Creating Websites with R Markdown* by Xie, Thomas, and Presmanes Hill. From this week's reading assignment, you should have some familiarity with Chapters 1 & 2. Now go back and follow the workflow suggested in [1.7](https://bookdown.org/yihui/blogdown/workflow.html), using either the themes suggested in [1.6](https://bookdown.org/yihui/blogdown/other-themes.html) or from [themes.gohugo.io](https://themes.gohugo.io/), and make your blog. You can refer to the instructions in Chapter [1.2](https://bookdown.org/yihui/blogdown/a-quick-example.html) and the information in [Chapter 2](https://bookdown.org/yihui/blogdown/hugo.html) to help you out if you get a bit stuck. I also recommend using [*Making a Website Using Blogdown, Hugo, and Github Pages*](https://amber.rbind.io/2016/12/19/website/) as a helpful reference as it's really accessible and was written by one of the book's authors, Amber Thomas. **However.** After you've built the `public` directory, do not worry about going to netlify.com. Instead, go to GitHub Desktop on your computer and go to the repository that has `*USERNAME*.github.io.` Then click on the button that says `Show in Explorer.` It should just have the index file that you made last time. 
+
+From there, delete the index file. Go to where you've saved the `public` directory. Open it up. You should see folders with names like `posts` `page` and `archives` (although your specific file structure will vary a bit based upon the theme you've chosen.) Select **all** of the items inside the `public` folder and copy it to your now empty GitHub desktop repository. 
+
+From there, return to GitHub Desktop. Click on the blue `Commit to master` button and then click the button that says `push origin` on the top right. Give it a few minutes to load and render (like 3--5) and then go to your github site. You should now see your very own blog that you generated in R! For your assignments, you'll use `blogdown` and RMarkdown to author your own posts! You're now well on your way to being a public-facing election data scientist.
+
+***
+<center>
+*If you have any troubles with these steps---especially the last one---be sure to reach out to me via email. Otherwise, have a safe rest of your week and I'll see you next Tuesday.*
+</center>
+$~$
+

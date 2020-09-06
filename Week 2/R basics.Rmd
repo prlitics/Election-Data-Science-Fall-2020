@@ -1,9 +1,8 @@
 ---
-title: "Presentation Ninja"
-subtitle: "&#x2694;&#xFE0F; xaringan +<br/>&#x1F60E; xaringanthemer"  
+title: "Introduction to R Coding"
+subtitle: "Election Data Science"  
 author: 
-  - "Yihui Xie"
-  - "Garrick Aden-Buie"
+  - "Peter Licari"
 date: '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
@@ -50,6 +49,7 @@ class: center, middle
 6. Raw
 
 --
+
 Don't really use 5 and 6 much, but they're important to know.
 
 ---
@@ -62,5 +62,230 @@ typeof(TRUE)
 ```
 
 ---
-# You can assign 
+# There are also missing values:
 
+- `NA` `Inf` `NaN` `NULL`
+
+
+---
+# You can combine multiple elements together with `c()`
+
+```{r}
+c(1,2,3,4,5)
+c("Alabama","Alaska","Arizona","Arkansas")
+c(TRUE, FALSE, TRUE, TRUE, FALSE)
+```
+---
+
+# Mathematical, Relational, and Logical Operations
+--
+
+- **Mathematical:** `+` `^` `-` `/` `*` `%%` `%/%`
+- **Relational Operations:** `<` `>` `>=` `<=` `==` `!=` `()`
+- **Logical:** `!` `&` `&&` `|` `||`
+
+--
+```{r}
+5*4
+42000/1609
+5 <= 8
+TRUE | FALSE
+```
+
+# Can assign values to other objects:
+
+```{r}
+x <- "apple"
+x
+y <- c(1,2,3,4,5,6)
+y 
+
+```
+
+--
+
+Object naming rules:
+- Must only use letters, numbers, `.`, and `_`
+- But they cannot begin with a `_` or a number.*
+- There are also certain reserved names like `TRUE` and `if`
+
+---
+# You can also assign objects to other objects (including the same object)
+
+```{r}
+x <- 1
+x
+y <- x
+y
+y <- y + 3
+y
+
+```
+
+
+---
+
+# And do operations on longer objects:
+
+```{r}
+y <- c(1,2,3,4,5,6)
+y * 5
+y < 3
+typeof(y)
+sum(y)
+```
+---
+
+# You can nest functions and store outputs
+```{r}
+y <- c(1,2,3,4,5,6)
+y1 <- typeof(mean(y))
+y
+y1
+```
+--
+
+It's similar to when you'd have $h(g(f(x)))$ back in algebra. Things are evaluated inside out. (Mostly).
+
+---
+
+# You can create your own functions
+
+```{r}
+f <- function(x){
+  x^2-1
+}
+
+f(2)
+
+values <- c(1,2,35,3,5,323,44,NA,445)
+
+f(values)
+
+```
+
+---
+
+#Functions can take in multiple values.
+
+```{r}
+f <- function(x,y){
+  print(x ^ y)
+  
+}
+
+f(13,2)
+
+```
+
+
+---
+# You can loop through things.
+
+```{r}
+
+for(i in c("apple","banana","orange","cucumber")){
+  x <- paste(i,"is my favorite fruit", sep = " ")
+  print(x)
+  }
+
+```
+
+---
+# And use logical relationships to better control the flow of your steps.
+
+```{r}
+
+for(i in c("apple","banana","orange","cucumber")){
+  if(i=="apple"){
+  x <- paste(i,"is my favorite fruit", sep = " ")
+  print(x)
+  }
+  else if(i == "banana"){
+    x <- paste(i,"is pretty good on a sunday", sep = " ")
+    print(x)
+  }  else {
+    x <- paste(i, "is as terrible as pineapple on pizza.", sep = " ")
+    print(x)
+  }
+}
+
+```
+
+---
+# The limits of R.
+
+- You can do a *lot* with so-called "Base R." But there's a lot you either can't do or, frankly, don't want to do because it's too onerous.
+- Because R is open source, thousands of people have contributed "packages" that you can download to add additional functionality.
+- You can install many of these packages with the `install.packages` function.
+```{r eval=FALSE, include=TRUE}
+install.packages("nnet")
+```
+
+---
+# More on packages
+
+- Once you've installed the package, you don't have to do it again (unless you want updates.)
+- But *installing* it does not mean it's immediately available like the Base R functions (e.g., `sum`, `mean`, etc.)
+  - When you run R (and RStudio), you're operating within a particular *environment.*
+  - Everytime you reopen RStudio, you're operating in a *different* environment.
+--
+
+- Two options for package management.
+  - Use `::` to reference functions within specific packages (`nnet::multinom`)
+  - Use the `library` function at the beginning of your script (generally, but not always, preferred)
+  
+---
+```{r}
+library(nnet)
+```
+---
+
+The goal when writing code isn't to write code that works and that is only decipherable by machines. It's to write functional code that's readable by people. Either collaborators or your future self.
+
+
+---
+# Style guidelines and tips.
+
+- Make your object names understandable and readable. 
+  - If you have a row of voter IDs, don't call it `var9930`, call it `Voter_ID`
+  - Be consistent with your naming conventions: snake_case, camelCase, dot.case, etc.
+--
+
+- Use `#` to write comments to yourself and your collaborators in your code.
+```{r}
+# The machine won't read this line, but you'll be able to. 
+
+# This function takes its input and squares it.
+f<-function(x){x^2}
+f(2)
+```
+
+---
+#Style guidelinees (continued)
+
+- Limit your lines to ~80-100 characters. 
+  -You can end lines with `,` and/or `+` depending on the function.
+
+--
+
+- Don't be afraid of white space and `()`
+```{r}
+x<-7*max(c(1,2,3,4,5))+1
+# Is way less readable
+
+x <- (7 * max( c(1,2,3,4,5) )) + 1
+# Than this.
+
+```
+
+--
+
+- [Check out this style guide for other good practices](http://adv-r.had.co.nz/Style.html)
+
+
+---
+# Quick look over at RStudio. 
+
+???
+Emphasize the multiline nature of R documents as well reproducible code. 
