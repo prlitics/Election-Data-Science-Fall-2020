@@ -1,0 +1,66 @@
+---
+title: "Presentation Ninja"
+subtitle: "&#x2694;&#xFE0F; xaringan +<br/>&#x1F60E; xaringanthemer"  
+author: 
+  - "Yihui Xie"
+  - "Garrick Aden-Buie"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF"
+)
+
+xaringanExtra::use_xaringan_extra()
+```
+class: center, middle
+# Let's get coding in R
+
+---
+# Let's get acquainted with R Studio.
+
+- Console
+- R scripts
+- Plot window
+
+---
+# Data types in R
+
+1. Character (`"Alabama"`)
+2. Numeric (`1.3`, `2.0`)
+3. Integer (`13`, `13L`)
+4. Logical (`TRUE` and `FALSE`)
+5. Imaginary (`i`)
+6. Raw
+
+--
+Don't really use 5 and 6 much, but they're important to know.
+
+---
+
+```{r}
+typeof("Alabama")
+typeof(1.3)
+typeof(13L)
+typeof(TRUE)
+```
+
+---
+# You can assign 
+
