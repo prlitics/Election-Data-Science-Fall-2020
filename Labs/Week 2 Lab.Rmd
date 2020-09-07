@@ -61,7 +61,7 @@ divisible_by_13(666)
 ```
 
 <center>
-*Bonus: Make a vector of all the numbers between 1-1000 **without** writing them all out* 
+*Bonus: Make a vector of all the numbers between 1-1000 _without_ writing them all out* 
 </center>
 
 ## Challenge 2: Prettify your text. 

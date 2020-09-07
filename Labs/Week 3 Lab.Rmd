@@ -1,0 +1,90 @@
+---
+title: "Week 3 Lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(DT)
+library(tidyverse)
+library(anesr)
+data(timeseries_2016)
+anes16 <- timeseries_2016
+rm(timeseries_2016)
+```
+
+# Some snappy title.
+Welcome to week 3's lab! Today, we'll be wrangling election data. Using an RMarkdown document (your choice on how it exports: word, pdf, html, etc), give these challenges a shot!
+
+
+
+## Data
+In order to wrangle data, you must first *have* data. We'll be talking about diferent ways to get and load-in data next week. For now, 
+copy and paste the following command into your R script / markdown document. This will load the 2016 American National Election Studies (ANES) 2016 dataset. 
+
+```{r eval=FALSE, include=TRUE}
+# Uncomment these next two lines when you put this on your version of RStudio:
+# install.packages("devtools")
+# devtools::install_github("jamesmartherus/anesr")
+
+
+library(anesr)
+data(timeseries_2016)
+anes16 <- timeseries_2016
+rm(timeseries_2016)
+```
+
+The ANES is an ongoing survey series and is considered one of the highest-quality survey projects investigating elections and electoral behavior. I've found that it's easier to cut one's teeth with data manipulation with survey data---but you'll be able to use these skills for other data sets, such as state voter files.
+
+
+# Exercises
+
+
+## Filter it out
+
+The column 
+```{r}
+
+```
+
+
+## Question X: Across the States
+
+The column `V161010e` has the postal code for each respondent's state of residence. Produce a table that shows how many observations have come from each state.
+
+```{r}
+ch1 <- anes16 %>%
+  group_by(V161010e) %>%
+  summarise(total = n())
+
+datatable(ch1, rownames = FALSE)
+  
+```
+
+<center>
+*Bonus: Arrange the dataset in descending order.*
+</center>
+
+
+## Missing
+
+In the ANES, all negative values represent some form of missing data. Sometimes because they didn't need to be asked the question, sometimes it's because they don't know or can't remember. In some analyses, it's appropriate to code these as factor variables. In others, it's appropriate to code them all as empty (or `NA`). Construct a custom function that will take an input and code it as `NA` if the value is negative. Then, use `mutate( across() )` so that all of the variables in the dataset have been adjusted. 
+
+```{r}
+neg_val <- function(x){
+  ifelse(x < 0, NA, x)
+}
+
+dplyr::across
+
+ch3 <- anes16 %>%
+  mutate( across(.cols = everything(), neg_val) )
+View(ch3)
+```
+
+
+
+
+
+
+
