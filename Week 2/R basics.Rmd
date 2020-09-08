@@ -23,7 +23,8 @@ library(xaringanthemer)
 style_duo_accent(
   primary_color = "#1381B0",
   secondary_color = "#FF961C",
-  inverse_header_color = "#FFFFFF"
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
 )
 
 xaringanExtra::use_xaringan_extra()

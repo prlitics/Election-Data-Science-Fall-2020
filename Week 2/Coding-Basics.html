@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Presentation Ninja</title>
+    <title>The Basics of Coding</title>
     <meta charset="utf-8" />
-    <meta name="author" content="Yihui Xie" />
-    <meta name="author" content="Garrick Aden-Buie" />
-    <meta name="date" content="2020-09-06" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-08" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
@@ -23,11 +22,10 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Presentation Ninja
-## ⚔️ xaringan +<br/>😎 xaringanthemer
-### Yihui Xie
-### Garrick Aden-Buie
-### 2020-09-06
+# The Basics of Coding
+## Election Data Science
+### Peter Licari
+### 2020-09-08
 
 ---
 
@@ -59,6 +57,7 @@ class: center, middle
 - You have five minutes to write me instructions for how to make a peanut butter jelly sandwich.
 
 ---
+class: center, middle
 &lt;img src = "https://img.youtube.com/vi/LVPNXsc4wsQ/hqdefault.jpg"&gt;
 
 ---
@@ -126,11 +125,12 @@ I promise, it's gonna be ok.
 
 - **But you can also make functions for non-numeric objects.**
   - A function that takes "cucumbers" , "apples", and "bananas" and rearranges them alphabetically.
-    - The list of fruit are an *object*; the function takes the object and then spits out a transformation.
+  - The list of fruit are an *object*; the function takes the object and then spits out a transformation.
 --
 
+- **You can also make functions for groups of objects (which are, themselves, objects)**
   - Function that takes a matrix 	`\(\begin{pmatrix} 1 &amp; 2 &amp; 3 \\ 4 &amp; 5 &amp; 6 \end{pmatrix}\)` and halves all odd numbers.
-    - The matrix as a whole is an *object*; the function works on the elements within the object and transforms them.
+  - The matrix as a whole is an *object*; the function works on the elements within the object and transforms them.
 
 ---
 class: middle
@@ -151,6 +151,8 @@ class: center, middle
 **When you do data science in R, your task is to use preexisting functions (and sometimes create your own!) in ways that take the desired objecs (i.e., "data") and transforms them so that they are usable and useful for later analyses.**
 
 --
+
+
 *In so doing, you define the steps that you want the data to go through---the order and scope of the transformations. It is very easy for things to go awry and for you to end up with something completely different than what you thought when you sat down and started. So you have to be conscious and deliberate in your steps, and in your coding, or else your analyses will be plagued by otherwise avoidable errors.*
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
