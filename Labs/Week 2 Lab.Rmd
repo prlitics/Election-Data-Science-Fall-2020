@@ -111,7 +111,7 @@ kable(head(mtcars))
 *Bonus: Make it a pretty table like this rather than just the default R output.*
 </center>
 
-## Challenge 5: Just the Facts, Ma'am. (Or at least the chart).
+## Challenge 4: Just the Facts, Ma'am. (Or at least the chart).
 
 I know I just said that you want to be as open as possible---and that's true!---but sometimes you don't **want** to show off everything that's going on under the hood. Sometimes you're working with data or a package that's proprietary. Sometimes you're showing off a model with output code that runs *forever* and you really just want to show the set up. Sometimes (read: often) you're presenting to an audience that couldn't give a flip less about the code but want to see the results. Sometimes it just gets in the way of communicating the story you're trying to present with the data. For example, the function `divide_by_13` I used in [Challenge 1](#anchor1) isn't in base R. I made the function in a hidden code chunk just before I ran it publicly. Why didn't I show it? Because it would have deleteriously affected the flow of information. (And, also, y'all would've been able to just change 2 characters to get the correct answer and that kinda defeats the whole purpose of a **challenge,** right?).
 
@@ -135,7 +135,7 @@ ggplot(data = mpg) +
 ```
 
 
-## Challenge 6: Add a Picture
+## Challenge 5: Add a Picture
 
 If you use R Markdown for blogging (as I do---and as you will at least 3 times over the next few weeks), you might not want to **just** limit yourself to text. *"A picture is worth 1,000 words"*, as the saying goes. Sometimes only pictures can truly express how you feel.
 
@@ -149,7 +149,7 @@ Add a picture to your rmarkdown document.
 *Bonus: Center the image and add a caption*
 </center>
 
-## Challenge 7: Make your Github site. 
+## Challenge 6: Make your Github site. 
 
 Last week, you installed GitHub and reserved space for your blog. Right now, though, if you went to the site, you'll probably just get a lonely little "hello world" among a barren sea of white internet space. Today, we're going to make that space into an actual, functional blog that you'll use for your assignments. (And, hopefully, to write about all the cool election science stuff you'll be doing once you're done with this class.) 
 
