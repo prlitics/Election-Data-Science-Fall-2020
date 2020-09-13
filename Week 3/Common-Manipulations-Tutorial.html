@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introduction to Data Wrangling</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-13" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to Data Wrangling
+## Election Data Science
+### Peter Licari
+### 2020-09-13
+
+---
+
+class: center, middle
+
+
+
+
+
+
+It's good to learn about a bunch of wrangling techniques and practices---and you will, given time---but I wanted to walk you through the the most common ones (at least in my experience). 
+
+---
+# Most common `tidyverse` (`dplyr`) wrangling functions
+
+* `filter`
+* `mutate` &amp; `case_when`
+* `group_by` &amp; `summarise`
+* `select`
+* `join`
+* `across`
+* `pivot`
+
+---
+
+# But first, let's talk about pipes.
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="pipes.png" alt="Let's-a go!" width="313" /&gt;
+&lt;p class="caption"&gt;Let's-a go!&lt;/p&gt;
+&lt;/div&gt;
+
+
+---
+When you write out code in your R script (or R markdown chunk) you'll often do a number of steps:
+
+--
+
+```r
+data
+data1 &lt;- select(data, var1, var2, var3)
+data1 &lt;- filter(data1, var1 &gt; 7)
+data1 &lt;- mutate(data1, var4 = var2 / var3)
+```
+--
+
+**There are redundancies in each step that makes errors more likely.**
+
+---
+
+#Use `%&gt;%` instead!
+
+```r
+data1 &lt;- data %&gt;%
+  select(var1, var2, var3) %&gt;%
+  filter(data1, var1 &gt; 7) %&gt;%
+  mutate(data1, var4 = var2 / var3)
+```
+
+--
+
+When reading through the code, replace `%&gt;%` with the phrase "*and then, with the same dataframe.*"
+
+--
+
+Bonus! `%&gt;%` doesn't just work with `tidyverse` functions. As long as your custom-functions include an input for dataframes/matrices/tibbles, you can chain them in as well!
+
+---
+
+# If you want to follow along: 
+
+
+```r
+#Set your working directory
+setwd("your/directory/here")
+
+# Voter registration records Tyrell County NC
+url1 &lt;- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
+download.file(url1, destfile = paste0(getwd(),"/voterfile.zip"))  
+unzip("voterfile.zip")
+file.rename(from = "ncvoter89.txt", to = "voterregistration.txt")
+
+# Voter history files Tyrrell County NC
+url2 &lt;- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvhis89.zip"
+download.file(url2, destfile = paste0(getwd(),"/voterhistory.zip"))  
+unzip("voterhistory.zip")
+file.rename(from = "ncvhis89.txt", to = "voterhistory.txt")
+
+# Load in data
+TY_Records &lt;- readr::read_delim("voterregistration.txt", delim = "\t")
+
+TY_History &lt;- readr::read_delim("voterhistory.txt", delim = "\t")
+```
+
+
+
+
+
+---
+# Filter
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+TY_Records_Filt &lt;- TY_Records %&gt;%
+  filter(status_cd != "A", race_code == "B", birth_age &lt; 40, !is.na(full_phone_number))
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="filter.png" width="916" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|voter_reg_num |status_cd |race_code | birth_age|full_phone_number | county_id|county_desc |voter_status_desc |reason_cd |voter_status_reason_desc            |absent_ind |name_prefx_cd |last_name |first_name |middle_name     |name_suffix_lbl |res_street_address       |res_city_desc |state_cd | zip_code|mail_addr1              |mail_addr2 |mail_addr3 |mail_addr4 |mail_city |mail_state |mail_zipcode |ethnic_code |party_cd |gender_code |birth_state |drivers_lic |registr_dt | precinct_abbrv|precinct_desc | municipality_abbrv|municipality_desc |ward_abbrv |ward_desc |cong_dist_abbrv |super_court_abbrv |judic_dist_abbrv |nc_senate_abbrv |nc_house_abbrv |county_commiss_abbrv |county_commiss_desc |township_abbrv |township_desc |school_dist_abbrv |school_dist_desc |fire_dist_abbrv |fire_dist_desc |water_dist_abbrv |water_dist_desc |sewer_dist_abbrv |sewer_dist_desc |sanit_dist_abbrv |sanit_dist_desc |rescue_dist_abbrv |rescue_dist_desc | munic_dist_abbrv|munic_dist_desc   |dist_1_abbrv |dist_1_desc       |dist_2_abbrv |dist_2_desc |confidential_ind | birth_year|ncid    | vtd_abbrv| vtd_desc|
+|:-------------|:---------|:---------|---------:|:-----------------|---------:|:-----------|:-----------------|:---------|:-----------------------------------|:----------|:-------------|:---------|:----------|:---------------|:---------------|:------------------------|:-------------|:--------|--------:|:-----------------------|:----------|:----------|:----------|:---------|:----------|:------------|:-----------|:--------|:-----------|:-----------|:-----------|:----------|--------------:|:-------------|------------------:|:-----------------|:----------|:---------|:---------------|:-----------------|:----------------|:---------------|:--------------|:--------------------|:-------------------|:--------------|:-------------|:-----------------|:----------------|:---------------|:--------------|:----------------|:---------------|:----------------|:---------------|:----------------|:---------------|:-----------------|:----------------|----------------:|:-----------------|:------------|:-----------------|:------------|:-----------|:----------------|----------:|:-------|---------:|--------:|
+|000000004805  |I         |B         |        25|4024804211        |        89|TYRRELL     |INACTIVE          |IN        |CONFIRMATION NOT RETURNED           |           |              |ANDREWS   |KURIYA     |ELAISION ALIZAB |NA              |208 S ROAD ST            |COLUMBIA      |NC       |    27925|PO BOX 224              |NA         |NA         |NA         |COLUMBIA  |NC         |279250224    |NL          |UNA      |F           |NE          |N           |05/12/2015 |              2|COLUMBIA      |               2.02|COLUMBIA [ TOWN ] |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |01             |TW0001        |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |             2.02|COLUMBIA [ TOWN ] |02           |2ND PROSECUTORIAL |             |            |N                |       1994|EE6470  |         2|        2|
+|000000004648  |I         |B         |        35|2527977546        |        89|TYRRELL     |INACTIVE          |IN        |CONFIRMATION NOT RETURNED           |           |              |ASHE      |SHONDELL   |TREMANE         |NA              |4355  WOODLEY STATION RD |CRESWELL      |NC       |    27928|4355 WOODLEY STATION RD |NA         |NA         |NA         |CRESWELL  |NC         |27928        |UN          |DEM      |M           |NC          |Y           |05/29/2013 |             15|SCUPPERNONG   |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1985|DG37198 |        15|       15|
+|000000004647  |I         |B         |        29|2527660505        |        89|TYRRELL     |INACTIVE          |IN        |CONFIRMATION NOT RETURNED           |           |              |BASNIGHT  |CARLOS     |DAMUS           |JR              |4950 N GUM NECK RD       |COLUMBIA      |NC       |    27925|4950 N GUM NECK RD      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NL          |UNA      |M           |PA          |Y           |05/23/2013 |              3|GUMNECK       |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1991|EE6378  |         3|        3|
+|000000003684  |D         |B         |        33|2522160302        |        89|TYRRELL     |DENIED            |DU        |VERIFICATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |DONDREA    |SHONDEE         |NA              |1104  NEWLANDS RD        |COLUMBIA      |NC       |    27925|1104 NEWLANDS RD        |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NL          |DEM      |F           |NA          |Y           |04/14/2005 |             NA|NA            |                 NA|NA                |NA         |NA        |NA              |NA                |NA               |NA              |NA             |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |NA           |NA                |             |            |N                |       1987|EE5663  |        NA|       NA|
+|000000004811  |I         |B         |        25|2523945379        |        89|TYRRELL     |INACTIVE          |IU        |CONFIRMATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |ELIZA      |NICOLE          |NA              |935  NEWFOUNDLAND RD     |COLUMBIA      |NC       |    27925|935 NEWFOUNDLAND RD     |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |UN          |DEM      |F           |NC          |Y           |06/11/2015 |              1|ALLIGATOR     |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1995|EE6474  |         1|        1|
+|000000005412  |I         |B         |        22|2524842356        |        89|TYRRELL     |INACTIVE          |IU        |CONFIRMATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |KEYONIA    |LENEE           |NA              |799  GEORGIA RD          |COLUMBIA      |NC       |    27925|799 GEORGIA RD          |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |UN          |DEM      |F           |NC          |Y           |07/17/2019 |              3|GUMNECK       |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1998|EE6823  |         3|        3|
+]
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

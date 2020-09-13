@@ -1,5 +1,5 @@
 ---
-title: "Introduction to R Coding"
+title: "Introduction to Data Wrangling"
 subtitle: "Election Data Science"  
 author: 
   - "Peter Licari"
@@ -29,9 +29,8 @@ style_duo_accent(
 
 xaringanExtra::use_xaringan_extra()
 ```
+--
 
-
----
 The fact is, most of your time will be spent cleaning data and preparing data *for* analysis, rather than **doing** the analysis.
 
 --
@@ -98,30 +97,106 @@ There are three criteria for tidy data:
 
 
 ---
-```{r xaringan-panelset, echo=FALSE}
+# Tidy elections data set.
+
+```{r xaringan-panelset, echo=FALSE, message=FALSE, warning=FALSE}
 xaringanExtra::use_panelset()
 library(tidyverse)
 library(DT)
 adams <- read_delim("ADAMS.txt", delim = ",")
-
+adams <- head(adams, n = 100L)
 ```
 .panelset[
 .panel[.panel-name[Adams County]
 
 ```{r echo=FALSE}
-datatable(adams)
+datatable(adams, fillContainer = FALSE, options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE,
+  pageLength = 5
+))
 ```
 ]
 
 .panel[.panel-name[Code]
 ```{r eval=FALSE, include=TRUE}
+#Load needed packages
 library(tidyverse)
 library(DT)
+
+#Load in Adams County OH voter file (first get it from the SoS)
 adams <- read_delim("ADAMS.txt", delim = ",")
-datatable(adams)
+adams <- head(adams, n = 100L)
+
+# The html table.
+datatable(adams, fillContainer = FALSE, options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE,
+
+))
 ```
 
 ]
+]
+
+
+---
+class: center, middle
+
+**Just because your data is _tidy_ doesn't mean you're done wrangling.** 
+--
+
+
+*Data wrangling is an iterative process that you repeat as new needs emerge in your exploration and analysis.* 
+
+---
+
+# Example: Voters from "West Union"
+.panelset[
+.panel[.panel-name[Orignal Data]
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+datatable(adams, fillContainer = FALSE, options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE,
+  pageLength = 5
+))
+```
+]
+.panel[.panel-name[Transformation Code]
+
+```{r eval=FALSE, include=TRUE}
+Adams_WU <- adams %>%
+  filter(RESIDENTIAL_CITY == "WEST UNION")
+```
+
+]
+.panel[.panel-name[New Table]
+
+```{r echo=FALSE}
+Adams_WU <- adams %>%
+  filter(RESIDENTIAL_CITY == "WEST UNION")
+
+datatable(Adams_WU, fillContainer = FALSE, options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE,
+  pageLength = 5
+))
+```
 
 
 ]
+]
+
+---
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+The best way to wrangle your data is to start at the **end**. What do you want it to look like? What are the steps immediately preceding that final output? How can you get from where you are to those steps? 
+] 

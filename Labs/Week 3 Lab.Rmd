@@ -8,6 +8,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(DT)
 library(tidyverse)
 library(anesr)
+library(poliscidata)
 data(timeseries_2016)
 anes16 <- timeseries_2016
 rm(timeseries_2016)
@@ -17,13 +18,12 @@ rm(timeseries_2016)
 Welcome to week 3's lab! Today, we'll be wrangling election data. Using an RMarkdown document (your choice on how it exports: word, pdf, html, etc), give these challenges a shot!
 
 
-
 ## Data
-In order to wrangle data, you must first *have* data. We'll be talking about diferent ways to get and load-in data next week. For now, 
-copy and paste the following command into your R script / markdown document. This will load the 2016 American National Election Studies (ANES) 2016 dataset. 
+In order to wrangle data, you must first *have* data. We'll be talking about different ways to get and load-in data next week. For now, copy and paste the following command into your R script / markdown document. This will load the 2016 American National Election Studies (ANES) 2016 dataset. 
 
 ```{r eval=FALSE, include=TRUE}
 # Uncomment these next two lines when you put this on your version of RStudio:
+
 # install.packages("devtools")
 # devtools::install_github("jamesmartherus/anesr")
 
@@ -34,31 +34,66 @@ anes16 <- timeseries_2016
 rm(timeseries_2016)
 ```
 
-The ANES is an ongoing survey series and is considered one of the highest-quality survey projects investigating elections and electoral behavior. I've found that it's easier to cut one's teeth with data manipulation with survey data---but you'll be able to use these skills for other data sets, such as state voter files.
+The ANES is an ongoing survey series and is considered one of the highest-quality survey projects investigating elections and electoral behavior. The documentation for the data can be found [here.](https://electionstudies.org/wp-content/uploads/2018/12/anes_timeseries_2016_userguidecodebook.pdf) I've found that it's easier to cut one's teeth with data manipulation with survey data---but you'll be able to use these skills for other data sets, such as state voter files.
 
 
 # Exercises
 
+For the following exercises, be sure to show both your code as well as the output.
 
-## Filter it out
+## Challenge 1: Filter it out
 
-The column 
-```{r}
+The column `V161002` encodes whether or not the interviewer identified the respondent as a male (1) or female (2). The column `V161005`encodes whether the respondent did (1) or did not vote (2) in the 2012 Presidential election. Using `filter()`, create a new dataframe from `anes16` that contains only women who voted in 2012. Do the command with and without pipes.
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+q1 <- anes16 %>%
+  filter(V161002 == 2, V161005 == 1)
+
+datatable(head(q1, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
+```
+
+<center>
+*Bonus: `anes16` has 4270 observations. 52% are female; 72% voted. This should leave you with about 1,600 observations. But, in the exercise you just did, it doesn't. Why?*
+</center>
+
+
+## Challenge 2: Select Relevant Variables
+
+The ANES contains a series of measures known as "feeling thermometers." The interviewers give respondents a person, group, institution, or organization and asks them to rank how they feel about the subject from 0 ("very cold") to 100 ("very warmly"). You decided that you want to use these values to make a data visualization based off of the 11 feeling thermometers asked before the election. These start at `V16086` and end at `V16096`. Using `select()` create a new dataframe containing only these 11 variables. Do so with and without pipes.
+
+```{r, echo=FALSE}
+q2 <- anes16 %>% 
+  select(129:139)
+
+datatable(head(q2, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
 
 ```
 
+<center>
+*Bonus: Do people who "always" pay attention to politics give different kinds of scores than those who only pay attention "some of the time?" (Hint: `V161003` encodes political interest.)*
+</center>
 
-## Question X: Across the States
+## Challenge 3: Groups across the states
 
 The column `V161010e` has the postal code for each respondent's state of residence. Produce a table that shows how many observations have come from each state.
 
-```{r}
-ch1 <- anes16 %>%
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+q3 <- anes16 %>%
   group_by(V161010e) %>%
   summarise(total = n())
 
-datatable(ch1, rownames = FALSE)
-  
+datatable(head(q3, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
 ```
 
 <center>
@@ -66,25 +101,90 @@ datatable(ch1, rownames = FALSE)
 </center>
 
 
-## Missing
+## Challenge 4: Polarization all the way down.
+
+The variable `V161158x` encodes respondents' party affiliation and the strength of their attachment. Values of 1--3 means the respondents ID as Democrats, 4 means they are true Independents (a rare group), and 5--7 means they ID as Republicans. Using `mutate()` and `group_by()`, I want you to revisit the feeling thermometer ratings from before. Create a variable that looks at the difference in the mean scores given by Republicans and Democrats. Which entity is the most polarizing? The least polarizing?
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+q4 <- anes16 %>%
+  mutate(PID = case_when(
+   V161158x < 4 ~ "Democrat",
+   V161158x > 4 ~ "Republican",
+   V161158x == 4 ~ "Independent",
+  )) %>%
+  group_by(PID) %>%
+  select(129:139) %>%
+  summarise_all(mean) %>%
+  pivot_longer(!PID, names_to = "thermometer", values_to = "mean") %>%
+  pivot_wider(names_from = "PID", values_from = "mean") %>%
+  mutate(DR_Diff = Democrat - Republican)
+
+datatable(head(q4, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
+  
+```
+
+<center>
+*Bonus: Use `rename()` to make the dataframe more intelligible*
+</center>
+
+## Challenge 5: Coding to Missing
 
 In the ANES, all negative values represent some form of missing data. Sometimes because they didn't need to be asked the question, sometimes it's because they don't know or can't remember. In some analyses, it's appropriate to code these as factor variables. In others, it's appropriate to code them all as empty (or `NA`). Construct a custom function that will take an input and code it as `NA` if the value is negative. Then, use `mutate( across() )` so that all of the variables in the dataset have been adjusted. 
 
-```{r}
+```{r, echo=FALSE }
 neg_val <- function(x){
   ifelse(x < 0, NA, x)
 }
 
-dplyr::across
-
-ch3 <- anes16 %>%
+q5 <- anes16 %>%
   mutate( across(.cols = everything(), neg_val) )
-View(ch3)
+
+
+datatable(head(q5, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
+
+```
+
+<center>
+*Bonus: Remove all respondents with NAs in the dataset. Why might this be a good idea for later analyses? Why might it be a bad idea?*
+</center>
+
+
+## Challenge 6: Merging Datasets
+
+### Additional data
+
+In order to complete this challenge, run the following code in your R session / markdown document.
+
+```{r include=TRUE, eval=FALSE}
+install.packages("poliscidata")
+states <- poliscidata::states
+```
+
+### Task
+
+One common theory in political science is that people's policy preferences form in response to local conditions. Let's say that you were interested in analyzing the correlation between a state's gun homicide rate and whether people believe the federal government should make it more difficult to buy a gun. In the `anes16` dataframe, `V161187` encodes respondents answers to whether or not the federal government "should make it more difficult to buy a gun." In the `states` dataframe you created above, there is a variable called `gun_murder10` that looks at the homicide rate. Create a new dataframe by merging the `anes16` and `states` data together using the state postal IDs as the merge key. (This is named `stateid`  in the `states` dataframe and is a factor variable. You might want to transform this into the same variable type as it is in the `anes16` dataframe. You might also want to trim any whitespace that results from this transformation.)
+
+```{r echo=FALSE}
+states <- poliscidata::states
+states$stateid <- trimws(as.character(states$stateid),which = "right")
+q6 <- merge(x = anes16, y = states, by.x = "V161010e", by.y = "stateid")
+
+datatable(head(q6, n=50L), options = list(
+  scrollX = TRUE,
+  scrollY = '200px',
+  paging = FALSE,
+  autoWidth = TRUE))
 ```
 
 
-
-
-
-
-
+<center>
+*Bonus: Actually find the correlation between the number of murders. Briefly, in a sentence or two, interpret this finding.*
+</center>
