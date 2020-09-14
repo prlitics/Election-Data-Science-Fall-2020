@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Introduction to Data Wrangling</title>
+    <title>Common Manipulations Tutorial</title>
     <meta charset="utf-8" />
     <meta name="author" content="Peter Licari" />
-    <meta name="date" content="2020-09-13" />
+    <meta name="date" content="2020-09-14" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
@@ -22,10 +22,10 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Introduction to Data Wrangling
+# Common Manipulations Tutorial
 ## Election Data Science
 ### Peter Licari
-### 2020-09-13
+### 2020-09-14
 
 ---
 
@@ -45,9 +45,9 @@ It's good to learn about a bunch of wrangling techniques and practices---and you
 * `mutate` &amp; `case_when`
 * `group_by` &amp; `summarise`
 * `select`
-* `join`
-* `across`
 * `pivot`
+* `across`
+* `join`
 
 ---
 
@@ -99,7 +99,7 @@ Bonus! `%&gt;%` doesn't just work with `tidyverse` functions. As long as your cu
 
 ```r
 #Set your working directory
-setwd("your/directory/here")
+#setwd("your/directory/here")
 
 # Voter registration records Tyrell County NC
 url1 &lt;- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
@@ -151,6 +151,230 @@ TY_Records_Filt &lt;- TY_Records %&gt;%
 |000000003684  |D         |B         |        33|2522160302        |        89|TYRRELL     |DENIED            |DU        |VERIFICATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |DONDREA    |SHONDEE         |NA              |1104  NEWLANDS RD        |COLUMBIA      |NC       |    27925|1104 NEWLANDS RD        |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NL          |DEM      |F           |NA          |Y           |04/14/2005 |             NA|NA            |                 NA|NA                |NA         |NA        |NA              |NA                |NA               |NA              |NA             |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |NA           |NA                |             |            |N                |       1987|EE5663  |        NA|       NA|
 |000000004811  |I         |B         |        25|2523945379        |        89|TYRRELL     |INACTIVE          |IU        |CONFIRMATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |ELIZA      |NICOLE          |NA              |935  NEWFOUNDLAND RD     |COLUMBIA      |NC       |    27925|935 NEWFOUNDLAND RD     |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |UN          |DEM      |F           |NC          |Y           |06/11/2015 |              1|ALLIGATOR     |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1995|EE6474  |         1|        1|
 |000000005412  |I         |B         |        22|2524842356        |        89|TYRRELL     |INACTIVE          |IU        |CONFIRMATION RETURNED UNDELIVERABLE |           |              |BASNIGHT  |KEYONIA    |LENEE           |NA              |799  GEORGIA RD          |COLUMBIA      |NC       |    27925|799 GEORGIA RD          |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |UN          |DEM      |F           |NC          |Y           |07/17/2019 |              3|GUMNECK       |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA                |02           |2ND PROSECUTORIAL |             |            |N                |       1998|EE6823  |         3|        3|
+]
+]
+
+---
+
+# Mutate
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+TY_Records_Mut &lt;- TY_Records %&gt;%
+  mutate(registr_dt = as.Date(registr_dt, format = "%m/%d/%Y"),
+         registr_dur = Sys.Date() - registr_dt,
+         yrs_since_el = birth_age - 18,
+         hello = "world")
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="mutate.png" width="689" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|voter_reg_num |registr_dt |registr_dur | yrs_since_el|hello | county_id|county_desc |status_cd |voter_status_desc |reason_cd |voter_status_reason_desc |absent_ind |name_prefx_cd |last_name    |first_name |middle_name |name_suffix_lbl |res_street_address    |res_city_desc |state_cd | zip_code|mail_addr1         |mail_addr2 |mail_addr3 |mail_addr4 |mail_city |mail_state |mail_zipcode |full_phone_number |race_code |ethnic_code |party_cd |gender_code | birth_age|birth_state |drivers_lic | precinct_abbrv|precinct_desc | municipality_abbrv|municipality_desc |ward_abbrv |ward_desc |cong_dist_abbrv |super_court_abbrv |judic_dist_abbrv |nc_senate_abbrv |nc_house_abbrv |county_commiss_abbrv |county_commiss_desc |township_abbrv |township_desc |school_dist_abbrv |school_dist_desc |fire_dist_abbrv |fire_dist_desc |water_dist_abbrv |water_dist_desc |sewer_dist_abbrv |sewer_dist_desc |sanit_dist_abbrv |sanit_dist_desc |rescue_dist_abbrv |rescue_dist_desc | munic_dist_abbrv|munic_dist_desc |dist_1_abbrv |dist_1_desc       |dist_2_abbrv |dist_2_desc |confidential_ind | birth_year|ncid    | vtd_abbrv| vtd_desc|
+|:-------------|:----------|:-----------|------------:|:-----|---------:|:-----------|:---------|:-----------------|:---------|:------------------------|:----------|:-------------|:------------|:----------|:-----------|:---------------|:---------------------|:-------------|:--------|--------:|:------------------|:----------|:----------|:----------|:---------|:----------|:------------|:-----------------|:---------|:-----------|:--------|:-----------|---------:|:-----------|:-----------|--------------:|:-------------|------------------:|:-----------------|:----------|:---------|:---------------|:-----------------|:----------------|:---------------|:--------------|:--------------------|:-------------------|:--------------|:-------------|:-----------------|:----------------|:---------------|:--------------|:----------------|:---------------|:----------------|:---------------|:----------------|:---------------|:-----------------|:----------------|----------------:|:---------------|:------------|:-----------------|:------------|:-----------|:----------------|----------:|:-------|---------:|--------:|
+|000000002941  |2002-03-20 |6753 days   |           30|world |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABBOTT       |DOUGLAS    |RAY         |NA              |27  SKEETER LN        |COLUMBIA      |NC       |    27925|27 SKEETER LN      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2523944154        |W         |NL          |UNA      |M           |        48|NC          |Y           |             15|SCUPPERNONG   |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1972|EE4964  |        15|       15|
+|000000002289  |1996-04-30 |8903 days   |           30|world |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABBOTT       |LARA       |LEE         |NA              |27  SKEETER LN        |COLUMBIA      |NC       |    27925|27 SKEETER LN      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2523945431        |W         |NL          |UNA      |F           |        48|NA          |Y           |             15|SCUPPERNONG   |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1972|EE4315  |        15|       15|
+|000000005002  |2016-08-22 |1484 days   |            5|world |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABDUL-WAHHAB |ISAIAH     |YASHAR      |NA              |1  WOODGATE APT    #B |COLUMBIA      |NC       |    27925|PO BOX 714         |NA         |NA         |NA         |COLUMBIA  |NC         |279250714    |2527977396        |B         |NL          |UNA      |M           |        23|NY          |Y           |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1997|EE6577  |         2|        2|
+|000000000705  |1975-05-29 |16545 days  |           59|world |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABEL         |JUDY       |RHODES      |NA              |47  SUNSET DR         |COLUMBIA      |NC       |    27925|47 SUNSET DR       |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NA                |W         |NL          |UNA      |F           |        77|NC          |Y           |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1943|EE2736  |         2|        2|
+|000000005548  |2020-09-09 |5 days      |           10|world |        89|TYRRELL     |A         |ACTIVE            |AN        |UNVERIFIED NEW           |           |              |ACREMAN      |CHELSEA    |DANIELLE    |NA              |201  MAGNOLIA RD      |CRESWELL      |NC       |    27928|201 MAGNOLIA RD    |NA         |NA         |NA         |CRESWELL  |NC         |27928        |NA                |U         |UN          |UNA      |U           |        28|NA          |Y           |             16|SOUTH FORK    |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1991|BG42384 |        16|       16|
+|000000005330  |2018-11-13 |671 days    |           28|world |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ADMONIS      |DANNY      |LEE         |NA              |2493  OLD US HWY 64   |COLUMBIA      |NC       |    27925|2493 OLD US HWY 64 |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |6182033936        |W         |UN          |UNA      |M           |        46|IL          |Y           |              1|ALLIGATOR     |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1974|EE6774  |         1|        1|
+]
+]
+
+---
+
+# Mutate &amp; Case_When
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+TY_Records_MutCase &lt;- TY_Records %&gt;%
+   mutate(generation = case_when(
+   birth_age &lt;= 24 ~ "Gen Z",
+   birth_age &gt; 24 &amp; birth_age &lt;= 40 ~ "Millennial",
+   birth_age &gt; 40 &amp; birth_age &lt;= 55 ~ "Gen X",
+   birth_age &gt; 55 &amp; birth_age &lt;= 74 ~ "Boomer",
+   birth_age &gt; 74 &amp; birth_age &lt;= 92 ~ "Silent",
+   TRUE ~ "Greatest"
+  ))
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="casewhen.png" width="533" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|voter_reg_num | birth_age|generation | county_id|county_desc |status_cd |voter_status_desc |reason_cd |voter_status_reason_desc |absent_ind |name_prefx_cd |last_name    |first_name |middle_name |name_suffix_lbl |res_street_address    |res_city_desc |state_cd | zip_code|mail_addr1         |mail_addr2 |mail_addr3 |mail_addr4 |mail_city |mail_state |mail_zipcode |full_phone_number |race_code |ethnic_code |party_cd |gender_code |birth_state |drivers_lic |registr_dt | precinct_abbrv|precinct_desc | municipality_abbrv|municipality_desc |ward_abbrv |ward_desc |cong_dist_abbrv |super_court_abbrv |judic_dist_abbrv |nc_senate_abbrv |nc_house_abbrv |county_commiss_abbrv |county_commiss_desc |township_abbrv |township_desc |school_dist_abbrv |school_dist_desc |fire_dist_abbrv |fire_dist_desc |water_dist_abbrv |water_dist_desc |sewer_dist_abbrv |sewer_dist_desc |sanit_dist_abbrv |sanit_dist_desc |rescue_dist_abbrv |rescue_dist_desc | munic_dist_abbrv|munic_dist_desc |dist_1_abbrv |dist_1_desc       |dist_2_abbrv |dist_2_desc |confidential_ind | birth_year|ncid    | vtd_abbrv| vtd_desc|
+|:-------------|---------:|:----------|---------:|:-----------|:---------|:-----------------|:---------|:------------------------|:----------|:-------------|:------------|:----------|:-----------|:---------------|:---------------------|:-------------|:--------|--------:|:------------------|:----------|:----------|:----------|:---------|:----------|:------------|:-----------------|:---------|:-----------|:--------|:-----------|:-----------|:-----------|:----------|--------------:|:-------------|------------------:|:-----------------|:----------|:---------|:---------------|:-----------------|:----------------|:---------------|:--------------|:--------------------|:-------------------|:--------------|:-------------|:-----------------|:----------------|:---------------|:--------------|:----------------|:---------------|:----------------|:---------------|:----------------|:---------------|:-----------------|:----------------|----------------:|:---------------|:------------|:-----------------|:------------|:-----------|:----------------|----------:|:-------|---------:|--------:|
+|000000002941  |        48|Gen X      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABBOTT       |DOUGLAS    |RAY         |NA              |27  SKEETER LN        |COLUMBIA      |NC       |    27925|27 SKEETER LN      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2523944154        |W         |NL          |UNA      |M           |NC          |Y           |03/20/2002 |             15|SCUPPERNONG   |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1972|EE4964  |        15|       15|
+|000000002289  |        48|Gen X      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABBOTT       |LARA       |LEE         |NA              |27  SKEETER LN        |COLUMBIA      |NC       |    27925|27 SKEETER LN      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2523945431        |W         |NL          |UNA      |F           |NA          |Y           |04/30/1996 |             15|SCUPPERNONG   |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1972|EE4315  |        15|       15|
+|000000005002  |        23|Gen Z      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABDUL-WAHHAB |ISAIAH     |YASHAR      |NA              |1  WOODGATE APT    #B |COLUMBIA      |NC       |    27925|PO BOX 714         |NA         |NA         |NA         |COLUMBIA  |NC         |279250714    |2527977396        |B         |NL          |UNA      |M           |NY          |Y           |08/22/2016 |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1997|EE6577  |         2|        2|
+|000000000705  |        77|Silent     |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ABEL         |JUDY       |RHODES      |NA              |47  SUNSET DR         |COLUMBIA      |NC       |    27925|47 SUNSET DR       |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NA                |W         |NL          |UNA      |F           |NC          |Y           |05/29/1975 |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1943|EE2736  |         2|        2|
+|000000005548  |        28|Millennial |        89|TYRRELL     |A         |ACTIVE            |AN        |UNVERIFIED NEW           |           |              |ACREMAN      |CHELSEA    |DANIELLE    |NA              |201  MAGNOLIA RD      |CRESWELL      |NC       |    27928|201 MAGNOLIA RD    |NA         |NA         |NA         |CRESWELL  |NC         |27928        |NA                |U         |UN          |UNA      |U           |NA          |Y           |09/09/2020 |             16|SOUTH FORK    |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1991|BG42384 |        16|       16|
+|000000005330  |        46|Gen X      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |ADMONIS      |DANNY      |LEE         |NA              |2493  OLD US HWY 64   |COLUMBIA      |NC       |    27925|2493 OLD US HWY 64 |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |6182033936        |W         |UN          |UNA      |M           |IL          |Y           |11/13/2018 |              1|ALLIGATOR     |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1974|EE6774  |         1|        1|
+|000000005128  |        51|Gen X      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |AGUINAGA     |MARTIN     |NA          |NA              |405  ROAD STREET EXT  |COLUMBIA      |NC       |    27925|PO BOX 149         |NA         |NA         |NA         |COLUMBIA  |NC         |279250149    |2527960264        |U         |HL          |REP      |M           |NA          |Y           |12/08/2016 |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1969|EE6648  |         2|        2|
+|000000004794  |        23|Gen Z      |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |AINSLEY      |AUSTIN     |BRYAN       |NA              |1080  JONES RD        |COLUMBIA      |NC       |    27925|1080 JONES RD      |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2523944197        |W         |NL          |UNA      |M           |NC          |Y           |03/11/2015 |              3|GUMNECK       |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1997|EE6465  |         3|        3|
+|000000000704  |        59|Boomer     |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |AINSLEY      |BRYAN      |DEAN        |NA              |2557  NEWLANDS RD     |COLUMBIA      |NC       |    27925|2557 NEWLANDS RD   |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |2527961465        |W         |NL          |REP      |M           |NA          |N           |09/23/1992 |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1960|EE2735  |         2|        2|
+|000000000701  |        80|Silent     |        89|TYRRELL     |A         |ACTIVE            |AV        |VERIFIED                 |           |              |AINSLEY      |JULIUS     |THOMAS      |NA              |10155  NEWLANDS RD    |COLUMBIA      |NC       |    27925|10155 NEWLANDS RD  |NA         |NA         |NA         |COLUMBIA  |NC         |27925        |NA                |W         |NL          |UNA      |M           |NA          |N           |01/30/1971 |              2|COLUMBIA      |                 NA|NA                |NA         |NA        |03              |02                |02               |01              |001            |NA                   |NA                  |NA             |NA            |NA                |NA               |NA              |NA             |NA               |NA              |NA               |NA              |NA               |NA              |NA                |NA               |               NA|NA              |02           |2ND PROSECUTORIAL |             |            |N                |       1940|EE2732  |         2|        2|
+]
+]
+
+---
+
+# group_by &amp; summarise
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+ TY_Records_Group &lt;- TY_Records_MutCase %&gt;%
+  group_by(generation, party_cd) %&gt;%
+    summarise(Number = n())
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="groupby.png" width="50%" style="display: block; margin: auto;" /&gt;&lt;img src="summarise.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|generation |party_cd | Number|
+|:----------|:--------|------:|
+|Boomer     |REP      |      1|
+|Gen X      |REP      |      1|
+|Gen X      |UNA      |      3|
+|Gen Z      |UNA      |      2|
+|Millennial |UNA      |      1|
+|Silent     |UNA      |      2|
+]
+]
+---
+
+# Select
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+ TY_Records_Select &lt;- TY_Records%&gt;%
+  select(voter_reg_num, party_cd, gender_code, race_code)
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="select.png" width="597" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+```r
+knitr::kable(head(TY_Records_Select, n=10L))
+```
+
+
+
+|voter_reg_num |party_cd |gender_code |race_code |
+|:-------------|:--------|:-----------|:---------|
+|000000002941  |UNA      |M           |W         |
+|000000002289  |UNA      |F           |W         |
+|000000005002  |UNA      |M           |B         |
+|000000000705  |UNA      |F           |W         |
+|000000005548  |UNA      |U           |U         |
+|000000005330  |UNA      |M           |W         |
+|000000005128  |REP      |M           |U         |
+|000000004794  |UNA      |M           |W         |
+|000000000704  |REP      |M           |W         |
+|000000000701  |UNA      |M           |W         |
+]
+]
+
+---
+
+# Pivot
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+ TY_History_Pivot &lt;- TY_History %&gt;%
+  mutate(n = 1) %&gt;%
+  pivot_wider(names_from = election_desc, id_cols = voter_reg_num, values_from = n, 
+              values_fill = 0)
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="pivot.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|voter_reg_num | 11/08/2016 GENERAL| 11/06/2012 GENERAL| 05/08/2012 PRIMARY| 11/08/2011 MUNICIPAL GENERAL| 11/04/2014 GENERAL| 05/06/2014 PRIMARY| 11/02/2010 GENERAL| 11/05/2013 MUNICIPAL GENERAL| 03/03/2020 PRIMARY| 11/06/2018 GENERAL| 03/15/2016 PRIMARY| 05/08/2018 PRIMARY| 09/10/2019 GENERAL| 04/30/2019 PRIMARY| 07/09/2019 SECOND PRIMARY| 06/07/2016 CONGRESSIONAL PRIMARY| 07/17/2012 SECOND PRIMARY| 11/05/2013 MUNICIPAL| 11/07/2017 MUNICIPAL GENERAL| 11/03/2015 MUNICIPAL GENERAL| 11/07/2017 MUNICIPAL| 11/05/2019 MUNICIPAL GENERAL| 11/05/2013TOWN ROB/LS/TFD| 11/03/2015 MUNICIPAL LS/ TFD| 11/07/2017 MUNICIPAL TOWN OF ROB/LS/FONTANA| 05/24/2011 SPECIAL ELECTION| 11/05/2013 MUNICIPAL ELECTION| 11/03/2015 MUNICIPAL ELECTION| 07/15/2014 SECOND PRIMARY| 11/08/2011 MUNICIPAL| 11/03/2015 MUNICIPAL| 10/08/2013 MUNICIPAL| 10/08/2013 RALEIGH CARY SCHOOL| 10/11/2011 RALEIGH CARY SCHOOL|
+|:-------------|------------------:|------------------:|------------------:|----------------------------:|------------------:|------------------:|------------------:|----------------------------:|------------------:|------------------:|------------------:|------------------:|------------------:|------------------:|-------------------------:|--------------------------------:|-------------------------:|--------------------:|----------------------------:|----------------------------:|--------------------:|----------------------------:|-------------------------:|----------------------------:|-------------------------------------------:|---------------------------:|-----------------------------:|-----------------------------:|-------------------------:|--------------------:|--------------------:|--------------------:|------------------------------:|------------------------------:|
+|000000005289  |                  1|                  1|                  1|                            1|                  1|                  1|                  1|                            1|                  1|                  1|                  0|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000005078  |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  0|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004970  |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  1|                  0|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000003538  |                  1|                  1|                  0|                            0|                  1|                  0|                  1|                            0|                  0|                  1|                  1|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004778  |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  1|                  0|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004574  |                  1|                  1|                  1|                            0|                  1|                  1|                  1|                            0|                  1|                  1|                  1|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004573  |                  1|                  1|                  1|                            0|                  1|                  0|                  1|                            0|                  1|                  1|                  0|                  0|                  1|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000003813  |                  1|                  1|                  0|                            0|                  0|                  0|                  1|                            0|                  0|                  1|                  0|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004923  |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  1|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000004935  |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  0|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+]
+]
+
+---
+# join
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+TY_Reg_Hist &lt;-  
+    TY_Records_Select %&gt;% full_join(TY_History_Pivot, by = "voter_reg_num")
+```
+]
+.panel[.panel-name[How it Works]
+
+&lt;img src="join.png" width="775" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Output]
+
+
+|voter_reg_num |party_cd |gender_code |race_code | 11/08/2016 GENERAL| 11/06/2012 GENERAL| 05/08/2012 PRIMARY| 11/08/2011 MUNICIPAL GENERAL| 11/04/2014 GENERAL| 05/06/2014 PRIMARY| 11/02/2010 GENERAL| 11/05/2013 MUNICIPAL GENERAL| 03/03/2020 PRIMARY| 11/06/2018 GENERAL| 03/15/2016 PRIMARY| 05/08/2018 PRIMARY| 09/10/2019 GENERAL| 04/30/2019 PRIMARY| 07/09/2019 SECOND PRIMARY| 06/07/2016 CONGRESSIONAL PRIMARY| 07/17/2012 SECOND PRIMARY| 11/05/2013 MUNICIPAL| 11/07/2017 MUNICIPAL GENERAL| 11/03/2015 MUNICIPAL GENERAL| 11/07/2017 MUNICIPAL| 11/05/2019 MUNICIPAL GENERAL| 11/05/2013TOWN ROB/LS/TFD| 11/03/2015 MUNICIPAL LS/ TFD| 11/07/2017 MUNICIPAL TOWN OF ROB/LS/FONTANA| 05/24/2011 SPECIAL ELECTION| 11/05/2013 MUNICIPAL ELECTION| 11/03/2015 MUNICIPAL ELECTION| 07/15/2014 SECOND PRIMARY| 11/08/2011 MUNICIPAL| 11/03/2015 MUNICIPAL| 10/08/2013 MUNICIPAL| 10/08/2013 RALEIGH CARY SCHOOL| 10/11/2011 RALEIGH CARY SCHOOL|
+|:-------------|:--------|:-----------|:---------|------------------:|------------------:|------------------:|----------------------------:|------------------:|------------------:|------------------:|----------------------------:|------------------:|------------------:|------------------:|------------------:|------------------:|------------------:|-------------------------:|--------------------------------:|-------------------------:|--------------------:|----------------------------:|----------------------------:|--------------------:|----------------------------:|-------------------------:|----------------------------:|-------------------------------------------:|---------------------------:|-----------------------------:|-----------------------------:|-------------------------:|--------------------:|--------------------:|--------------------:|------------------------------:|------------------------------:|
+|000000002941  |UNA      |M           |W         |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  1|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000002289  |UNA      |F           |W         |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  1|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000005002  |UNA      |M           |B         |                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                 NA|                 NA|                 NA|                        NA|                               NA|                        NA|                   NA|                           NA|                           NA|                   NA|                           NA|                        NA|                           NA|                                          NA|                          NA|                            NA|                            NA|                        NA|                   NA|                   NA|                   NA|                             NA|                             NA|
+|000000000705  |UNA      |F           |W         |                  1|                  1|                  1|                            0|                  1|                  0|                  1|                            0|                  1|                  1|                  1|                  1|                  0|                  1|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000005548  |UNA      |U           |U         |                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                 NA|                 NA|                 NA|                        NA|                               NA|                        NA|                   NA|                           NA|                           NA|                   NA|                           NA|                        NA|                           NA|                                          NA|                          NA|                            NA|                            NA|                        NA|                   NA|                   NA|                   NA|                             NA|                             NA|
+|000000005330  |UNA      |M           |W         |                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                 NA|                 NA|                 NA|                        NA|                               NA|                        NA|                   NA|                           NA|                           NA|                   NA|                           NA|                        NA|                           NA|                                          NA|                          NA|                            NA|                            NA|                        NA|                   NA|                   NA|                   NA|                             NA|                             NA|
+|000000005128  |REP      |M           |U         |                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                           NA|                 NA|                 NA|                 NA|                 NA|                 NA|                 NA|                        NA|                               NA|                        NA|                   NA|                           NA|                           NA|                   NA|                           NA|                        NA|                           NA|                                          NA|                          NA|                            NA|                            NA|                        NA|                   NA|                   NA|                   NA|                             NA|                             NA|
+|000000004794  |UNA      |M           |W         |                  1|                  0|                  0|                            0|                  0|                  0|                  0|                            0|                  0|                  0|                  0|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000000704  |REP      |M           |W         |                  1|                  1|                  0|                            0|                  0|                  0|                  0|                            0|                  1|                  1|                  0|                  0|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
+|000000000701  |UNA      |M           |W         |                  1|                  1|                  1|                            0|                  1|                  1|                  1|                            0|                  0|                  1|                  1|                  1|                  0|                  0|                         0|                                0|                         0|                    0|                            0|                            0|                    0|                            0|                         0|                            0|                                           0|                           0|                             0|                             0|                         0|                    0|                    0|                    0|                              0|                              0|
 ]
 ]
     </textarea>

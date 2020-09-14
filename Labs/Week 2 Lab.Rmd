@@ -151,7 +151,8 @@ Add a picture to your rmarkdown document.
 
 ## Challenge 6: Make your Github site. 
 
-Last week, you installed GitHub and reserved space for your blog. Right now, though, if you went to the site, you'll probably just get a lonely little "hello world" among a barren sea of white internet space. Today, we're going to make that space into an actual, functional blog that you'll use for your assignments. (And, hopefully, to write about all the cool election science stuff you'll be doing once you're done with this class.) 
+Last week, you installed GitHub and reserved space for your blog. Right now, though, if you went to the site, you'll probably just get a lonely little "hello world" among a barren sea of white internet space. Today, we're going to make that space into an actual, functional blog that you'll use for your assignments. (And, h
+opefully, to write about all the cool election science stuff you'll be doing once you're done with this class.) 
 
 *If you're having difficulty getting the blog set-up before next class, be sure to come to office hours ASAP or email me for an appointment.*
 

@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Data Wrangling"
+title: "Common Manipulations Tutorial"
 subtitle: "Election Data Science"  
 author: 
   - "Peter Licari"
@@ -43,9 +43,9 @@ It's good to learn about a bunch of wrangling techniques and practices---and you
 * `mutate` & `case_when`
 * `group_by` & `summarise`
 * `select`
-* `join`
-* `across`
 * `pivot`
+* `across`
+* `join`
 
 ---
 
@@ -95,7 +95,7 @@ Bonus! `%>%` doesn't just work with `tidyverse` functions. As long as your custo
 
 ```{r, eval=FALSE}
 #Set your working directory
-setwd("your/directory/here")
+#setwd("your/directory/here")
 
 # Voter registration records Tyrell County NC
 url1 <- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
@@ -150,6 +150,199 @@ TY_Records_Filt <- head(TY_Records_Filt) %>%
   relocate(voter_reg_num, status_cd, race_code, birth_age, full_phone_number)
 
 knitr::kable(TY_Records_Filt)
+
+```
+]
+]
+
+---
+
+# Mutate
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r}
+TY_Records_Mut <- TY_Records %>%
+  mutate(registr_dt = as.Date(registr_dt, format = "%m/%d/%Y"),
+         registr_dur = Sys.Date() - registr_dt,
+         yrs_since_el = birth_age - 18,
+         hello = "world")
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE}
+knitr::include_graphics('mutate.png')
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r echo=FALSE}
+TY_Records_Mut <- head(TY_Records_Mut) %>%
+  relocate(voter_reg_num, registr_dt, registr_dur, yrs_since_el, hello)
+
+knitr::kable(TY_Records_Mut)
+
+```
+]
+]
+
+---
+
+# Mutate & Case_When
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r}
+TY_Records_MutCase <- TY_Records %>%
+   mutate(generation = case_when(
+   birth_age <= 24 ~ "Gen Z",
+   birth_age > 24 & birth_age <= 40 ~ "Millennial",
+   birth_age > 40 & birth_age <= 55 ~ "Gen X",
+   birth_age > 55 & birth_age <= 74 ~ "Boomer",
+   birth_age > 74 & birth_age <= 92 ~ "Silent",
+   TRUE ~ "Greatest"
+  ))
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE}
+knitr::include_graphics('casewhen.png')
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r echo=FALSE}
+TY_Records_MutCase <- head(TY_Records_MutCase, n=10L) %>%
+  relocate(voter_reg_num, birth_age, generation)
+
+knitr::kable(TY_Records_MutCase)
+
+```
+]
+]
+
+---
+
+# group_by & summarise
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r message=FALSE, warning=FALSE}
+ TY_Records_Group <- TY_Records_MutCase %>%
+  group_by(generation, party_cd) %>%
+    summarise(Number = n())
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE, out.width="50%"}
+knitr::include_graphics('groupby.png')
+knitr::include_graphics('summarise.png')
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r echo=FALSE}
+
+knitr::kable(head(TY_Records_Group, n=10L))
+
+```
+]
+]
+---
+
+# Select
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r message=FALSE, warning=FALSE}
+ TY_Records_Select <- TY_Records%>%
+  select(voter_reg_num, party_cd, gender_code, race_code)
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE}
+knitr::include_graphics('select.png')
+```
+
+]
+.panel[.panel-name[Output]
+```{r}
+knitr::kable(head(TY_Records_Select, n=10L))
+
+```
+]
+]
+
+---
+
+# Pivot
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r message=FALSE, warning=FALSE}
+ TY_History_Pivot <- TY_History %>%
+  mutate(n = 1) %>%
+  pivot_wider(names_from = election_desc, id_cols = voter_reg_num, values_from = n, 
+              values_fill = 0)
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE, out.width="50%"}
+knitr::include_graphics('pivot.png')
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r echo=FALSE}
+
+knitr::kable(head(TY_History_Pivot, n=10L))
+
+```
+]
+]
+
+---
+# join
+
+.panelset[
+.panel[.panel-name[The Code]
+
+```{r message=FALSE, warning=FALSE}
+TY_Reg_Hist <-  
+    TY_Records_Select %>% full_join(TY_History_Pivot, by = "voter_reg_num")
+
+```
+]
+.panel[.panel-name[How it Works]
+
+```{r, fig.align = "center",  echo=FALSE}
+knitr::include_graphics('join.png')
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r echo=FALSE}
+knitr::kable(head(TY_Reg_Hist, n= 10L))
 
 ```
 ]
