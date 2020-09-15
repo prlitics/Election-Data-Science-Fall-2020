@@ -1,0 +1,45 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Hi I'm writing words.
+
+```{r eval=FALSE, warning=FALSE, include=TRUE}
+# install.packages("tidyverse")
+library (tidyverse)
+setwd("C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Labs/")
+my_fav_bands <- c("Disturbed", "Slipknot", "A Day to Remember")
+my_fav_bands
+
+even_odd <- function(x){
+  if((as.integer(x) %% 2) == 0){
+    print("Even")
+  } else{
+    print("Odd")
+  }
+}
+
+even_odd(12)
+even_odd(11)
+```
+
+**Something bold**
+*Something italic*
+**_bold italic_**
+I like those bands---but I like others.
+1--10
+~~3 strikes and you're out but it's ok because only cardboard cutouts are watching~~
+[google](www.google.com)
+
+
+```{r}
+knitr::kable(head(mtcars))
+```
+
+
+

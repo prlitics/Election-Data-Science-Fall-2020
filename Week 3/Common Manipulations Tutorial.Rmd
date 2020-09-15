@@ -95,7 +95,8 @@ Bonus! `%>%` doesn't just work with `tidyverse` functions. As long as your custo
 
 ```{r, eval=FALSE}
 #Set your working directory
-#setwd("your/directory/here")
+
+setwd("your/directory/here")
 
 # Voter registration records Tyrell County NC
 url1 <- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
