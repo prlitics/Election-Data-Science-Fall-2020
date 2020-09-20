@@ -1,0 +1,88 @@
+---
+title: "Blogdown Tutorial"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("C:/Users/prlic/Documents/GitHub/Election-Data-Science-Fall-2020/Labs/Blog Tutorial")
+```
+
+In this tutorial, I'm going to walk you through how to use GitHub to host a static Hugo blog using RStudio the R package `{blogdown}`.
+
+### This tutorial assumes that you have set-up a GitHub account and a personal webpage (e.g., USERNAME.github.io). It also assumes that you have downloaded GitHub desktop and have linked your site's repository there. If you haven't done these steps, be sure to do so prior to beginning this tutorial.
+
+Here are the steps for the tutorial:
+
+1. Installing the `{blogdown}` package.
+2. Preparing a local home for your blog.
+3. Select and install blog template.
+4. Customize and configure your blog.
+
+## 1. Installing the `{blogdown}` package.
+Open up a new R script in RStudio. Install the blogdown package from CRAN. (If you want to install it from GitHub, you can do so *via* the `{devtools}` or `{remotes}` packages.)
+
+```{r install, eval = FALSE}
+#Install from CRAN
+install.packages("blogdown")
+
+#Install from GitHub via devtools
+devtools::install_github("rstudio/blogdown")
+
+#Install from GitHub via remotes
+remotes::install_github("rstudio/blogdown")
+
+```
+
+
+## 2. Prepare a local home for your blog.
+Your blog will ultimately be on the web for everyone to see! But some people, me included, like to base what appears online off of a version stored locally on their computer.
+
+Using File Explorer (or Finder, if you're on a Mac), set up a new, empty folder to store your blog. For this tutorial, I've done so in a file on my `D` drive called "`Blog Tutorial`". But you can save yours anywhere! In your documents, on your desktop, on dropbox---whatever you want! (For what it's worth, I save my actual blog on Dropbox so I can work on it across devices.)
+
+Go back to RStudio after setting up the directory. Then set your working directory to the path of the folder you just set up. (If you're on a Mac and don't know how to look up the file path of a folder, I'd suggest [reading this tutorial.](https://www.switchingtomac.com/tutorials/osx/5-ways-to-reveal-the-path-of-a-file-on-macos/#:~:text=To%20see%20it%20for%20yourself,your%20file%20is%20located%20in.) If you don't feel like extra reading, you can also set your directory using RStudio's point-and-click interface by clicking on `Session` at the top, going to "Set Working Directory" and then clicking on "Choose Directory".) 
+
+```{r working directory, eval = FALSE}
+# Setting working directory
+
+setwd("D:/Blog Tutorial/")
+
+```
+
+## 3. Select and install your blog template
+
+Go to [themes.gohugo.io/tags/blog](https://themes.gohugo.io/tags/blog/). It should look something like this:
+
+<br>
+```{r hugo screen cap, echo=FALSE, fig.align='center', out.width='50%'}
+knitr::include_graphics("hugo1.png")
+```
+<br>
+
+For this tutorial, I'm going to use the [Coder](https://themes.gohugo.io/hugo-coder/) template:
+<br>
+```{r geekblog, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("geekblog.png")
+```
+<br>
+
+Once you've selected your template of choice, go to the blog's github homepage. Usually, clicking on "Download" on the site's page will take you there. (Sometimes you may have to google "\<TEMPLATE NAME\> hugo github"---although this doesn't happen often, in my experience.) 
+
+Once you're there, copy the user name and repository in the address bar. For Coder, this is "luizdepra/hugo-coder", as highlighted in blue in the screen-cap below.
+
+<br>
+```{r, geekblog github, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("geekbloggit.png")
+```
+<br>
+
+With this copied, return to your RStudio session. Use the `{blogdown}` function `install_theme` and copy the user name and repository information (in quotes).
+
+```{r, eval=FALSE}
+blogdown::install_hugo("luizdepra/hugo-coder")
+```
+
+## 4. Customize and configure your blog.
+
+
+

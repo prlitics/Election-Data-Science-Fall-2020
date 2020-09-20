@@ -14,7 +14,7 @@ anes16 <- timeseries_2016
 rm(timeseries_2016)
 ```
 
-# Some snappy title.
+# Autobots Roll-Out (Get it? We're *transforming* data? I'll stop now.)
 Welcome to week 3's lab! Today, we'll be wrangling election data. Using an RMarkdown document (your choice on how it exports: word, pdf, html, etc), give these challenges a shot!
 
 
