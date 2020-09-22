@@ -1,5 +1,5 @@
 ---
-title: "Data Acquisition Tutorial"
+title: "Data Acquisition"
 subtitle: "Election Data Science"  
 author: 
   - "Peter Licari"
@@ -31,256 +31,139 @@ xaringanExtra::use_xaringan_extra()
 library(tidyverse)
 library(kableExtra)
 ```
-#What we'll be covering
+
+# Over the last few weeks, we've been talking about how to manipulate and report on data.
 
 --
 
-1. How to read-in a csv
-2. How to read-in a tsv
-3. How to read-in a xlsx
-4. How to acquire data from the census
-5. How to download data from site directly
-6. How to read-in data from a web (REST) API
-7. How to scrape a table from Wikipedia
-
-
-
----
-# Set up
-
-You can get the data for today at the class GitHub site. (Don't forget to set your working directory!)
-
-```{r}
-library(tidyverse)
-library(readxl)
-library(httr)
-library(rvest)
-```
-
-
-
----
-# Reading in a csv
-
-.panelset[
-.panel[.panel-name[The Code]
-
-```{r}
-#Make sure you have readr and/or tidyverse active!
-
-Pres_Cands_2020 <- read_csv("fec_cands_july.csv")
-```
-]
-
-.panel[.panel-name[Output]
-
-```{r echo=FALSE}
-kbl(head(Pres_Cands_2020)) %>%
-    kable_paper() %>%
-  scroll_box(width = "800px", height = "350px")
+```{r,echo=FALSE, out.height="200px", fig.align='center'}
+knitr::include_graphics("https://i.kym-cdn.com/entries/icons/facebook/000/022/978/yNlQWRM.jpg")
 
 ```
-]
-]
+--
 
----
-# Reading in a tsv
-
-.panelset[
-.panel[.panel-name[The Code]
-
-```{r message=FALSE, warning=FALSE}
-#Remember, sometimes TSVs (and CSVs--and PSVs for that matter) are written as .txt files.
-
-Tyyrell_history <- read_tsv("voterhistory.txt")
-```
-]
-
-.panel[.panel-name[Output]
-
-```{r echo=FALSE}
-kbl(head(Tyyrell_history)) %>%
-  kable_paper() %>%
-  scroll_box(width = "800px", height = "350px")
-```
-]
-]
+**A bunch of you are probably also asking this about why you took the class.** 
 
 ---
 
-class: center, middle
+# "Data" is what "data science" is all about.
 
-.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
-Both `read_csv` and `read_tsv` are special implementations of the more general `read_delim` (meaning read delimited). With this function, you can specify the **delim**iter with the `delim` option allowing you to read in other kinds of delimited data.
+--
+
+* But if we're going to talk about data *science*, I think it's helpful that we talk about science in the first place.
+
+---
+# The scientific method.
+
+--
+```{r, echo=FALSE, fig.align='center', out.height="300px", fig.cap="Credit: Get Real Science"}
+knitr::include_graphics("The_Scientific_Method.jpg")
+```
+
+---
+# The *real* scientific method.
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://i.imgflip.com/1itoun.jpg")
+```
+ ???
+ Today's passphrase is conspiracy
+---
+# No but seriously it's complicated.
+
+--
+
+
+1. Sometimes you're trying to do something with a testable hypothesis. Othertimes, it's just observation. (And that's science too!)
+--
+
+2. You don't usually get to use experiments to test your theories.
+--
+
+3. You don't just make a new hypothesis with the same data. Then you're just fishing for results, not uncovering interesting patterns.
+--
+
+4. Oftentimes, data collection preceeds the thinking about a question.
+--
+
+5. Sometimes your data helps you think through your theory before you officially test the hypothesis.
+
+
+---
+
+class: middle
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+Scratch the surface of the scientific method and the messiness spills out. Even simplistic versions vary from three steps to eleven. Some start with hypothesis, others with observation. Some include imagination. Others confine themselves to facts. Question a simple linear recipe and the real fun begins.
+
+.tr[- Daniel P. Thurs]
 ] 
 
 ---
+# Again, why though?
+--
 
-# How to read-in a xlsx
-.panelset[
-.panel[.panel-name[Code]
+- Because if you're going to do data science and dat analytics, you will use data to answer questions. That's it, that's the gig.
+--
 
-```{r message=FALSE, warning=FALSE}
-#Remember, sometimes TSVs (and CSVs--and PSVs for that matter) are written as .txt files.
+- But I don't want you thinking that you have to approach data in the rigid way you might have thought science worked. 
+--
 
-gainesville_contributions <- read_xlsx("gainesville_pacs.xlsx")
-```
-]
+- To be good at data science, you have to learn to love (if you don't already) gathering data for *all parts* of the scientific endeavor.
+--
 
-.panel[.panel-name[Output]
+- **That doesn't mean you can get all your answers from data.** 
+  - You should still be supplementing your insights with other forms of information.
+  
+---
+class: middle, center
 
-```{r echo=FALSE,}
-kbl(head(gainesville_contributions)) %>%
-  kable_paper() %>%
-  scroll_box(width = "800px", height = "350px")
-
-```
-]
-]
-
+# So where can I get data?
 
 ---
 
-# How to get Census data
-.panelset[
-.panel[.panel-name[CPS]
-
-```{r fig.align='center', out.width="50%", echo=FALSE}
-knitr::include_graphics("cps.png")
-```
-]
-
-.panel[.panel-name[Other Data]
-
-#data.census.gov
-```{r fig.align='center', out.width="50%", echo=FALSE}
-knitr::include_graphics("acs and more.png")
-```
-]
-]
-
+# Some free sources and locations:
+- Data packages
+- GitHub
+- Federal Government (and many state and municipal governments too!)
+- Kaggle
+- Wikis
+- News sites\*
+- Public APIs (Twitter, Reddit, Gdelt)
+- General Social Survey
+- Google Public Datasets
+- Pew
 
 ---
-# Data directly
 
-```{r, eval = FALSE}
-#File URL
-url1 <- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
-
-#Downloads file from url1 and pastes it in the current directory as voterfile.zip
-download.file(url1, destfile = paste0(getwd(),"/voterfile.zip"))  
-
-#Unzips the file
-unzip("voterfile.zip")
-
-#Renames (not needed, but useful for clarity)
-file.rename(from = "ncvoter89.txt", to = "voterregistration.txt")
-
-```
+# Some locations and sources that are free to you as UF students:
+- ICPSR
+- Roper Center
+- Datasets associated with research articles
+- LexusNexus
+- UF professors.
 
 ---
-# Scraping from an API
+**The main way you'll be reading in data is with `readr` (e.g., `read_csv`, `read_delim`)**
+--
 
-.panelset[
-.panel[.panel-name[Code]
+*However, don't be afraid of downloading non-tidy and non-rectangular data! There are lots of packages out there to help you get data that don't otherwise exist in pretty data files.*
+--
 
-Let's 
-
-```{r message=FALSE, warning=FALSE}
-
-#API web address
-abs_voting <- "https://api.gdeltproject.org/api/v2/tv/tv?query=%22absentee%20voting%22%20market:%22National%22&context=%22mail%22&mode=timelinevol&format=csv&datanorm=perc&last24=yes&TIMESPAN=90days"
-
-data_raw <- httr::GET(abs_voting)
-abs_mentions <- httr::content(data_raw)
-
-#Renaming columns; filtering to just get CNN, MSNBC, and FOX
-abs_mentions <- abs_mentions %>% 
-  rename("time" = 1, "channel" = 2) %>% 
-  filter(channel %in% c("CNN", "MSNBC", "FOXNEWS"))
-
-
-```
-]
-
-.panel[.panel-name[How it works]
-[Documentation](https://blog.gdeltproject.org/gdelt-2-0-television-api-debuts/)
-
-]
-
-.panel[.panel-name[Output]
-
-
-
-```{r echo=FALSE, fig.align='center', out.width="50%"}
-
-ggplot(data=abs_mentions, aes(x = time, y = Value)) + geom_line() + facet_wrap(~channel)
-
-
-```
-]
-]
-
+A couple examples: `jsonlite`, `rvest`, `yaml`.
 
 ---
-# Scrape a table from wikipedia
+# Where and how to become aware of datasets.
 
-.panelset[
-.panel[.panel-name[Initial Scrape]
-```{r}
-url <- "https://en.wikipedia.org/wiki/2018_United_States_House_of_Representatives_elections_in_Florida"
+- Read. Read a lot. Read a lot more.
+- Twitter
+- LinkedIn
+- Dataisplural news letter.
+- Google
 
-fl_web_raw <- url %>%
-  read_html() %>%
-  html_node(xpath = '/html/body/div[3]/div[3]/div[5]/div[1]/table[3]') %>%
-  html_table(fill=TRUE)
+---
+# When you get new data, it's not enough to simply know where you got it.
+--
 
+At the very least, read the documentation so that you know *how* the data was collected.
 
-```
-]
-.panel[.panel-name[Raw Results]
-
-```{r, echo=FALSE}
-kbl(fl_web_raw) %>%
-  kable_paper() %>%
-  scroll_box(width = "800px", height = "350px")
-```
-
-
-]
-.panel[.panel-name[Cleaning]
-
-```{r}
-fl_clean <- fl_web_raw
-
-#New Column Names
-newcols <- c("District", "R_Votes","R_Per", "D_Votes", "D_Per", "Other_Votes", "Other_Per", "Total_Votes", "Total_Per", "Results")
-
-#Assigning new column names
-colnames(fl_clean) <- newcols
-
-#Removing first two rows
-fl_clean<-fl_clean[-c(1:2,30),]
-
-#Cleaning Functions
-rep_dash <- function(x){ifelse(grepl("–",x),NA, x)}
-fixnum <- function(x){
-  x <- sub("%","",x)
-  x <- sub(",","", x)
-  x <- as.numeric(x)}
-
-#Final output
-fl_clean_final <- fl_clean %>%
-  mutate(across(everything(),rep_dash)) %>%
-  mutate(across(-matches(c("District","Results")), fixnum))
-
-```
-]
-.panel[.panel-name[Results]
-```{r, echo=FALSE}
-kbl(fl_clean_final) %>%
-  kable_paper() %>%
-  scroll_box(width = "800px", height = "350px")
-```
-]
-]

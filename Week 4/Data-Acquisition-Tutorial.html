@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Acquisition Tutorial</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-21" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Acquisition Tutorial
+## Election Data Science
+### Peter Licari
+### 2020-09-21
+
+---
+
+
+
+
+
+#What we'll be covering
+
+--
+
+1. How to read-in a csv
+2. How to read-in a tsv
+3. How to read-in a xlsx
+4. How to acquire data from the census
+5. How to download data from site directly
+6. How to read-in data from a web (REST) API
+7. How to scrape a table from Wikipedia
+
+
+
+---
+# Set up
+
+You can get the data for today at the class GitHub site. (Don't forget to set your working directory!)
+
+
+```r
+library(tidyverse)
+library(readxl)
+library(httr)
+library(rvest)
+```
+
+```
+## Warning: package 'rvest' was built under R version 3.6.3
+```
+
+```
+## Loading required package: xml2
+```
+
+```
+## 
+## Attaching package: 'rvest'
+```
+
+```
+## The following object is masked from 'package:purrr':
+## 
+##     pluck
+```
+
+```
+## The following object is masked from 'package:readr':
+## 
+##     guess_encoding
+```
+
+
+
+---
+# Reading in a csv
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+#Make sure you have readr and/or tidyverse active!
+
+Pres_Cands_2020 &lt;- read_csv("fec_cands_july.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   district_number = col_double(),
+##   load_date = col_datetime(format = ""),
+##   first_file_date = col_date(format = ""),
+##   last_file_date = col_date(format = ""),
+##   last_f2_date = col_date(format = ""),
+##   active_through = col_double(),
+##   candidate_inactive = col_logical(),
+##   inactive_election_years = col_logical()
+## )
+```
+
+```
+## See spec(...) for full column specifications.
+```
+]
+
+.panel[.panel-name[Output]
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; office &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; office_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; party &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; party_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; state &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; district &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; district_number &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_districts &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_years &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; cycles &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_status &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; incumbent_challenge &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; incumbent_challenge_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; load_date &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; first_file_date &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; last_file_date &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; last_f2_date &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_id &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; active_through &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_inactive &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; inactive_election_years &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; KLOBUCHAR, AMY J. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC PARTY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2020-03-05 21:14:44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-02-11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-02-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-02-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80006117 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; JARAMILLO, MARIO &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDEPENDENT &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2018,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-01-28 21:05:11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-09-30 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018-02-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018-02-01 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80005960 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; STEVENSON, TRAVIS LEE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; REP &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; REPUBLICAN PARTY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00,00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2018,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2018,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-01-28 21:05:11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-08-18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-12-04 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-12-04 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80005952 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; MOORE, BRIAN PATRICK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC PARTY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00,00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2010,2012,2014,2016,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-11-22 21:24:25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008-01-31 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-11-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-11-19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80005275 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; POWELL, SAMUEL LYNDELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDEPENDENT &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00,00,00,00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2012,2016,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2012,2014,2016,2018,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-01-28 21:05:11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2007-11-13 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-08-08 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2017-08-04 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80005010 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; AUGUSTSON, ALAN &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; President &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GRE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GREEN PARTY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; US &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {00,00} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; {2008,2020} &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; N &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Challenger &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-04-17 21:18:58 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2007-06-04 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-04-17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-04-17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P80004369 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+
+---
+# Reading in a tsv
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```r
+#Remember, sometimes TSVs (and CSVs--and PSVs for that matter) are written as .txt files.
+
+Tyyrell_history &lt;- read_tsv("voterhistory.txt")
+```
+]
+
+.panel[.panel-name[Output]
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; county_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; county_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; voter_reg_num &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_lbl &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; voting_method &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; voted_party_cd &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; voted_party_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; pct_label &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; pct_description &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; ncid &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; voted_county_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; voted_county_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; vtd_label &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; vtd_description &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/08/2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/08/2016 GENERAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IN-PERSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EAB &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EAST ABERDEEN &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 63 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MOORE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EAB &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; EAB &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/06/2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/06/2012 GENERAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ABSENTEE ONESTOP &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SOUTH MELVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ALAMANCE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 05/08/2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 05/08/2012 PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ABSENTEE ONESTOP &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SOUTH MELVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ALAMANCE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/08/2011 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/08/2011 MUNICIPAL GENERAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IN-PERSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SOUTH MELVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ALAMANCE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/04/2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11/04/2014 GENERAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ABSENTEE ONESTOP &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SOUTH MELVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ALAMANCE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TYRRELL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 000000005289 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 05/06/2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 05/06/2014 PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ABSENTEE ONESTOP &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEM &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DEMOCRATIC &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SOUTH MELVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; AA146648 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ALAMANCE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10S &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+
+---
+
+class: center, middle
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+Both `read_csv` and `read_tsv` are special implementations of the more general `read_delim` (meaning read delimited). With this function, you can specify the **delim**iter with the `delim` option allowing you to read in other kinds of delimited data.
+] 
+
+---
+
+# How to read-in a xlsx
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+#Remember, sometimes TSVs (and CSVs--and PSVs for that matter) are written as .txt files.
+
+gainesville_contributions &lt;- read_xlsx("gainesville_pacs.xlsx")
+```
+]
+
+.panel[.panel-name[Output]
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; committee_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; committee_name...2 &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; report_year &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; report_type &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; image_number &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; line_number &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; transaction_id &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; file_number &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; committee_name...9 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; entity_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; entity_type_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; unused_contbr_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_prefix &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; recipient_committee_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; recipient_committee_org_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; recipient_committee_designation &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_first_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_middle_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_last_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_suffix &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_street_1 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_street_2 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_city &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_state &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_zip &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_employer &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_occupation &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; receipt_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; receipt_type_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; receipt_type_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; memo_code &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; memo_code_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; contribution_receipt_date &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; contribution_receipt_amount &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; contributor_aggregate_ytd &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_first_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_last_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_middle_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_prefix &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_suffix &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_office &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_office_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_office_state &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_office_state_full &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; candidate_office_district &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_street1 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_street2 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_city &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_state &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; conduit_committee_zip &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; donor_committee_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; national_committee_nonfederal_account &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; election_type_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; fec_election_type_desc &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; fec_election_year &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; amendment_indicator &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; amendment_indicator_desc &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; schedule_type_full &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; load_date &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; original_sub_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; back_reference_transaction_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; back_reference_schedule_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; filing_form &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; link_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; is_individual &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; memo_text &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; two_year_transaction_period &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; schedule_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; increased_limit &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; sub_id &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; pdf_url &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; line_number_label &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00538835 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; COMMON GROUND PAC &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019071e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 12 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C11194394 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1338692 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; LONGINI, IRA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; D &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IRA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; LONGINI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5718 SW 89TH DR &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326085572 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; UNIVERSITY OF FLORIDA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PROFESSOR &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15J &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MEMO (FILER'S % OF CONTRIBUTION GIVEN TO JOIN &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; X &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-03-31 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 250 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 250 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-17 03:44:25.367 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; C11193644 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA12 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3X &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07122e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; * KAINE FOR COMMON GROUND PAC &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07162e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907129150580810 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Transfers from Authorized Committees &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00394957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SCALISE FOR CONGRESS &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019072e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11AI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA11A.231988 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1340131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON, MARSHALL MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MARSHALL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7217 SW 57TH RD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326084779 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-04-05 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 390 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-18 03:02:11.194 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07152e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07172e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907159150833358 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Contributions From Individuals/Persons Other Than Political Committees &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00394957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SCALISE FOR CONGRESS &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019072e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11AI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA11A.247716 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1340131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON, MARSHALL MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MARSHALL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7217 SW 57TH RD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326084779 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-05-06 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 390 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-18 03:02:37.19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07152e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07172e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907159150834713 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Contributions From Individuals/Persons Other Than Political Committees &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00394957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SCALISE FOR CONGRESS &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019072e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11AI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA11A.264393 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1340131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON, MARSHALL MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MARSHALL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7217 SW 57TH RD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326084779 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-05-31 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 390 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-18 03:02:52.021 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07152e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07172e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907159150835558 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Contributions From Individuals/Persons Other Than Political Committees &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00394957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SCALISE FOR CONGRESS &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019072e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11AI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA11A.267459 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1340131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON, MARSHALL MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MARSHALL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7217 SW 57TH RD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326084779 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-06-04 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 390 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-18 03:02:52.111 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07152e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07172e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907159150835733 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Contributions From Individuals/Persons Other Than Political Committees &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C00394957 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SCALISE FOR CONGRESS &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2019 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Q2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.019072e+17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 11AI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA11A.270891 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1340131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; IND &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; INDIVIDUAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON, MARSHALL MR. &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; H &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MARSHALL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; DONALDSON &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7217 SW 57TH RD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; GAINESVILLE &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FL &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 326084779 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; RETIRED &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; CONTRIBUTION &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-06-20 00:00:00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 390 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; P2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PRIMARY &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ADD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ITEMIZED RECEIPTS &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2019-07-18 03:02:59.682 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; F3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07152e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; t &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2020 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.07172e+18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; http://docquery.fec.gov/cgi-bin/fecimg/?201907159150836292 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Contributions From Individuals/Persons Other Than Political Committees &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+
+
+---
+
+# How to get Census data
+.panelset[
+.panel[.panel-name[CPS]
+
+&lt;img src="cps.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+.panel[.panel-name[Other Data]
+
+#data.census.gov
+&lt;img src="acs and more.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+
+---
+# Data directly
+
+
+```r
+#File URL
+url1 &lt;- "https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter89.zip"
+
+#Downloads file from url1 and pastes it in the current directory as voterfile.zip
+download.file(url1, destfile = paste0(getwd(),"/voterfile.zip"))  
+
+#Unzips the file
+unzip("voterfile.zip")
+
+#Renames (not needed, but useful for clarity)
+file.rename(from = "ncvoter89.txt", to = "voterregistration.txt")
+```
+
+---
+# Scraping from an API
+
+.panelset[
+.panel[.panel-name[Code]
+
+Let's 
+
+
+```r
+#API web address
+abs_voting &lt;- "https://api.gdeltproject.org/api/v2/tv/tv?query=%22absentee%20voting%22%20market:%22National%22&amp;context=%22mail%22&amp;mode=timelinevol&amp;format=csv&amp;datanorm=perc&amp;last24=yes&amp;TIMESPAN=90days"
+
+data_raw &lt;- httr::GET(abs_voting)
+abs_mentions &lt;- httr::content(data_raw)
+
+#Renaming columns; filtering to just get CNN, MSNBC, and FOX
+abs_mentions &lt;- abs_mentions %&gt;% 
+  rename("time" = 1, "channel" = 2) %&gt;% 
+  filter(channel %in% c("CNN", "MSNBC", "FOXNEWS"))
+```
+]
+
+.panel[.panel-name[How it works]
+[Documentation](https://blog.gdeltproject.org/gdelt-2-0-television-api-debuts/)
+
+]
+
+.panel[.panel-name[Output]
+
+
+
+&lt;img src="Data-Acquisition-Tutorial_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+
+---
+# Scrape a table from wikipedia
+
+.panelset[
+.panel[.panel-name[Initial Scrape]
+
+```r
+url &lt;- "https://en.wikipedia.org/wiki/2018_United_States_House_of_Representatives_elections_in_Florida"
+
+fl_web_raw &lt;- url %&gt;%
+  read_html() %&gt;%
+  html_node(xpath = '/html/body/div[3]/div[3]/div[5]/div[1]/table[3]') %&gt;%
+  html_table(fill=TRUE)
+```
+]
+.panel[.panel-name[Raw Results]
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; District &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Republican &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Republican &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Democratic &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Democratic &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Others &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Others &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Total &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Total &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Result &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Others &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Votes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Votes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Others &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Votes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; % &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Votes &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; % &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 216,189 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 67.06% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 106,199 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.94% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 322,388 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 199,335 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 67.44% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 96,233 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.56% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 295,568 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 176,616 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.62% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 129,880 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.38% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 306,496 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 248,420 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.16% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 123,351 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.35% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9,478 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.49% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 381,249 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 89,799 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 33.22% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 180,527 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.78% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 270,326 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 187,891 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.31% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 145,758 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 43.69% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 333,649 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 134,285 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.31% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 183,113 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.69% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 317,398 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 218,112 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 142,415 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 360,527 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 9 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 124,565 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 41.98% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 172,172 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 58.02% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 296,737 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 10 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 11 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 239,395 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.14% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 128,053 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.84% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 58 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.02% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 367,506 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 12 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 194,564 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 58.09% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 132,844 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.66% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7,510 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.24% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 334,918 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 13 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 134,254 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.36% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 182,717 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.64% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 316,971 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 14 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 15 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 151,380 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.02% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 134,132 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 46.98% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.01% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 285,532 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 16 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 197,483 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.56% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 164,463 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.44% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 361,946 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 193,326 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.26% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 117,194 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 37.74% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 310,520 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 18 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 185,905 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 156,454 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 342,359 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 19 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 211,465 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.27% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 128,106 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 37.72% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.01% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 339,607 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 20 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 202,659 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 99.92% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 165 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.08% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 202,824 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 21 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 22 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 113,049 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 37.98% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 184,634 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.02% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 297,683 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 23 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 99,446 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.98% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 161,611 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 58.48% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15,309 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 5.54% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 276,366 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 24 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; – &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 25 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 128,672 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60.45% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 84,173 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.55% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 212,845 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 26 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 115,678 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.13% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 119,797 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.87% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 235,475 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Gain &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 27 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 115,588 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.76% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 130,743 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 51.76% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6,255 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2.48% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 252,586 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Gain &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Total &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3,675,417 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 52.35% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3,307,228 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 47.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38,831 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.55% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 7,021,476 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+
+
+]
+.panel[.panel-name[Cleaning]
+
+
+```r
+fl_clean &lt;- fl_web_raw
+
+#New Column Names
+newcols &lt;- c("District", "R_Votes","R_Per", "D_Votes", "D_Per", "Other_Votes", "Other_Per", "Total_Votes", "Total_Per", "Results")
+
+#Assigning new column names
+colnames(fl_clean) &lt;- newcols
+
+#Removing first two rows
+fl_clean&lt;-fl_clean[-c(1:2,30),]
+
+#Cleaning Functions
+rep_dash &lt;- function(x){ifelse(grepl("–",x),NA, x)}
+fixnum &lt;- function(x){
+  x &lt;- sub("%","",x)
+  x &lt;- sub(",","", x)
+  x &lt;- as.numeric(x)}
+
+#Final output
+fl_clean_final &lt;- fl_clean %&gt;%
+  mutate(across(everything(),rep_dash)) %&gt;%
+  mutate(across(-matches(c("District","Results")), fixnum))
+```
+]
+.panel[.panel-name[Results]
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; District &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; R_Votes &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; R_Per &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; D_Votes &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; D_Per &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; Other_Votes &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; Other_Per &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; Total_Votes &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; Total_Per &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 216189 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 67.06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 106199 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.94 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 322388 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 199335 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 67.44 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 96233 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.56 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 295568 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 176616 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 57.62 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 129880 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.38 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 306496 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 248420 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65.16 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 123351 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 32.35 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9478 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.49 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 381249 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89799 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 33.22 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 180527 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 66.78 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 270326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 187891 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 56.31 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 145758 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 43.69 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 333649 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 134285 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.31 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 183113 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 57.69 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 317398 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 218112 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 142415 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.50 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 360527 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 124565 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41.98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 172172 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 58.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 296737 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 11 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 239395 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 65.14 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 128053 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34.84 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 58 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 367506 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 12 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 194564 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 58.09 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 132844 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.66 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7510 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 334918 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 134254 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 42.36 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 182717 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 57.64 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 316971 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 14 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 15 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 151380 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 53.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 134132 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 46.98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 285532 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 16 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 197483 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 54.56 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 164463 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45.44 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 361946 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 17 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 193326 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 62.26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 117194 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.74 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 310520 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 185905 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 54.30 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 156454 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45.70 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 342359 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 19 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 211465 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 62.27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 128106 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.72 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 36 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.01 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 339607 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 20 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 202659 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 99.92 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 165 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.08 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 202824 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 21 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 22 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 113049 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 37.98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 184634 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 62.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 297683 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 23 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 99446 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35.98 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 161611 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 58.48 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 15309 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5.54 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 276366 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 24 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 128672 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 60.45 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 84173 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 39.55 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 212845 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Republican Hold &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 26 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 115678 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 49.13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 119797 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 50.87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.00 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 235475 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Gain &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; District 27 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 115588 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45.76 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 130743 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 51.76 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6255 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2.48 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 252586 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 100 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Democratic Gain &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
