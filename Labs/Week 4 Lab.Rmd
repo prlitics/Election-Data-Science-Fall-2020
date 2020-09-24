@@ -1,0 +1,57 @@
+---
+title: "Week 4 Lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(rvest)
+
+```
+
+It's been...well, it's been a week.
+
+```{r, echo=FALSE, fig.align='center'}
+knitr::include_graphics("https://i.redd.it/7q7r9tzo0yu31.png")
+```
+
+Do your best to knock out these challenges! Remember, you have until next Wednesday
+
+# Challenge 1: Data Scavenger Hunt:
+
+For this challenge, I want you to hunt the web and put in the links to an example of each of the following:
+
+* A dataset that's stored in an R package (one we haven't used).
+* An R package connecting you to an API
+* A dataset that's from GitHub (that's not the one from challenge 4).
+* A dataset that you found through ICPSR
+
+You can share the URL or you can hyperlink it in your knit [like this.](https://www.youtube.com/watch?v=iJgNpm8cTE8)
+
+<center> *Bonus: Make all of them related to elections* </center>
+
+# Challenge 2: Read it in.
+
+The course GitHub page has 3 datasets for you to download this week: `wk4_challenge2.a`, `wk4_challenge2.b`, and `wk4_challenge2.c`. All of them Using the `read_` functions from the `readr` package (which is part of the `tidyverse`), read in these data. 
+
+<center> *Bonus: Read in the 4th dataset, `wk4_challenge2.d` (hint: It's not a `readr` function; .dta files are native to a program called Stata).* </center>
+
+# Challenge 3: Read it in. But *different*
+
+Sometimes, you don't want to read in the full data---or as the `read_` functions originally interpret/parse it. Read in `wk4_challenge2.a` two more times. The first time, read in the first 1,000 lines. The second time, read it in so that the column `contribution_receipt_date` is read in as a string variable, not a date variable. (Be sure to save your outputs as appropriately named R objects.)
+
+<center> *Bonus: The `read_` functions have an option called `progress`. What does this option do?* </center>
+
+# Challenge 4: Be safe. Wear a mask. 
+
+## This challenge has two parts: A analytic component and a conceptual component. 
+
+Earlier this summer, the New York times aggregated roughly 250,000 survey responses to estimate the frequency of mask wearing for each US county. They put this data onto [GitHub.](https://github.com/nytimes/covid-19-data/tree/master/mask-use) Using just R, download and read-in that data directly from the web. 
+
+Now, let's say someone wanted to use these data (and only these data) to aggregate state-levels of compliance. Would you recommend they go through with this action? If so, explain what data manipulation steps you would use to do so. If not, explain your reasoning and what data manipulation steps you can take so that you can aggregate up to the state level.
+
+# Challenge 5: Wikipedia is a Reliable Source 
+Using the `rvest` package, I want you to scrape any Wikipedia table of your choosing (except for the one I did in lecture: Florida's 2018 midterm results by county). **I would strongly recommend doing this in either Chrome or Firefox as those browsers have easily accessible developer modes.** Then, manipulate it so that it is a tidy dataset that you could use for later manipulations.
+
