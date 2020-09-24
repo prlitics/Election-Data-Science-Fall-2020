@@ -34,7 +34,7 @@ You can share the URL or you can hyperlink it in your knit [like this.](https://
 
 # Challenge 2: Read it in.
 
-The course GitHub page has 3 datasets for you to download this week: `wk4_challenge2.a`, `wk4_challenge2.b`, and `wk4_challenge2.c`. All of them Using the `read_` functions from the `readr` package (which is part of the `tidyverse`), read in these data. 
+The course [GitHub page has 3 datasets](https://github.com/prlitics/Election-Data-Science-Fall-2020/tree/master/Data) for you to download this week: `wk4_challenge2.a`, `wk4_challenge2.b`, and `wk4_challenge2.c`. All of them Using the `read_` functions from the `readr` package (which is part of the `tidyverse`), read in these data. 
 
 <center> *Bonus: Read in the 4th dataset, `wk4_challenge2.d` (hint: It's not a `readr` function; .dta files are native to a program called Stata).* </center>
 
@@ -46,7 +46,7 @@ Sometimes, you don't want to read in the full data---or as the `read_` functions
 
 # Challenge 4: Be safe. Wear a mask. 
 
-## This challenge has two parts: A analytic component and a conceptual component. 
+### This challenge has two parts: A analytic component and a conceptual component. 
 
 Earlier this summer, the New York times aggregated roughly 250,000 survey responses to estimate the frequency of mask wearing for each US county. They put this data onto [GitHub.](https://github.com/nytimes/covid-19-data/tree/master/mask-use) Using just R, download and read-in that data directly from the web. 
 
