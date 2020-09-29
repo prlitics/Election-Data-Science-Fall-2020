@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Visualization with ggplot</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-28" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Visualization with ggplot
+## Election Data Science
+### Peter Licari
+### 2020-09-28
+
+---
+
+
+
+
+
+
+
+# What we'll be learning:
+--
+
+- The 3 main chart types (5 `geom_`s)
+  1. Bar charts (`geom_bar` and `geom_hist`)
+  2. Dot charts (`geom_dot`)
+  3. Line charts (`geom_line` and `geom_smooth`)
+--
+
+- Different aesthetic options
+  1. Color/Fill
+  2. Size
+  3. Transparency
+  4. Positioning/Grouping
+  
+--
+
+- Some helpful theme stuff
+  
+---
+# Let's grab the data:
+
+
+```r
+library(tidyverse)
+library(anesr)
+
+# 2016 American National Election Survey
+data(timeseries_2016)
+anes16 &lt;- timeseries_2016
+rm(timeseries_2016)
+```
+
+---
+# First, some semantics.
+
+
+```r
+ggplot(data, aes(x=x, y=y, color = z)) + geom_point()
+
+ggplot() + geom_point(data, aes(x=x, y=y, color = z))
+
+ggplot(data) + geom_point(aes(x=x, y=y, color = z))
+```
+
+&lt;center&gt; **These will all make the same images!**
+
+
+---
+
+# Bar Charts (`geom_bar`)
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+
+```r
+to_na &lt;- function(x){ifelse(x&lt;0,NA,x)}
+
+
+
+anes16a &lt;- anes16 %&gt;%
+  select(V161003, V162034) %&gt;%
+  mutate(across(everything(), to_na)) %&gt;%
+  mutate(V162034 =  as.factor(V162034),
+         V161003a = case_when(
+    V161003 == 1 ~ "Always",
+    V161003 == 2 ~ "Most of the time",
+    V161003 == 3 ~ "About half the time",
+    V161003 == 4 ~ "Some of the time",
+    V161003 == 5 ~ "Never"
+  ))
+
+# plot  
+bar &lt;- ggplot(anes16a, aes(x = V161003a)) + geom_bar()
+```
+
+
+]
+
+.panel[.panel-name[Output]
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-4-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+  
+
+---
+
+# Histogram (`geom_histogram`)
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16b &lt;- anes16 %&gt;%
+  mutate(V161267 = ifelse(V161267&lt;0,NA,V161267))
+
+hist &lt;- ggplot(anes16b, aes(x = V161267)) + geom_histogram()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-6-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]]
+---
+
+# Dot chart (`geom_dot`)
+.panelset[.panel[.panel-name[Code]
+
+```r
+# Age, FT of Trump, 3pt Party ID Interest
+anes16c &lt;- anes16 %&gt;%
+  select(V161092, V161267, V161155, V161003) %&gt;%
+  mutate(across(everything(), to_na))
+
+dot &lt;- ggplot(data = anes16c, aes(x = V161267, y = V161092 )) + geom_point()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+# Line Chart (`geom_smooth`)
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16ca &lt;- anes16 %&gt;%
+  select(V161092, V161267) %&gt;%
+  mutate(across(everything(), to_na))
+
+smooth &lt;- ggplot(data = anes16ca, aes(x = V161267, y = V161092 )) + geom_smooth()
+```
+]
+.panel[.panel-name[Output]
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-10-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]]
+---
+
+# Bonus! Point + Smooth
+
+
+```r
+dot + geom_smooth()
+```
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-11-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+```r
+# ggplot(data = anes16c, aes(x = V161267, y = V161092 )) + geom_dot + geom_smooth()
+```
+
+---
+
+# Line Chart (`geom_line`)
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16d &lt;- anes16 %&gt;%
+  select(V161267, V161086, V162079) %&gt;%
+  rename(pre = V161086, post = V162079) %&gt;%
+  mutate(across(everything(),to_na)) %&gt;%
+  summarise(`Pre-Election` = mean(pre, na.rm = T), 
+            `Post-Election` = mean(post, na.rm = T)) %&gt;%
+  pivot_longer(names_to = "xvar", cols = everything())
+
+line &lt;- ggplot(anes16d, aes(x = xvar, y = value)) + geom_line(group = "identity")
+```
+]
+.panel[.panel-name[Output]
+
+```r
+line
+```
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-13-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+
+---
+# Color aesthetic (`color`)
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16c &lt;- anes16c %&gt;%
+  filter(!(V161155 == 5), !(V161155 == 0)) %&gt;%
+  mutate(V161155 = as.factor(V161155))
+
+dot1 &lt;- ggplot(data = anes16c, aes(x = V161267, y = V161092, color = V161155)) + geom_point()
+```
+
+]
+
+.panel[.panel-name[Output]
+
+
+```r
+dot1
+```
+
+```
+## Warning: Removed 122 rows containing missing values (geom_point).
+```
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-15-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+]
+
+
+---
+# Dot size
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16c &lt;- anes16c %&gt;%
+  filter(!(V161155 == 5), !(V161155 == 0)) %&gt;%
+  mutate(V161155 = as.factor(V161155))
+
+dot2 &lt;- ggplot(data = anes16c, aes(x = V161267, y = V161092, size = V161003)) + geom_point()
+```
+
+]
+.panel[.panel-name[Output]
+
+
+```r
+dot2
+```
+
+```
+## Warning: Removed 122 rows containing missing values (geom_point).
+```
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-17-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+]
+ 
+---
+
+# Transparency
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16c &lt;- anes16c %&gt;%
+  filter(!(V161155 == 5), !(V161155 == 0)) %&gt;%
+  mutate(V161155 = as.factor(V161155))
+
+dot3 &lt;- ggplot(data = anes16c, aes(x = V161267, y = V161092, alpha = V161003)) + geom_point()
+```
+
+]
+.panel[.panel-name[Output]
+
+
+```r
+dot3
+```
+
+```
+## Warning: Removed 122 rows containing missing values (geom_point).
+```
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+]
+
+---
+
+# Grouping 
+.panelset[.panel[.panel-name[Code]
+
+```r
+anes16a &lt;- anes16 %&gt;%
+  select(V161003, V162034) %&gt;%
+  mutate(across(everything(), to_na)) %&gt;%
+  mutate(V162034 =  as.factor(V162034),
+         V161003a = case_when(
+    V161003 == 1 ~ "Always",
+    V161003 == 2 ~ "Most of the time",
+    V161003 == 3 ~ "About half the time",
+    V161003 == 4 ~ "Some of the time",
+    V161003 == 5 ~ "Never"
+  ))
+
+# plot  
+bar1 &lt;- ggplot(anes16a, aes(x = V161003a, fill=V162034)) + geom_bar()
+```
+
+
+]
+
+.panel[.panel-name[Output]
+
+&lt;img src="DataVisualization-Tutorial_files/figure-html/unnamed-chunk-21-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]]
+
+
+---
+
+# Helpful theme stuff:
+
+- `theme_`
+- `theme`
+- `coord_flip`
+- `scale_MAP_TYPE`
+- `labs`
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

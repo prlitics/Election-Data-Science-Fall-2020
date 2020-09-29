@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Data Visualization Basics</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-09-28" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Data Visualization Basics
+## Election Data Science
+### Peter Licari
+### 2020-09-28
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+
+
+# The best experience is to learn by doing.
+
+--
+
+&lt;img src="extreme.png" width="400" style="display: block; margin: auto;" /&gt;
+--
+&lt;br&gt;
+&lt;center&gt;*3 lessons by the end of it.*
+
+---
+# Here's our renovation project:
+--
+
+&lt;img src="TurnoutOriginal.png" width="808" style="display: block; margin: auto;" /&gt;
+
+???
+
+What the heck is going on here?
+
+---
+
+class: center, middle
+# Lesson 1: Know your data. 
+
+---
+
+
+```r
+readr::read_csv("Raw_Turnout_Doc.csv") %&gt;%
+  kbl() %&gt;%
+  kable_paper() %&gt;%
+  scroll_box(width = "800px", height = "250px")
+```
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:250px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Turnout Rate &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2018 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2016 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2014 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2012 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2010 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2008 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2006 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2004 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2002 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 2000 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1998 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1996 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1994 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1992 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1990 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1988 &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; 1986 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.60% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 43.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40.90% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 48.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 18.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 17.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 33.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 21.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.80% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.90% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.60% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 52.90% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.50% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.40% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.90% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.60% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.10% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 67.30% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55.60% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.20% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.80% &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+
+---
+class: center, middle
+
+# Lesson 2: Know your story. 
+---
+
+
+&lt;img src="TurnoutOriginal.png" width="808" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Let's fix the data so we can tell the story.
+
+
+```r
+turnout_raw &lt;- readr::read_csv("Raw_Turnout_Doc.csv")
+
+turnout_tidyer &lt;- turnout_raw %&gt;%
+  pivot_longer(!`Turnout Rate`, names_to = "Year", values_to = "Percent") %&gt;%
+  rename(Age = `Turnout Rate`)
+```
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:250px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Percent &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 43.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 48.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 18.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 17.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 33.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 21.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.80% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 52.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 67.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.80% &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+
+---
+# Preliminary replication
+
+
+```r
+ ggplot(data = turnout_tidyer,aes(x = Year, y = Percent, group = Age, color = Age)) + geom_line() + geom_point()
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+# Manipulating the Data
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:250px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Age &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Year &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; Percent &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 32.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 43.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 48.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 18.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 34.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 17.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 33.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 21.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 18-29 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 20.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 45.80% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 35.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 30-44 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 38.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 42.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 62.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 52.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 49.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 45-59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2018 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.50% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2016 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.40% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2014 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 54.90% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2012 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2010 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 59.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2008 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 71.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2006 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2004 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 69.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2002 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.10% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 67.30% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1998 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55.60% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1996 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 65.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1994 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 57.20% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1992 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 68.00% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1990 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1988 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 64.70% &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 60 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1986 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 53.80% &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+
+
+
+```r
+turnout_tidyer &lt;- turnout_tidyer %&gt;%
+  mutate(Year = as.integer(Year),
+         El_Type = case_when(
+           Year %% 4 == 0  ~ "Presidential Elections",
+           TRUE ~ "Midterm Elections"
+         ),
+         Percent = as.numeric(gsub('%',"",Percent))/100)
+```
+
+---
+
+# Raw re-design
+
+```r
+ ggplot(data = turnout_tidyer,aes(x = Year, y = Percent, 
+                                  group = Age, color = Age)) + 
+  facet_wrap(~El_Type) + 
+  geom_line() + geom_point()
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-11-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+# Lesson 3: Know Your Audience
+
+---
+# Make it readable with your audience in mind.
+
+
+```r
+p &lt;- ggplot(data = turnout_tidyer,aes(x = Year, y = Percent, 
+                                  group = Age, color = Age)) + 
+  facet_wrap(~El_Type) + 
+  geom_line() + geom_point() 
+
+p + scale_y_continuous(name = "Percent of Eligible Population",
+                     labels = scales::percent_format(accuracy = 1))
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-12-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+p &lt;- p + facet_wrap(~El_Type, ncol = 1)
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-13-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+```r
+p &lt;- p + facet_wrap(~forcats::fct_rev(El_Type), ncol = 1)
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-14-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+
+```r
+p &lt;- p + scale_y_continuous(name = "Percent of\nEligible Population\n",
+                     labels = scales::percent_format(accuracy = 1))
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-15-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+```r
+p &lt;- p + scale_x_continuous(breaks = seq(1988,2020,4), name = "")
+
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-16-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+p &lt;- p + theme_minimal()
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-17-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+
+```r
+p &lt;- p + scale_color_discrete(breaks = c("60","45-59", "30-44","18-29"), name = "Age Group")
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-18-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+```r
+p &lt;- p + scale_color_manual(breaks = c("60","45-59", "30-44","18-29"), name = "Age Group",
+                              values = c('#D5D4D8','#B8B5E0','#9e9ac8','#6a51a3'),
+                            labels = c("60" = "60 &amp; Up", "45-59"="45-59", "30-44" ="30-44",
+                                       "18-29" = "18-29"))
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-19-1.png" height="400px" style="display: block; margin: auto;" /&gt;
+
+---
+
+```r
+p &lt;- p + labs(title = "Older Americans are the most likely to participate in Federal elections",
+              subtitle = "Americans as a whole are more likely to vote in Presidential elections versus
+midterm elections. But, regardless of the type of election, greater proportions of eligible 
+older voters turn out than eligible younger voters.",
+caption = "Data from electproject.org.\nAnalysis by Peter Licari.")
+
+p
+```
+
+&lt;img src="DataVisualization_files/figure-html/unnamed-chunk-20-1.png" style="display: block; margin: auto;" /&gt;
+
+
+
+---
+#Final Output
+
+&lt;img src="fig1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+# Comparison
+.pull-left[
+&lt;img src="fig1.png" width="2799" style="display: block; margin: auto;" /&gt;
+]
+
+.pull-right[
+&lt;img src="TurnoutOriginal.png" width="808" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# How were we able to do all of that?
+
+- `ggplot` uses a philosophy called the "grammar of graphics."
+
+- Basically, there isn't a single element on the plot that can't be altered. 
+
+- Things can be built up and layered on top of each other. 
+
+- Different aesthetic elements within your control.
+
+---
+# Overall design tips:
+--
+
+- Default colors rarely work well.
+- Default themes tend to work worse.
+- Don't be afraid of white space.
+- Don't be afraid of *text* either.
+- Know the "rules" (e.g., conventions and metaphors). Once you do, break them.
+- People can only focus on 1-3 things in any given plot. Make your takaway still. 
+- Tell the story that you want to be told--in images and text both.
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

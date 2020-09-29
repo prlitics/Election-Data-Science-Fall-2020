@@ -1,0 +1,330 @@
+---
+title: "Data Visualization with ggplot"
+subtitle: "Election Data Science"  
+author: 
+  - "Peter Licari"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
+)
+
+xaringanExtra::use_xaringan_extra()
+library(tidyverse)
+library(kableExtra)
+```
+
+
+# What we'll be learning:
+--
+
+- The 3 main chart types (5 `geom_`s)
+  1. Bar charts (`geom_bar` and `geom_hist`)
+  2. Dot charts (`geom_dot`)
+  3. Line charts (`geom_line` and `geom_smooth`)
+--
+
+- Different aesthetic options
+  1. Color/Fill
+  2. Size
+  3. Transparency
+  4. Positioning/Grouping
+  
+--
+
+- Some helpful theme stuff
+  
+---
+# Let's grab the data:
+
+```{r}
+library(tidyverse)
+library(anesr)
+
+# 2016 American National Election Survey
+data(timeseries_2016)
+anes16 <- timeseries_2016
+rm(timeseries_2016)
+```
+
+---
+# First, some semantics.
+
+```{r, eval=FALSE}
+
+ggplot(data, aes(x=x, y=y, color = z)) + geom_point()
+
+ggplot() + geom_point(data, aes(x=x, y=y, color = z))
+
+ggplot(data) + geom_point(aes(x=x, y=y, color = z))
+```
+
+<center> **These will all make the same images!**
+
+
+---
+
+# Bar Charts (`geom_bar`)
+
+.panelset[
+.panel[.panel-name[The Code]
+
+
+```{r fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+to_na <- function(x){ifelse(x<0,NA,x)}
+
+
+
+anes16a <- anes16 %>%
+  select(V161003, V162034) %>%
+  mutate(across(everything(), to_na)) %>%
+  mutate(V162034 =  as.factor(V162034),
+         V161003a = case_when(
+    V161003 == 1 ~ "Always",
+    V161003 == 2 ~ "Most of the time",
+    V161003 == 3 ~ "About half the time",
+    V161003 == 4 ~ "Some of the time",
+    V161003 == 5 ~ "Never"
+  ))
+
+# plot  
+bar <- ggplot(anes16a, aes(x = V161003a)) + geom_bar()
+```
+
+
+]
+
+.panel[.panel-name[Output]
+
+```{r echo=FALSE, fig.align="center", fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+bar
+```
+]
+]
+  
+
+---
+
+# Histogram (`geom_histogram`)
+.panelset[.panel[.panel-name[Code]
+```{r fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+
+anes16b <- anes16 %>%
+  mutate(V161267 = ifelse(V161267<0,NA,V161267))
+
+hist <- ggplot(anes16b, aes(x = V161267)) + geom_histogram()
+
+```
+]
+.panel[.panel-name[Output]
+```{r, echo=FALSE, fig.align='center', message=FALSE, warning=FALSE, out.width="50%", echo=FALSE}
+hist
+```
+]]
+---
+
+# Dot chart (`geom_dot`)
+.panelset[.panel[.panel-name[Code]
+```{r fig.align='center', message=FALSE, warning=FALSE, eval=TRUE}
+
+# Age, FT of Trump, 3pt Party ID Interest
+anes16c <- anes16 %>%
+  select(V161092, V161267, V161155, V161003) %>%
+  mutate(across(everything(), to_na))
+
+dot <- ggplot(data = anes16c, aes(x = V161267, y = V161092 )) + geom_point()
+
+```
+]
+.panel[.panel-name[Output]
+```{r, fig.align='center', message=FALSE, warning=FALSE, out.width="50%", echo=FALSE}
+dot
+```
+]
+]
+
+---
+
+# Line Chart (`geom_smooth`)
+.panelset[.panel[.panel-name[Code]
+```{r fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+anes16ca <- anes16 %>%
+  select(V161092, V161267) %>%
+  mutate(across(everything(), to_na))
+
+smooth <- ggplot(data = anes16ca, aes(x = V161267, y = V161092 )) + geom_smooth()
+
+```
+]
+.panel[.panel-name[Output]
+```{r,fig.align='center', message=FALSE, warning=FALSE,  out.width="50%", echo=FALSE}
+smooth
+```
+
+]]
+---
+
+# Bonus! Point + Smooth
+
+```{r, fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+dot + geom_smooth()
+
+# ggplot(data = anes16c, aes(x = V161267, y = V161092 )) + geom_dot + geom_smooth()
+
+```
+
+---
+
+# Line Chart (`geom_line`)
+.panelset[.panel[.panel-name[Code]
+```{r, }
+anes16d <- anes16 %>%
+  select(V161267, V161086, V162079) %>%
+  rename(pre = V161086, post = V162079) %>%
+  mutate(across(everything(),to_na)) %>%
+  summarise(`Pre-Election` = mean(pre, na.rm = T), 
+            `Post-Election` = mean(post, na.rm = T)) %>%
+  pivot_longer(names_to = "xvar", cols = everything())
+
+line <- ggplot(anes16d, aes(x = xvar, y = value)) + geom_line(group = "identity")
+```
+]
+.panel[.panel-name[Output]
+```{r, fig.align="center", out.width="50%"}
+line
+```
+
+
+]]
+
+
+---
+# Color aesthetic (`color`)
+.panelset[.panel[.panel-name[Code]
+```{r}
+anes16c <- anes16c %>%
+  filter(!(V161155 == 5), !(V161155 == 0)) %>%
+  mutate(V161155 = as.factor(V161155))
+
+dot1 <- ggplot(data = anes16c, aes(x = V161267, y = V161092, color = V161155)) + geom_point()
+```
+
+]
+
+.panel[.panel-name[Output]
+
+```{r, fig.align="center", out.width="50%"}
+dot1
+```
+
+]
+
+]
+
+
+---
+# Dot size
+.panelset[.panel[.panel-name[Code]
+```{r}
+anes16c <- anes16c %>%
+  filter(!(V161155 == 5), !(V161155 == 0)) %>%
+  mutate(V161155 = as.factor(V161155))
+
+dot2 <- ggplot(data = anes16c, aes(x = V161267, y = V161092, size = V161003)) + geom_point()
+
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r, fig.align="center", out.width="50%"}
+dot2
+```
+
+]
+
+]
+ 
+---
+
+# Transparency
+.panelset[.panel[.panel-name[Code]
+```{r}
+anes16c <- anes16c %>%
+  filter(!(V161155 == 5), !(V161155 == 0)) %>%
+  mutate(V161155 = as.factor(V161155))
+
+dot3 <- ggplot(data = anes16c, aes(x = V161267, y = V161092, alpha = V161003)) + geom_point()
+
+```
+
+]
+.panel[.panel-name[Output]
+
+```{r, fig.align="center", out.width="50%"}
+dot3
+```
+
+]
+
+]
+
+---
+
+# Grouping 
+.panelset[.panel[.panel-name[Code]
+```{r}
+anes16a <- anes16 %>%
+  select(V161003, V162034) %>%
+  mutate(across(everything(), to_na)) %>%
+  mutate(V162034 =  as.factor(V162034),
+         V161003a = case_when(
+    V161003 == 1 ~ "Always",
+    V161003 == 2 ~ "Most of the time",
+    V161003 == 3 ~ "About half the time",
+    V161003 == 4 ~ "Some of the time",
+    V161003 == 5 ~ "Never"
+  ))
+
+# plot  
+bar1 <- ggplot(anes16a, aes(x = V161003a, fill=V162034)) + geom_bar()
+```
+
+
+]
+
+.panel[.panel-name[Output]
+
+```{r echo=FALSE, fig.align="center", fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+bar1
+```
+]]
+
+
+---
+
+# Helpful theme stuff:
+
+- `theme_`
+- `theme`
+- `coord_flip`
+- `scale_MAP_TYPE`
+- `labs`
