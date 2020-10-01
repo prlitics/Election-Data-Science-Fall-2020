@@ -1,0 +1,147 @@
+---
+title: "Week 5 Lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(anesr)
+```
+
+# Can you paint with all the colors of the wind?
+
+Welcome to data visualization! This is honestly one of my favorite weeks; I sincerly hope this isn't you by the end of it!
+
+```{r, fig.align='center', out.width='50%'}
+knitr::include_graphics("https://i.pinimg.com/originals/06/d2/3a/06d23a7d90baa72cffb29dad5c8cd122.jpg")
+```
+
+
+(Honestly, I actually just wanted an excuse to put in a Korra meme and it was the most applicable I could find.)
+
+The data for this week's lab comes from the `anesr` package as well as the course GitHub page.
+
+
+## Challenge 1: A &#x1f339; by any other name.
+
+The following image is constructed using the 2016 data from the `anesr` package. For the next challenge, I would like you to replicate this graph---but make it better. By "better," I mean I'd like for you to write an informative:
+
+- Title
+- Subtitle
+- X axis tick labels
+- Y axis tick labels
+- X \& Y axis titles
+
+I also want you to use a theme that is different than the `ggplot` default. 
+
+
+```{r, echo = FALSE, fig.align='center'}
+library(anesr)
+data("timeseries_2016")
+
+to_na<-function(x){ifelse(x<0,NA,x)}
+
+timeseries_2016 %>%
+  select(V161003,V161086) %>%
+  mutate(across(everything(),to_na)) %>%
+  ggplot(aes(y = V161003, x = V161086)) + geom_point() + geom_smooth()
+```
+
+<center> *Bonus: Add some jittering to the figure.*
+
+## Challenge 2: "I have run the good race."
+
+As you are presumably aware, what with you taking this class and all: Voting for the 2020 general election is already underway. Some estimates have it that there have already been over a *million* votes cast in this election. While that may be a lot, that's honestly a drop in the bucket. We may well see somewhere between **145--150 million** votes cast by the time this election is all said and done. 
+
+All of these votes have been by mail and/or absentee. Let's estimate how the race is unfolding in Rowan County, North Carolina.
+
+**Using the NC_abs_Ro.csv and ROWAN_absentee_20201103.csv files, make a bar chart that:**
+
+**1. Compares the number of absentee requests from Republican, Democrat, and Unaffiliated voters**
+
+**2. Compares the number of ballots _already cast_ among these groups.**
+
+Here is an example of what I'm looking for, using Union county.
+
+```{r echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
+raw_NC_abs<-read_csv("C:\\Users\\prlic\\Downloads\\absentee_demo_stats_20201103.csv")
+Union <- raw_NC_abs %>%
+  filter(county_name == "UNION") %>%
+  group_by(party_desc) %>%
+  summarise(requested = sum(group_count))
+
+
+Union_Ind <- read_csv("C:\\Users\\prlic\\Downloads\\absentee_county_20201103\\UNION_absentee_20201103.csv")
+
+#Summarising, renaming, and merging to make the data into the right format.
+Union_Ind1 <- Union_Ind %>%
+  group_by(ballot_request_party) %>%
+  summarise(received = n()) %>%
+  ungroup() %>%
+  mutate(party_desc = case_when(
+   ballot_request_party == "DEM" ~ "DEMOCRATIC",
+   ballot_request_party == "REP" ~ "REPUBLICAN",
+   ballot_request_party == "UNA" ~ "UNAFFILIATED",
+  )) %>%
+  inner_join(Union) %>% 
+  mutate(requested = requested - received) %>%
+  select(-ballot_request_party) %>%
+  pivot_longer(!party_desc, names_to = "status")
+
+# Factor switching
+Union_Ind1$party_desc <- factor(Union_Ind1$party_desc, levels =  c("DEMOCRATIC", "UNAFFILIATED", "REPUBLICAN")) 
+
+# Plot
+ggplot(data = Union_Ind1) + geom_bar(aes(x = party_desc, y = value, alpha = forcats::fct_rev(status), fill = party_desc), stat = "identity") + 
+  scale_alpha_manual(values = c(.5, .95), guide = "none") +
+  scale_x_discrete(labels = c("Democrat", "Unaffiliated", "Republican"))+
+  scale_fill_manual(values = c("Blue","Yellow","Red"), guide = "none") +theme_bw() + ylab("Total Absentee Ballots Sent\n") + xlab("")+
+  labs(title="More absentee ballot requests and returns among Democrats\nin Union County, North Carolina",
+       subtitle = "Lighter shades represent ballots sent but still outstanding. Darker shades represent accepted\nreturned ballots") +
+  scale_y_continuous(labels = scales::comma_format())
+  
+
+```
+
+You don't have to get all the colors and everything fancy; I just wanted to give you a clear example.
+
+<center>*Bonus: Replicate the color scheme seen in my example image.*
+
+## Challenge 3: "Time after time."
+
+North Carolina isn't the only state where you can glean interesting information about absentee ballots. Georgia also provides a county-by-county breakdown of the individuals who have requested a ballot. It might be interesting to chart out when people requested the ballots over time. 
+
+Using file 025.csv from GitHub (which contains data from Chatham county), I would like for you to make a line chart that plots the **cumulative** number of ballot requests over time. Make sure the axis are labelled and that the title makes sense! Here is an example using Bartow county.
+
+```{r, echo=FALSE, fig.align='center'}
+Bartow_Abs <- read_csv("C:\\Users\\prlic\\Downloads\\35209\\008.csv")
+
+Bartow_Abs[["Application Date"]] <- as.Date(Bartow_Abs[["Application Date"]], format = '%m/%d/%Y')
+
+Bartow_Abs1 <- Bartow_Abs %>%
+  rename(Application_Date = `Application Date`) %>%
+    mutate(Application_Date =  as.Date(Application_Date, format = '%m/%d/%Y'),
+           one = 1)%>%
+  group_by(Application_Date) %>%
+  summarise(day = sum(one)) %>%
+  arrange(Application_Date) %>%
+  mutate(cumulative = cumsum(day))
+
+  ggplot(data = Bartow_Abs1) + geom_line(aes(x = Application_Date, y = cumulative), color = "#9240AB") + theme_minimal() + 
+    ylab("Cumulative Number of\n Absentee Ballots Requested\n") + xlab("\nDate") + 
+    labs(title = "Cumulative number of Absentee ballots requested in Bartow county,\nGeorgia for the 2020 general election.") +
+    scale_y_continuous(labels =  scales::comma_format())
+
+
+```
+
+<center> *Bonus: Change the graph's font to Times New Roman*
+
+
+## Challenge 4: The expanded universe
+
+`ggplot` comes prepacked with a bunch of awesome geoms. However, there are times when these won't fit---either for aesthetic or practical purposes. I would like for you to use the internet to find 2 R packages that offers additional `ggplot` geoms. Pick your favorite geom within the packages (some may have multiple geoms) and briefly explain how this could be useful for visualizing and/or exploring election data.
+
+***
+<center> *That's all for this week. Stay safe!*
