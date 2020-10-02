@@ -18,6 +18,9 @@ Here are the steps for the tutorial:
 2. Preparing a local home for your blog.
 3. Select and install blog template.
 4. Customize and configure your blog.
+5. Creating a new post.
+6. Loading it onto GitHub
+7. BONUS: Deleting old posts.
 
 ## 1. Installing the `{blogdown}` package.
 Open up a new R script in RStudio. Install the blogdown package from CRAN. (If you want to install it from GitHub, you can do so *via* the `{devtools}` or `{remotes}` packages.)
@@ -76,13 +79,43 @@ knitr::include_graphics("geekbloggit.png")
 ```
 <br>
 
-With this copied, return to your RStudio session. Use the `{blogdown}` function `install_theme` and copy the user name and repository information (in quotes).
+With this copied, return to your RStudio session. Use the `{blogdown}` function `new_site` and copy the user name and repository information (in quotes).
 
 ```{r, eval=FALSE}
-blogdown::install_hugo("luizdepra/hugo-coder")
+blogdown::new_site(theme = "luizdepra/hugo-coder")
 ```
 
 ## 4. Customize and configure your blog.
+
+After you've installed the site into your working directory, RStudio may open a couple of windows. the first is a sample RMarkdown document, usually titled something like "2015-07-23-r-markdown.rmd". It would look something like this:
+
+```{r, intro_post, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("intromarkdown.png")
+```
+
+You can safely ignore that for now.
+
+It will also often open up a version of your site in the viewer pane.
+
+```{r, sitepane, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("site preview.png")
+```
+
+
+It may also open up a file titled config.toml. If it does, great! If not, go to the file that you've assigned as your working directory and open the config.toml file in a text-editing program like Notepad, Notepad++, or Atom. (Not to be confused with opening it up in a word processor like Word.)
+
+
+```{r, configtoml, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("configtoml.png")
+```
+
+Each site's toml is going to be a little different. However, the things you're going to be looking to change are things that are usually located near `[params]`. These include things like author, blog name, title, and description. These are the most important ones to look out for. Go ahead and change them to whatever you want. Here's what it looks like after I edited a few of the parameters.
+
+```{r, updatespeople, echo=FALSE, fig.align='center', out.width="50%"}
+knitr::include_graphics("updatespeople.png")
+```
+
+*Note: You don't have to just stick with the same stuff as your theme if you don't want to. There are bunch of different ways you could customize your site _via_ the toml and the accompanying hmtl and javascript. I usually have luck looking for scss files, but it'll take some pocking, prodding, and googling.* 
 
 
 

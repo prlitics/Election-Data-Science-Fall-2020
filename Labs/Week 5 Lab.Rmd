@@ -20,7 +20,7 @@ knitr::include_graphics("https://i.pinimg.com/originals/06/d2/3a/06d23a7d90baa72
 
 (Honestly, I actually just wanted an excuse to put in a Korra meme and it was the most applicable I could find.)
 
-The data for this week's lab comes from the `anesr` package as well as the course GitHub page.
+The data for this week's lab comes from the `anesr` package as well as the course [GitHub page.](https://github.com/prlitics/Election-Data-Science-Fall-2020/tree/master/Data)
 
 
 ## Challenge 1: A &#x1f339; by any other name.
@@ -29,7 +29,6 @@ The following image is constructed using the 2016 data from the `anesr` package.
 
 - Title
 - Subtitle
-- X axis tick labels
 - Y axis tick labels
 - X \& Y axis titles
 
