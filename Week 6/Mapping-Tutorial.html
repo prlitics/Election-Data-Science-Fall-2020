@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Basics of Mapping: Tutorial</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-10-05" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script src="libs/htmlwidgets/htmlwidgets.js"></script>
+    <script src="libs/jquery/jquery.min.js"></script>
+    <link href="libs/leaflet/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet/leaflet.js"></script>
+    <link href="libs/leafletfix/leafletfix.css" rel="stylesheet" />
+    <script src="libs/Proj4Leaflet/proj4-compressed.js"></script>
+    <script src="libs/Proj4Leaflet/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding/leaflet.js"></script>
+    <link href="libs/leaflet-minimap/Control.MiniMap.min.css" rel="stylesheet" />
+    <script src="libs/leaflet-minimap/Control.MiniMap.min.js"></script>
+    <script src="libs/leaflet-minimap/Minimap-binding.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Basics of Mapping: Tutorial
+## Election Data Science
+### Peter Licari
+### 2020-10-05
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+
+
+# *Why* we'll be learning.
+**We're going to make a web app!**
+
+---
+.panelset[.panel[.panel-name[Code]
+
+
+```r
+library(osrm)
+library(tidygeocoder)
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(USAboundaries)
+library(USAboundariesData)
+library(leaflet)
+
+al_cty &lt;- us_counties(states = "Florida") %&gt;%
+  filter(name == "Alachua")
+
+al_voteBoxes &lt;- tribble(
+  ~name, ~addr,
+  "Supervisor of Elections Office", "515 N. Main Street, Gainesville, FL 32601",
+  "Tower Road Branch Library", "3020 SW 75th St., Gainesville",
+  "Millhopper Branch Library ","3145 NW 43rd St., Gainesville",
+  "Legacy Park Multipurpose Center", "15400 Peggy Road, Alachua, Florida 32615",
+  "Orange Heights Baptist Church", "16700 FL-26, Hawthorne, Florida 32640",
+  "J. Wayne Reitz Union", "655 Reitz Union Drive,  Gainesville",
+  "Newberry City Hall", "25440 W. Newberry Road, Newberry"
+)
+
+al_lat_longs1 &lt;- al_voteBoxes %&gt;%
+  geocode(addr, method = 'osm', lat = latitude, long = longitude)
+
+
+al_lat_longs1[5,3]&lt;- 29.7166754
+al_lat_longs1[5,4]&lt;- -82.1447138
+```
+]
+.panel[.panel-name[Output]
+&lt;center&gt;
+<div id="htmlwidget-255a3ef911fb2eb2a2cb" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-255a3ef911fb2eb2a2cb">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
+]
+]
+---
+# But wait! There's more
+
+
+&lt;center&gt;
+<div id="htmlwidget-fae85ad922a6e65be2ba" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fae85ad922a6e65be2ba">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[29.6515738,-82.3419010200242,{"iconUrl":{"data":"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png","index":0},"iconWidth":25,"iconHeight":41,"iconAnchorX":12,"iconAnchorY":41,"shadowUrl":{"data":"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png","index":0},"shadowWidth":41,"shadowHeight":41,"shadowAnchorX":4,"shadowAnchorY":62,"popupAnchorX":1,"popupAnchorY":-34},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"My Address",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-82.3424,-82.34234,-82.33098,-82.32501,-82.32502],"lat":[29.65156,29.65203,29.65205,29.65195,29.6559]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"black","weight":5,"opacity":1,"fill":false,"fillColor":"black","fillOpacity":0.2,"smoothFactor":1,"noClip":false},"OSRM Shortest Route",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
+
+
+---
+# Loading Spatial Data: R Package
+
+Few options: 
+- `{USAboundaries}`
+- `{tidycensus}`
+
+.panelset[.panel[.panel-name[code]
+
+```r
+# install.packages("USAboundaries")
+# devtools::install_github("ropensci/USAboundariesData")
+
+library(USAboundaries)
+library(USAboundariesData)
+
+#Getting Alachua county from the Florida subset.
+al_cty &lt;- us_counties(states = "Florida") %&gt;%
+  filter(name == "Alachua")
+```
+]
+
+.panel[.panel-name[Output]
+
+```r
+tm_shape(al_cty)+tm_borders()+tm_fill(col = "#3D6D6A")+
+  tm_layout(bg.color = "#D8D8D8")
+```
+
+&lt;img src="Mapping-Tutorial_files/figure-html/unnamed-chunk-7-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+# Loading Spatial Data: Shape Files
+
+- Can get the data from data.gov
+  - https://catalog.data.gov/dataset/tiger-line-shapefile-2016-state-florida-current-county-subdivision-state-based
+
+.panelset[.panel[.panel-name[Code]
+
+```r
+#Use the st_read to read in shp files.
+fl_subs&lt;- st_read("C:/Users/prlic/Downloads/tl_2016_12_cousub/tl_2016_12_cousub.shp")
+```
+
+```
+## Reading layer `tl_2016_12_cousub' from data source `C:\Users\prlic\Downloads\tl_2016_12_cousub\tl_2016_12_cousub.shp' using driver `ESRI Shapefile'
+## Simple feature collection with 316 features and 18 fields
+## geometry type:  MULTIPOLYGON
+## dimension:      XY
+## bbox:           xmin: -87.6349 ymin: 24.39631 xmax: -79.97431 ymax: 31.00097
+## geographic CRS: NAD83
+```
+]
+.panel[.panel-name[Output]
+
+```r
+tm_shape(fl_subs)+tm_borders()
+```
+
+&lt;img src="Mapping-Tutorial_files/figure-html/unnamed-chunk-8-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]]
+
+
+---
+# Points Overlays
+.panelset[.panel[.panel-name[Normal Points]
+You can load in points as you would a normal csv if they look like this.You'd then have to convert it.
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; addr &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; latitude &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; longitude &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Supervisor of Elections Office &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 515 N. Main Street, Gainesville, FL 32601 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.65590 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.32491 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Tower Road Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3020 SW 75th St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.62579 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.42362 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Millhopper Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3145 NW 43rd St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.66927 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.38899 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Legacy Park Multipurpose Center &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15400 Peggy Road, Alachua, Florida 32615 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.77317 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.52461 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Orange Heights Baptist Church &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16700 FL-26, Hawthorne, Florida 32640 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.71668 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.14471 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; J. Wayne Reitz Union &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 655 Reitz Union Drive,  Gainesville &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.64611 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.34783 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Newberry City Hall &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 25440 W. Newberry Road, Newberry &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.64622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.61252 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+.panel[.panel-name[Converted]
+
+```r
+al_lat_longs1T &lt;-st_as_sf(al_lat_longs1, coords = c("longitude","latitude"))
+```
+
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; addr &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; geometry &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Supervisor of Elections Office &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 515 N. Main Street, Gainesville, FL 32601 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.32491 29.6559) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Tower Road Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3020 SW 75th St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.42362 29.62579) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Millhopper Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3145 NW 43rd St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.38899 29.66927) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Legacy Park Multipurpose Center &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15400 Peggy Road, Alachua, Florida 32615 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.52461 29.77317) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Orange Heights Baptist Church &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16700 FL-26, Hawthorne, Florida 32640 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.14471 29.71668) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; J. Wayne Reitz Union &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 655 Reitz Union Drive,  Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.34783 29.64611) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Newberry City Hall &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 25440 W. Newberry Road, Newberry &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.61252 29.64622) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+
+.panel[.panel-name[Over layer]
+
+```r
+tm_shape(al_cty)+tm_borders()+
+  tm_shape(al_lat_longs1T)+tm_dots(size = .5, col = "red", alpha = .5)
+```
+
+```
+## Warning: Currect projection of shape al_lat_longs1T unknown. Long-lat (WGS84) is
+## assumed.
+```
+
+&lt;img src="Mapping-Tutorial_files/figure-html/unnamed-chunk-12-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+
+]
+
+---
+# Georeferencing
+
+What if I want to go from an address to a point? (**This is what we'll be doing for the app**)
+
+
+```r
+library(tidygeocoder)
+```
+
+.panelset[.panel[.panel-name[Writing data R]
+
+```r
+my_add &lt;- tribble(~name, ~addr, 
+                  "My Address", "1507 W University Ave, Gainesville")
+kbl(my_add) %&gt;%
+  kable_paper()
+```
+]
+.panel[.panel-name[Georeferencing it]
+
+```r
+my_add %&gt;%
+  geocode(addr, method = 'osm', lat = latitude, long = longitude) %&gt;%
+  kbl() %&gt;% kable_paper()
+```
+
+&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; addr &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; latitude &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; longitude &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; My Address &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1507 W University Ave, Gainesville &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 29.65157 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -82.3419 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+]
+
+---
+# Distance between points
+.panelset[.panel[.panel-name[points]
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; addr &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; geometry &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Supervisor of Elections Office &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 515 N. Main Street, Gainesville, FL 32601 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.32491 29.6559) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Tower Road Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3020 SW 75th St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.42362 29.62579) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Millhopper Branch Library &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3145 NW 43rd St., Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.38899 29.66927) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Legacy Park Multipurpose Center &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 15400 Peggy Road, Alachua, Florida 32615 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.52461 29.77317) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Orange Heights Baptist Church &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 16700 FL-26, Hawthorne, Florida 32640 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.14471 29.71668) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; J. Wayne Reitz Union &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 655 Reitz Union Drive,  Gainesville &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.34783 29.64611) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Newberry City Hall &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 25440 W. Newberry Road, Newberry &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; POINT (-82.61252 29.64622) &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+.panel[.panel-name[Code]
+
+```r
+st_distance(al_lat_longs1T)
+```
+
+]
+.panel[.panel-name[Distance Matrix]
+&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1031959 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0654622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2315876 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1901717 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0249199 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2877728 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.1031959 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0555827 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1786620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2933389 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0784668 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1900045 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.0654622 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0555827 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1708427 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2488365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0472388 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2247141 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.2315876 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1786620 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1708427 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3840755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2177132 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1544182 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.1901717 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2933389 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2488365 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.3840755 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2150235 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4730841 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.0249199 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0784668 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0472388 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2177132 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2150235 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2646956 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 0.2877728 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1900045 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2247141 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.1544182 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.4730841 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.2646956 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.0000000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+]
+
+
+
+---
+# Aggregating geometries
+
+.panelset[.panel[.panel-name[US Counties]
+
+```r
+counties &lt;- USAboundaries::us_counties()
+tm_shape(counties)+tm_borders()
+```
+
+&lt;img src="Mapping-Tutorial_files/figure-html/unnamed-chunk-19-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+]
+.panel[.panel-name[Data]
+&lt;div style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:350px; overflow-x: scroll; width:800px; "&gt;&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; statefp &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; countyfp &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; countyns &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; affgeoid &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; geoid &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; lsad &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; aland &lt;/th&gt;
+   &lt;th style="text-align:right;position: sticky; top:0; background-color: #FFFFFF;"&gt; awater &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; state_name &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; state_abbr &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; jurisdiction_type &lt;/th&gt;
+   &lt;th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;"&gt; geometry &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 39 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01074078 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US39131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 39131 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Pike &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1140324458 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9567612 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ohio &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; OH &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; state &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-83.35353 3... &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 46 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 003 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01266983 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US46003 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 46003 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Aurora &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1834813753 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 11201379 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; South Dakota &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; SD &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; state &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-98.80777 4... &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 55 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 035 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01581077 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US55035 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 55035 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Eau Claire &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1652211310 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18848512 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Wisconsin &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; WI &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; state &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-91.65045 4... &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 72 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 145 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01804553 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US72145 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 72145 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Vega Baja &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 118766803 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 57805868 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Puerto Rico &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; PR &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; territory &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-66.44899 1... &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 48 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 259 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01383915 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US48259 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 48259 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Kendall &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1715747531 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1496797 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Texas &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; TX &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; state &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-98.92015 3... &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 40 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 015 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 01101795 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0500000US40015 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40015 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Caddo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 06 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3310745124 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 30820525 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Oklahoma &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; OK &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; state &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; MULTIPOLYGON (((-98.62315 3... &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+.panel[.panel-name[States]
+
+```r
+new_states &lt;- counties %&gt;%
+  group_by(statefp) %&gt;%
+  summarise(aland = sum(aland))
+
+tm_shape(new_states)+tm_borders()
+```
+
+&lt;img src="Mapping-Tutorial_files/figure-html/unnamed-chunk-21-1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+]
+
+]
+
+---
+# Merging
+
+**Can't just do the normal merge operation!** You have to do ``sp::merge()``.
+
+.panelset[.panel[.panel-name[Code]
+
+
+```r
+#Import NYtimes COVID county data
+masks &lt;- read_csv("C:\\Users\\prlic\\Downloads\\mask-use-by-county.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   COUNTYFP = col_character(),
+##   NEVER = col_double(),
+##   RARELY = col_double(),
+##   SOMETIMES = col_double(),
+##   FREQUENTLY = col_double(),
+##   ALWAYS = col_double()
+## )
+```
+
+```r
+counties &lt;- mutate(counties, FIPS = paste0(statefp,countyfp))
+
+# Merging based off of FIPS number
+count_mask &lt;- sp::merge(x = counties, y = masks, by.x = "FIPS", by.y = "COUNTYFP")
+```
+
+
+]
+.panel[.panel-name[Map]
+
+```r
+count_mask &lt;- filter(count_mask, !jurisdiction_type %in% c("territory","district"),
+                     !state_abbr %in% c("HI","AK"))
+                     
+tm_shape(count_mask) + tm_borders() + tm_fill(col = "ALWAYS")+tm_style("bw")
+```
+
+![](Mapping-Tutorial_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
+
+]
+
+]
+
+---
+
+# What we'll be doing for the app:
+
+.panelset[.panel[.panel-name[Instructions]
+- We'll be going to each county's website and finding the names and addresses of all the early voting and ballot drop-off locations.
+- We'll be taking those strings and georeferencing them with `georeference`.
+- You'll add in the county's name into a new row.
+- You'll then export the georeferenced data to a csv with `write_csv()`
+- You'll make three columns saying whether the address is for the main office, ballot-drop site, and/or early vote site.
+ - (You can do this in R or in the csv directly.)
+- You'll paste it into a Google sheet (link will be in the zoom chat Thursday.)
+]
+.panel[.panel-name[Visual]
+&lt;img src="example.png" width="50%" style="display: block; margin: auto;" /&gt;
+]
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

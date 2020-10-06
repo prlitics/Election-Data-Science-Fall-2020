@@ -1,0 +1,376 @@
+---
+title: "Basics of Mapping: Tutorial"
+subtitle: "Election Data Science"  
+author: 
+  - "Peter Licari"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
+)
+
+xaringanExtra::use_xaringan_extra()
+library(tidyverse)
+library(kableExtra)
+library(tmap)
+
+```
+
+```{css, echo=FALSE}
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+```
+
+
+# *Why* we'll be learning.
+**We're going to make a web app!**
+
+---
+.panelset[.panel[.panel-name[Code]
+
+```{r message=FALSE, warning=FALSE}
+library(osrm)
+library(tidygeocoder)
+library(tidyverse)
+library(sf)
+library(spData)
+library(spDataLarge)
+library(tmap)
+library(USAboundaries)
+library(USAboundariesData)
+library(leaflet)
+
+al_cty <- us_counties(states = "Florida") %>%
+  filter(name == "Alachua")
+
+al_voteBoxes <- tribble(
+  ~name, ~addr,
+  "Supervisor of Elections Office", "515 N. Main Street, Gainesville, FL 32601",
+  "Tower Road Branch Library", "3020 SW 75th St., Gainesville",
+  "Millhopper Branch Library ","3145 NW 43rd St., Gainesville",
+  "Legacy Park Multipurpose Center", "15400 Peggy Road, Alachua, Florida 32615",
+  "Orange Heights Baptist Church", "16700 FL-26, Hawthorne, Florida 32640",
+  "J. Wayne Reitz Union", "655 Reitz Union Drive,  Gainesville",
+  "Newberry City Hall", "25440 W. Newberry Road, Newberry"
+)
+
+al_lat_longs1 <- al_voteBoxes %>%
+  geocode(addr, method = 'osm', lat = latitude, long = longitude)
+
+
+al_lat_longs1[5,3]<- 29.7166754
+al_lat_longs1[5,4]<- -82.1447138
+
+```
+]
+.panel[.panel-name[Output]
+<center>
+```{r echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
+leaflet(data = al_cty) %>%
+  addTiles() %>% addPolygons() %>%
+  addMarkers(data = al_lat_longs1, popup = al_lat_longs1$name) %>% 
+  addMiniMap()
+```
+]
+]
+---
+# But wait! There's more
+```{r echo=FALSE}
+homeicon <- makeIcon(
+  iconUrl = "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png",
+  iconWidth = 25, iconHeight = 41,
+  iconAnchorX = 12, iconAnchorY = 41,
+  shadowUrl = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+  shadowWidth = 41, shadowHeight = 41,
+  shadowAnchorX = 4, shadowAnchorY = 62,
+  popupAnchorX = 1, popupAnchorY = -34
+)
+```
+
+<center>
+```{r echo=FALSE, fig.align='center', message=FALSE, warning=FALSE}
+my_add <- tribble(~name, ~addr, 
+                  "My Address", "1507 W University Ave, Gainesville")
+my_add_geo <- my_add %>%
+  geocode(addr, method = 'osm', lat = latitude, long = longitude)
+
+test1<-st_as_sf(select(al_lat_longs1, -addr), coords = c("longitude","latitude"),
+                crs = 4326)
+my_add_geo1<-st_as_sf(select(my_add_geo, -addr), coords = c("longitude","latitude"),
+                crs = 4326)
+
+total_adds<-rbind(my_add_geo1, test1)
+
+
+tabletest <- osrmTable(total_adds, measure = "distance")
+
+closest_route <- function(dist_table, full_geos_sf) {
+  from_addr <- dist_table$durations[1,]
+  from_addr[1]<-NA
+  closest_index <- which.min(from_addr)
+  geos_df <- full_geos_sf[-1]
+  x <- osrmRoute(src = geos_df[1,], dst = geos_df[closest_index,], returnclass = "sf")
+  return(x)
+}
+
+route<-closest_route(dist_table = tabletest, full_geos_sf = total_adds)
+
+
+leaflet(data = al_cty) %>%
+  addTiles() %>% addPolygons() %>%
+  addMarkers(data = al_lat_longs1, popup = al_lat_longs1$name) %>% 
+  addMarkers(data = my_add_geo1, popup = my_add_geo1$name, icon = homeicon ) %>%
+  addPolylines(data = route$geometry, color = "black", opacity = 1, popup = "OSRM Shortest Route") %>%
+  addMiniMap()
+
+```
+
+
+---
+# Loading Spatial Data: R Package
+
+Few options: 
+- `{USAboundaries}`
+- `{tidycensus}`
+
+.panelset[.panel[.panel-name[code]
+```{r}
+# install.packages("USAboundaries")
+# devtools::install_github("ropensci/USAboundariesData")
+
+library(USAboundaries)
+library(USAboundariesData)
+
+#Getting Alachua county from the Florida subset.
+al_cty <- us_counties(states = "Florida") %>%
+  filter(name == "Alachua")
+
+
+```
+]
+
+.panel[.panel-name[Output]
+```{r,  out.width="50%", fig.align='center'}
+tm_shape(al_cty)+tm_borders()+tm_fill(col = "#3D6D6A")+
+  tm_layout(bg.color = "#D8D8D8")
+```
+]
+]
+
+---
+
+# Loading Spatial Data: Shape Files
+
+- Can get the data from data.gov
+  - https://catalog.data.gov/dataset/tiger-line-shapefile-2016-state-florida-current-county-subdivision-state-based
+
+.panelset[.panel[.panel-name[Code]
+```{r shp files, message=FALSE, warning=FALSE}
+
+#Use the st_read to read in shp files.
+fl_subs<- st_read("C:/Users/prlic/Downloads/tl_2016_12_cousub/tl_2016_12_cousub.shp")
+
+
+```
+]
+.panel[.panel-name[Output]
+```{r, out.width="50%", fig.align='center'}
+tm_shape(fl_subs)+tm_borders()
+```
+
+
+]]
+
+
+---
+# Points Overlays
+.panelset[.panel[.panel-name[Normal Points]
+You can load in points as you would a normal csv if they look like this.You'd then have to convert it.
+```{r, echo=FALSE}
+  
+  kbl(al_lat_longs1) %>%
+  kable_paper() %>%
+  scroll_box(width = "800px", height = "350px")
+```
+]
+.panel[.panel-name[Converted]
+```{r}
+al_lat_longs1T <-st_as_sf(al_lat_longs1, coords = c("longitude","latitude"))
+```
+
+```{r, echo=FALSE}
+  kbl(al_lat_longs1T) %>%
+  kable_paper() %>%
+  scroll_box(width = "800px", height = "350px")
+```
+]
+
+.panel[.panel-name[Over layer]
+```{r,  out.width="50%", fig.align='center'}
+tm_shape(al_cty)+tm_borders()+
+  tm_shape(al_lat_longs1T)+tm_dots(size = .5, col = "red", alpha = .5)
+```
+
+]
+
+]
+
+---
+# Georeferencing
+
+What if I want to go from an address to a point? (**This is what we'll be doing for the app**)
+
+```{r message=FALSE, warning=FALSE}
+library(tidygeocoder)
+```
+
+.panelset[.panel[.panel-name[Writing data R]
+```{r, eval=FALSE}
+my_add <- tribble(~name, ~addr, 
+                  "My Address", "1507 W University Ave, Gainesville")
+kbl(my_add) %>%
+  kable_paper()
+```
+]
+.panel[.panel-name[Georeferencing it]
+```{r}
+my_add %>%
+  geocode(addr, method = 'osm', lat = latitude, long = longitude) %>%
+  kbl() %>% kable_paper()
+```
+]
+
+]
+
+---
+# Distance between points
+.panelset[.panel[.panel-name[points]
+```{r, echo=FALSE}
+  kbl(al_lat_longs1T) %>%
+  kable_paper() %>%
+  scroll_box(width = "800px", height = "350px")
+```
+]
+.panel[.panel-name[Code]
+```{r, eval=FALSE}
+st_distance(al_lat_longs1T)
+```
+
+]
+.panel[.panel-name[Distance Matrix]
+```{r, echo=FALSE}
+st_distance(al_lat_longs1T) %>%
+  kbl() %>%
+  kable_paper()
+```
+
+]
+]
+
+
+
+---
+# Aggregating geometries
+
+.panelset[.panel[.panel-name[US Counties]
+```{r, out.width="50%", fig.align='center'}
+counties <- USAboundaries::us_counties()
+tm_shape(counties)+tm_borders()
+
+```
+
+]
+.panel[.panel-name[Data]
+```{r, echo=FALSE}
+counties %>%
+  head() %>%
+  kbl() %>%
+    kable_paper() %>%
+  scroll_box(width = "800px", height = "350px")
+```
+]
+.panel[.panel-name[States]
+```{r fig.align='center', message=FALSE, warning=FALSE, out.width="50%"}
+new_states <- counties %>%
+  group_by(statefp) %>%
+  summarise(aland = sum(aland))
+
+tm_shape(new_states)+tm_borders()
+```
+
+
+]
+
+]
+
+---
+# Merging
+
+**Can't just do the normal merge operation!** You have to do ``sp::merge()``.
+
+.panelset[.panel[.panel-name[Code]
+
+```{r}
+#Import NYtimes COVID county data
+masks <- read_csv("C:\\Users\\prlic\\Downloads\\mask-use-by-county.csv")
+
+counties <- mutate(counties, FIPS = paste0(statefp,countyfp))
+
+# Merging based off of FIPS number
+count_mask <- sp::merge(x = counties, y = masks, by.x = "FIPS", by.y = "COUNTYFP")
+
+```
+
+
+]
+.panel[.panel-name[Map]
+```{r}
+count_mask <- filter(count_mask, !jurisdiction_type %in% c("territory","district"),
+                     !state_abbr %in% c("HI","AK"))
+                     
+tm_shape(count_mask) + tm_borders() + tm_fill(col = "ALWAYS")+tm_style("bw")
+
+```
+
+]
+
+]
+
+---
+
+# What we'll be doing for the app:
+
+.panelset[.panel[.panel-name[Instructions]
+- We'll be going to each county's website and finding the names and addresses of all the early voting and ballot drop-off locations.
+- We'll be taking those strings and georeferencing them with `georeference`.
+- You'll add in the county's name into a new row.
+- You'll then export the georeferenced data to a csv with `write_csv()`
+- You'll make three columns saying whether the address is for the main office, ballot-drop site, and/or early vote site.
+ - (You can do this in R or in the csv directly.)
+- You'll paste it into a Google sheet (link will be in the zoom chat Thursday.)
+]
+.panel[.panel-name[Visual]
+```{r, echo=F, fig.align="center", out.width="50%"}
+knitr::include_graphics("example.png")
+```
+]
+]
