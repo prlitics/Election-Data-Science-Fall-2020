@@ -322,38 +322,6 @@ tm_shape(new_states)+tm_borders()
 
 ]
 
----
-# Merging
-
-**Can't just do the normal merge operation!** You have to do ``sp::merge()``.
-
-.panelset[.panel[.panel-name[Code]
-
-```{r}
-#Import NYtimes COVID county data
-masks <- read_csv("C:\\Users\\prlic\\Downloads\\mask-use-by-county.csv")
-
-counties <- mutate(counties, FIPS = paste0(statefp,countyfp))
-
-# Merging based off of FIPS number
-count_mask <- sp::merge(x = counties, y = masks, by.x = "FIPS", by.y = "COUNTYFP")
-
-```
-
-
-]
-.panel[.panel-name[Map]
-```{r}
-count_mask <- filter(count_mask, !jurisdiction_type %in% c("territory","district"),
-                     !state_abbr %in% c("HI","AK"))
-                     
-tm_shape(count_mask) + tm_borders() + tm_fill(col = "ALWAYS")+tm_style("bw")
-
-```
-
-]
-
-]
 
 ---
 

@@ -4,7 +4,7 @@
     <title>Basics of Mapping: Tutorial</title>
     <meta charset="utf-8" />
     <meta name="author" content="Peter Licari" />
-    <meta name="date" content="2020-10-05" />
+    <meta name="date" content="2020-10-06" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
@@ -39,7 +39,7 @@ class: center, middle, inverse, title-slide
 # Basics of Mapping: Tutorial
 ## Election Data Science
 ### Peter Licari
-### 2020-10-05
+### 2020-10-06
 
 ---
 
@@ -98,8 +98,8 @@ al_lat_longs1[5,4]&lt;- -82.1447138
 ]
 .panel[.panel-name[Output]
 &lt;center&gt;
-<div id="htmlwidget-255a3ef911fb2eb2a2cb" style="width:504px;height:504px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-255a3ef911fb2eb2a2cb">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-4c6b440a58fe4bda9805" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4c6b440a58fe4bda9805">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
 ]
 ]
 ---
@@ -107,8 +107,8 @@ al_lat_longs1[5,4]&lt;- -82.1447138
 
 
 &lt;center&gt;
-<div id="htmlwidget-fae85ad922a6e65be2ba" style="width:504px;height:504px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-fae85ad922a6e65be2ba">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[29.6515738,-82.3419010200242,{"iconUrl":{"data":"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png","index":0},"iconWidth":25,"iconHeight":41,"iconAnchorX":12,"iconAnchorY":41,"shadowUrl":{"data":"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png","index":0},"shadowWidth":41,"shadowHeight":41,"shadowAnchorX":4,"shadowAnchorY":62,"popupAnchorX":1,"popupAnchorY":-34},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"My Address",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-82.3424,-82.34234,-82.33098,-82.32501,-82.32502],"lat":[29.65156,29.65203,29.65205,29.65195,29.6559]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"black","weight":5,"opacity":1,"fill":false,"fillColor":"black","fillOpacity":0.2,"smoothFactor":1,"noClip":false},"OSRM Shortest Route",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-40fe391b1ced1b584040" style="width:504px;height:504px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-40fe391b1ced1b584040">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addPolygons","args":[[[[{"lng":[-82.658554,-82.640627,-82.529705,-82.510819,-82.418728,-82.272563,-82.133126,-82.055625,-82.050955,-82.055899,-82.199287,-82.211449,-82.40662,-82.556766,-82.557565,-82.656301,-82.658554],"lat":[29.830144,29.828849,29.940881,29.945234,29.923093,29.843011,29.835949,29.718232,29.702569,29.471232,29.422035,29.484067,29.485048,29.480055,29.537606,29.564811,29.830144]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":true,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[[29.6558995162243,29.6257942,29.6692741,29.773174,29.7166754,29.6461053,29.646223],[-82.3249124460907,-82.4236194,-82.3889938,-82.524611,-82.1447138,-82.3478269606242,-82.6125225306123],null,null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["Supervisor of Elections Office","Tower Road Branch Library","Millhopper Branch Library ","Legacy Park Multipurpose Center","Orange Heights Baptist Church","J. Wayne Reitz Union","Newberry City Hall"],null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[29.6515738,-82.3419010200242,{"iconUrl":{"data":"https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-orange.png","index":0},"iconWidth":25,"iconHeight":41,"iconAnchorX":12,"iconAnchorY":41,"shadowUrl":{"data":"https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png","index":0},"shadowWidth":41,"shadowHeight":41,"shadowAnchorX":4,"shadowAnchorY":62,"popupAnchorX":1,"popupAnchorY":-34},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"My Address",null,null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-82.3424,-82.34234,-82.33098,-82.32501,-82.32502],"lat":[29.65156,29.65203,29.65205,29.65195,29.6559]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"black","weight":5,"opacity":1,"fill":false,"fillColor":"black","fillOpacity":0.2,"smoothFactor":1,"noClip":false},"OSRM Shortest Route",null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMiniMap","args":[null,null,"bottomright",150,150,19,19,-5,false,false,false,false,false,false,{"color":"#ff7800","weight":1,"clickable":false},{"color":"#000000","weight":1,"clickable":false,"opacity":0,"fillOpacity":0},{"hideText":"Hide MiniMap","showText":"Show MiniMap"},[]]}],"limits":{"lat":[29.422035,29.945234],"lng":[-82.658554,-82.050955]}},"evals":[],"jsHooks":[]}</script>
 
 
 ---
@@ -633,54 +633,6 @@ tm_shape(new_states)+tm_borders()
 
 ]
 
----
-# Merging
-
-**Can't just do the normal merge operation!** You have to do ``sp::merge()``.
-
-.panelset[.panel[.panel-name[Code]
-
-
-```r
-#Import NYtimes COVID county data
-masks &lt;- read_csv("C:\\Users\\prlic\\Downloads\\mask-use-by-county.csv")
-```
-
-```
-## Parsed with column specification:
-## cols(
-##   COUNTYFP = col_character(),
-##   NEVER = col_double(),
-##   RARELY = col_double(),
-##   SOMETIMES = col_double(),
-##   FREQUENTLY = col_double(),
-##   ALWAYS = col_double()
-## )
-```
-
-```r
-counties &lt;- mutate(counties, FIPS = paste0(statefp,countyfp))
-
-# Merging based off of FIPS number
-count_mask &lt;- sp::merge(x = counties, y = masks, by.x = "FIPS", by.y = "COUNTYFP")
-```
-
-
-]
-.panel[.panel-name[Map]
-
-```r
-count_mask &lt;- filter(count_mask, !jurisdiction_type %in% c("territory","district"),
-                     !state_abbr %in% c("HI","AK"))
-                     
-tm_shape(count_mask) + tm_borders() + tm_fill(col = "ALWAYS")+tm_style("bw")
-```
-
-![](Mapping-Tutorial_files/figure-html/unnamed-chunk-23-1.png)&lt;!-- --&gt;
-
-]
-
-]
 
 ---
 
