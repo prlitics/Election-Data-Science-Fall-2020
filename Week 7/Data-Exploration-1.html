@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to Exploratory Data Analysis</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-10-12" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <script type="application/json" id="xaringanExtra-editable-docid">{"id":"x63e4d7413344e048a77efb237592750","expires":1}</script>
+    <script src="libs/himalaya/himalaya.js"></script>
+    <script src="libs/js-cookie/js.cookie.js"></script>
+    <link href="libs/editable/editable.css" rel="stylesheet" />
+    <script src="libs/editable/editable.js"></script>
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to Exploratory Data Analysis
+## Election Data Science
+### Peter Licari
+### 2020-10-12
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+--
+&lt;img src="mrdr.jpg" width="865" style="display: block; margin: auto;" /&gt;
+--
+
+*Password today is: Tardis*
+
+---
+# There are two primary approaches to statistical analysis of data:
+
+- **Confirmatory data analysis (CDA):** What we think of when we think of the "scientific method."
+- **Exploratory data analysis (EDA):** Exploring data for interesting descriptive insights and generating new hypotheses.
+
+---
+class: center, middle
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+Exploratory data analysis is less a specific series of steps and more of an attitude of how one approaches the data. At its best, it can help you generate new knowledge, give you more insight into the quality of your data, the appropriateness of your measurements, and help you arrive at new hypotheses for future studies.
+] 
+ 
+
+---
+# What kinds of questions to ask?
+In the context of election data science/ data-driven social science, you can split it into *single* variable and *multi*variable types.
+.pull-left[
+&lt;center&gt; &lt;strong&gt;Single Variable Questions&lt;/strong&gt;&lt;/center&gt;
+
+- How many observations are missing? Why?
+- What is the largest value? Smallest value? Average value?
+- What is the count of values and/or observations?
+- Are there outliers? What is generating them?
+- What is the distribution of values? 
+- Are these things expected?
+]
+
+.pull-right[
+&lt;center&gt; &lt;strong&gt;Multivariable Questions&lt;/strong&gt;&lt;/center&gt;
+
+- Do values vary across spacial boundaries?
+- Do values vary across known groups?
+- Do values suggest the presence of **un**known groups?
+- Do values x and y covary? Are they correlated?
+- Does relationship X occur in this data set?
+- Does relationship X hold in condition Y?]
+
+---
+# A few statistical terms we should be aware of:
+
+- **Mean:** Arithmatic average; sum of all observations / the number of observations
+- **Median:** All values are sorted from lowest to highest; median is the middle value (or mean of middle 2)
+  - *If median and mean differ drastically, then your data are most likely skewed*
+- **Mode:** Most frequently observed variable.
+- **Range** Difference from lowest observed value to highest observed value
+- **Quartiles/Deciles:** You know how median is at the 50% mark? Could do it every 25/10 as well.
+- **Inner Quartile Range:** Range from the 75% figure to the 25% figure
+- **Standard Deviation:** Square root of the mean mean squared distance from the mean value.
+  - `\(S.D. \{1,2,3,4,5\} \rightarrow\)`
+  `\(\sqrt{((1-3)^2 + (2-3)^2 + (3-3)^2 + (4-3)^2 + (5-3)^2)/5} = 1.581\)`
+
+---
+
+.pull-left[&lt;center&gt; &lt;strong&gt;What's asked&lt;/strong&gt;&lt;/center&gt;
+
+- How many observations are missing? Why?
+- What is the largest value? Smallest value? Average value?
+- What is the count of values and/or observations?
+- Are there outliers? What is generating them?
+- What is the distribution of values? 
+- Are these things expected?&lt;/strong&gt;
+]
+
+.pull-right[
+&lt;center&gt; &lt;i&gt;What it can tell us&lt;/center&gt;
+- How complete is the data? Are there issues in collection?
+- Are there surprises? Are there large gaps? 
+- Are there discrepancies with other accepted figures?
+- Are there apparent violations of laws, norms, and/or desirable procedures/outcomes?
+ &lt;/i&gt;]
+
+---
+
+# Example: Absentee ballot send date.
+
+&lt;img src="Data-Exploration-1_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Example:  Duration from sent to returned.
+
+&lt;img src="Data-Exploration-1_files/figure-html/unnamed-chunk-4-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Before we talk about multivariable relationships...
+
+Let's talk about correlation and covariance.
+
+**What comes to mind when you think of the word "correlation?**
+
+.can-edit[
+- thoughts...
+]
+
+
+---
+class: center, middle
+
+**Correlation refers to the degree that two variables covary--usually in a linear fashion. It is a proxy for how interdependent they are upon one another--or upon a hidden joint factor.**
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="Scatter-Plots-and-Correlation-Examples.png" alt="Source: Ly Tong" width="60%" /&gt;
+&lt;p class="caption"&gt;Source: Ly Tong&lt;/p&gt;
+&lt;/div&gt;
+
+---
+.pull-left[&lt;center&gt; &lt;strong&gt;What's asked&lt;/strong&gt;&lt;/center&gt;
+- Do values vary across spacial boundaries?
+- Do values vary across known groups?
+- Do values suggest the presence of **un**known groups?
+- Do values x and y covary? Are they correlated?
+- Does relationship X occur in this data set?
+- Does relationship X hold in condition Y?]
+
+.pull-right[
+&lt;center&gt; &lt;i&gt;What it can tell us&lt;/center&gt;
+- Is there a relationship between two concepts/variables?
+- Is the relationship heterogenous?
+- Are there surprises? Are there large gaps? 
+- Are there discrepancies with other accepted figures?
+- Are there apparent violations of laws, norms, and/or desirable procedures/outcomes?
+ &lt;/i&gt;]
+
+---
+# Example: 
+
+**Correlation between election challenger feeling thermometer and faith that 2016 was fair.**
+
+.panelset[.panel[.panel-name[Correlation]
+&lt;table class=" lightable-paper" style='font-family: "Arial Narrow", arial, helvetica, sans-serif; margin-left: auto; margin-right: auto;'&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; Trump_Therm &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Faith &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; corr &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 54.26327 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 47.83225 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; -0.0644719 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.panel[.panel-name[Figure]
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="Data-Exploration-1_files/figure-html/unnamed-chunk-7-1.png" alt="Bamboozeled!" width="80%" /&gt;
+&lt;p class="caption"&gt;Bamboozeled!&lt;/p&gt;
+&lt;/div&gt;
+
+
+]]
+
+---
+# Why visualization is such an important part of EDA!
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="anscombe.png" alt="Credit: RStudio" width="1097" /&gt;
+&lt;p class="caption"&gt;Credit: RStudio&lt;/p&gt;
+&lt;/div&gt;
+
+---
+# Real example
+
+&lt;img src="Data-Exploration-1_files/figure-html/unnamed-chunk-9-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+# How generalizable are the conclusions of EDA?
+
+--
+
+It depends on how good the data are on three factors:
+--
+
+1. Scope:
+  - *How much of the data, with regards to your population and time period of interest, do you have?*
+2. Quality: 
+  - *How reliable are the instruments, measures, and data-gathering process?*
+3. Specificity:
+  - *How well do the measures map on to your question?*
+---
+
+&lt;img src="bruh.png" width="1333" style="display: block; margin: auto;" /&gt;
+
+
+---
+# Can EDA Help with causality?
+
+- *Usually not.*
+- If the data are gathered at the same time, then you can't necessarily be sure which causes which?
+  - Further, there may be a hidden *third* factor, causing both things to occur.
+  - Hence why "correlation does not equal causation." (Although, also the reverse is true, depending on your definitions.)
+  
+---
+# Can EDA help make predictive models?
+.pull-left[- *Again, usually no.*
+- Sometimes it can help you specify models and groups to keep out for. But otherwise it's really irresponsible.]
+
+.pull-right[
+&lt;img src="I-started.png" width="399" style="display: block; margin: auto;" /&gt;
+
+]
+
+---
+# What kinds of questions to ask?
+Not an exclusive list, but I find a lot of my questions circling one or several of these topics:
+
+- Does it reflect a topic that is underrrepresented in our current collection of knowledge? (*Here's where expertise comes in!*)
+- Is there something that you think should matter but that no one has talked about? Or **has** talked about, but not emphasizing particular things you feel matter?
+- Is it an attitude about politically relvant groups, issue-areas, and/or individuals?
+- It it a belief that holds considerable sway over members of politically notable groups?
+
+
+---
+# Continued.
+- Is it the downstream effect of actors/entities/processes that are suspected to have an affect on relevant cognitions and actors?
+- Does it represent an important step in the contexts' elections process from a voter's and/or administrator's perspective?
+- Does it measure a process that is important for the administration of policy, distribution of (material and non-material) goods, and/or one that plays a role in the allocation of power?
+- Is the concept/variable thought to hold leverage in important social, psychological, and/or political processes? 
+- Is it interesting and/or fun to learn about?
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

@@ -20,7 +20,6 @@ Here are the steps for the tutorial:
 4. Customize and configure your blog.
 5. Creating a new post.
 6. Loading it onto GitHub
-7. BONUS: Deleting old posts.
 
 ## 1. Installing the `{blogdown}` package.
 Open up a new R script in RStudio. Install the blogdown package from CRAN. (If you want to install it from GitHub, you can do so *via* the `{devtools}` or `{remotes}` packages.)
@@ -118,4 +117,16 @@ knitr::include_graphics("updatespeople.png")
 *Note: You don't have to just stick with the same stuff as your theme if you don't want to. There are bunch of different ways you could customize your site _via_ the toml and the accompanying hmtl and javascript. I usually have luck looking for scss files, but it'll take some pocking, prodding, and googling.* 
 
 
+### 5. Writing a New Post
+Once you've made all the changes that you want, make sure that you're in the same working directory as your site. Then go to the "addins" button near the top of your RStudio pane. Click "new post." A RMarkdown document will open up. You can write in this as you would any other Rmarkdown document (and as you have been doing all of the assignments.) 
+
+Once you're finished writing, be sure to save it. Then enter the command ```blogdown::build_site()``` into the console (or into your R script, so long as you run it.)
+
+### 6. 
+
+From here, open your GitHub desktop. Access the repository that you used to build your site (the one with the "Hello world!" html file, ending in "github.io".) Either enter `ctrl+shift+f` or `cmd+shift+f` (depending on if you're using either Windows or Mac), which will bring you to the GitHub file directory.
+
+Using either file explorer or finder, go to the local directory where you have saved your blog. Open the folder called "public." Copy **_all_** of the items inside the public folder. Delete the Hello World file from the GitHub desktop directory. Then paste all the contents of the public folder into your github.io repository. Push the changes to your GitHub account. Wait 5-10 minutes. Your site should now be live and ready for you to write new posts!
+
+**You will have to do steps 5 and 6 every time you write a new post. However, most of the work is honestly finding and customizing the site. I hope this helps!**
 
