@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to Causality</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-10-18" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to Causality
+## Election Data Science
+### Peter Licari
+### 2020-10-18
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+--
+
+
+*Passphrase today is: Cause and Effect*
+
+---
+# What do we mean by "causal"?
+--
+
+**There is no single, set theory of causality. Instead there is a constellation of concepts that we glomm together when we discuss the topic:**
+--
+1. Deterministic causality.
+2. Probabilistic causality.
+3. Procedural causality.
+4. Necessary/Sufficient causality.\*
+5. Leverage causality.
+6. Reciprocal causality.
+
+--
+**_In general_** there are three requirements to a causal relationship across types: There is a relationship between cause and effect; cause must precede effect; and there must not be any spurious causes.
+
+---
+
+Probabilistic causality: `\(X\)` can be said to cause `\(Y\)` if changes in `\(X\)` significantly alters *the probability* of `\(Y\)` occurring (provided the main three requirements are met). 
+
+---
+# What do we mean by significant.
+
+
+---
+# 4 concepts we need to understand to get statistical significance:
+
+1. Statements of significance are always *statements of comparison.*
+2. Most frequently, the comparison is to a hypothesized **null** relationship.
+  - *That is, there is no difference between groups and/or no relationship between `\(X\)` and `\(Y\)`.*
+3. Determinations of "significance" is arbitrary.
+  - The underlying concept is probabilistic; the up/down decision is based on your tolerance for uncertainty.
+4. Significance **alone** cannot tell you the *importance* of the relationship. 
+
+---
+# Let's think about comparisons between groups. 
+.panelset[.panel[.panel-name[Comparison 1]
+
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+]
+.panel[.panel-name[Comparison 2]
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+]
+.panel[.panel-name[Comparison 3]
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+]
+
+]
+
+---
+# What information do we need?
+.panelset[.panel[.panel-name[Central Tendency]
+
+```r
+tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 25, sd = 5)) %&gt;%
+  mutate(blah = "blah") %&gt;%
+  pivot_longer(!blah, names_to = "groups") %&gt;%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  geom_segment(aes(x = 25, xend = 25, y = 0, yend = .1), color = "#2D4396")+
+  geom_segment(aes(x = 0, xend = 0, y = 0, yend = .1), color = "#932C2C")+
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+
+]
+.panel[.panel-name[Distribution]
+
+```r
+tibble(group1 = rnorm(1000, mean = 0, sd = 5), group2 = rnorm(1000, mean = 25, sd = 5)) %&gt;%
+  mutate(blah = "blah") %&gt;%
+  pivot_longer(!blah, names_to = "groups") %&gt;%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  geom_segment(aes(x = 20, xend = 30, y = .0375, yend = .0375), color = "#2D4396")+
+  geom_segment(aes(x = -5, xend = 5, y = .0375, yend = .0375), color = "#932C2C")+
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+
+
+]
+
+.panel[.panel-name[Quality]
+Quality consists of the number of people you've selected and (implicitly) how they were gathered.
+--
+
+This tells us how **reliably** we can take the difference observed between the two groups.
+
+**In our case:_Random sample of 1,000 members of both group 1 and group 2._**
+]
+]
+---
+# How sure is "sure"?
+With all of this data, you can calculate a specific parameter ($t$ statistic) that will help you calculate a `\(p\)` value. 
+
+The p value represents how probable it is that the difference you observed, given the quality of your samples, would pop up if the *null* hypothesis (e.g., that **there is _no_ difference between the two groups** were true.) 
+
+---
+
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+
+---
+
+- The `\(p\)` value tells you the probability that you would see a difference this extreme if the null hypothesis were true. 
+
+- Statistical significance is determined based off of how often, on average, you (or, more realistically, your field), is comfortable accepting a so-called false-positive. 
+  - Frequently see 5% of the time ($p = 0.05$) or 10% of the time ($p = 0.10$)
+  
+---
+## Linear Regression. 
+
+In order to understand the logic of linear regression, you really don't need to understand *much* more than high school algebra. Specifically:
+
+&lt;center&gt;$Y = mX + b$&lt;/center&gt;
+
+---
+## Algebra refresher:
+
+![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+
+
+---
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

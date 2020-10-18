@@ -1,0 +1,202 @@
+---
+title: "Intro to Causality"
+subtitle: "Election Data Science"  
+author: 
+  - "Peter Licari"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
+)
+
+xaringanExtra::use_xaringan_extra()
+library(tidyverse)
+library(kableExtra)
+```
+
+```{css, echo=FALSE}
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+```
+--
+
+
+*Passphrase today is: Cause and Effect*
+
+---
+# What do we mean by "causal"?
+--
+
+**There is no single, set theory of causality. Instead there is a constellation of concepts that we glomm together when we discuss the topic:**
+--
+1. Deterministic causality.
+2. Probabilistic causality.
+3. Procedural causality.
+4. Necessary/Sufficient causality.\*
+5. Leverage causality.
+6. Reciprocal causality.
+
+--
+**_In general_** there are three requirements to a causal relationship across types: There is a relationship between cause and effect; cause must precede effect; and there must not be any spurious causes.
+
+---
+
+Probabilistic causality: $X$ can be said to cause $Y$ if changes in $X$ significantly alters *the probability* of $Y$ occurring (provided the main three requirements are met). 
+
+---
+# What do we mean by significant.
+
+
+---
+# 4 concepts we need to understand to get statistical significance:
+
+1. Statements of significance are always *statements of comparison.*
+2. Most frequently, the comparison is to a hypothesized **null** relationship.
+  - *That is, there is no difference between groups and/or no relationship between $X$ and $Y$.*
+3. Determinations of "significance" is arbitrary.
+  - The underlying concept is probabilistic; the up/down decision is based on your tolerance for uncertainty.
+4. Significance **alone** cannot tell you the *importance* of the relationship. 
+
+---
+# Let's think about comparisons between groups. 
+.panelset[.panel[.panel-name[Comparison 1]
+
+```{r, echo=FALSE}
+tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 25, sd = 5)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+]
+.panel[.panel-name[Comparison 2]
+```{r, echo=FALSE}
+tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 15, sd = 5)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+]
+.panel[.panel-name[Comparison 3]
+```{r, echo=FALSE}
+tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 1, sd = 5)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+]
+
+]
+
+---
+# What information do we need?
+.panelset[.panel[.panel-name[Central Tendency]
+```{r}
+tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 25, sd = 5)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  geom_segment(aes(x = 25, xend = 25, y = 0, yend = .1), color = "#2D4396")+
+  geom_segment(aes(x = 0, xend = 0, y = 0, yend = .1), color = "#932C2C")+
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+
+]
+.panel[.panel-name[Distribution]
+```{r}
+tibble(group1 = rnorm(1000, mean = 0, sd = 5), group2 = rnorm(1000, mean = 25, sd = 5)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
+  geom_segment(aes(x = 20, xend = 30, y = .0375, yend = .0375), color = "#2D4396")+
+  geom_segment(aes(x = -5, xend = 5, y = .0375, yend = .0375), color = "#932C2C")+
+  theme_minimal() + xlab("")+ 
+  theme(axis.text.x = element_blank()) 
+```
+
+
+]
+
+.panel[.panel-name[Quality]
+Quality consists of the number of people you've selected and (implicitly) how they were gathered.
+--
+
+This tells us how **reliably** we can take the difference observed between the two groups.
+
+**In our case:_Random sample of 1,000 members of both group 1 and group 2._**
+]
+]
+---
+# How sure is "sure"?
+With all of this data, you can calculate a specific parameter ($t$ statistic) that will help you calculate a $p$ value. 
+
+The p value represents how probable it is that the difference you observed, given the quality of your samples, would pop up if the *null* hypothesis (e.g., that **there is _no_ difference between the two groups** were true.) 
+
+---
+
+```{r, echo=FALSE}
+df <- tibble()
+for(i in seq_along(1:50)){
+x <- tibble(group1 = rnorm(30, mean = 0, sd = 1), group2 = rnorm(30, mean = 0, sd = 1)) %>%
+  mutate(blah = "blah") %>%
+  pivot_longer(!blah, names_to = "groups") %>%
+    mutate(z = i)
+df<- rbind(df,x)
+  }
+ggplot(data = df) + geom_density(aes(x=value, fill = groups), alpha = .6) + theme_bw()+
+  theme(axis.text = element_blank())+facet_wrap(~z, ncol = 10)
+```
+
+---
+
+- The $p$ value tells you the probability that you would see a difference this extreme if the null hypothesis were true. 
+
+- Statistical significance is determined based off of how often, on average, you (or, more realistically, your field), is comfortable accepting a so-called false-positive. 
+  - Frequently see 5% of the time ($p = 0.05$) or 10% of the time ($p = 0.10$)
+  
+---
+## Linear Regression. 
+
+In order to understand the logic of linear regression, you really don't need to understand *much* more than high school algebra. Specifically:
+
+<center>$Y = mX + b$</center>
+
+---
+## Algebra refresher:
+
+```{r, echo=FALSE}
+tibble(x = c(-5:5), y = c(-3:7)) %>%
+  ggplot() + geom_line(aes(x = x, y = y), color = "blue") +
+  geom_segment(aes(x = -5, xend = 5, y = 0, yend=0)) + 
+  geom_segment(aes(x = 0, xend = 0, y = -7.5, yend=7.5))+
+  ylim(c(-7.5, 7.5)) + xlim(c(-5,5))
+```
+
+
+---
+

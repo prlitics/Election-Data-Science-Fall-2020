@@ -138,7 +138,7 @@ route<-closest_route(dist_table = tabletest, full_geos_sf = total_adds)
 leaflet(data = al_cty) %>%
   addTiles() %>% addPolygons() %>%
   addMarkers(data = al_lat_longs1, popup = al_lat_longs1$name) %>% 
-  addMarkers(data = my_add_geo1, popup = my_add_geo1$name, icon = homeicon ) %>%
+  addMarkers(data = my_add_geo1, popup = my_add_geo1$name, icon = homeicon) %>%
   addPolylines(data = route$geometry, color = "black", opacity = 1, popup = "OSRM Shortest Route") %>%
   addMiniMap()
 
