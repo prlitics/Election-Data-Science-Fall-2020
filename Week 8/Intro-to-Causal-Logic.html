@@ -4,7 +4,7 @@
     <title>Intro to Causality</title>
     <meta charset="utf-8" />
     <meta name="author" content="Peter Licari" />
-    <meta name="date" content="2020-10-18" />
+    <meta name="date" content="2020-10-20" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 # Intro to Causality
 ## Election Data Science
 ### Peter Licari
-### 2020-10-18
+### 2020-10-20
 
 ---
 
@@ -50,6 +50,7 @@ pre code, pre, code {
 
 **There is no single, set theory of causality. Instead there is a constellation of concepts that we glomm together when we discuss the topic:**
 --
+
 1. Deterministic causality.
 2. Probabilistic causality.
 3. Procedural causality.
@@ -58,14 +59,22 @@ pre code, pre, code {
 6. Reciprocal causality.
 
 --
+
 **_In general_** there are three requirements to a causal relationship across types: There is a relationship between cause and effect; cause must precede effect; and there must not be any spurious causes.
 
 ---
+class: center middle
 
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
 Probabilistic causality: `\(X\)` can be said to cause `\(Y\)` if changes in `\(X\)` significantly alters *the probability* of `\(Y\)` occurring (provided the main three requirements are met). 
+]
+
+ 
 
 ---
 # What do we mean by significant.
+
+&lt;img src="significant.png" width="663" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -82,13 +91,13 @@ Probabilistic causality: `\(X\)` can be said to cause `\(Y\)` if changes in `\(X
 # Let's think about comparisons between groups. 
 .panelset[.panel[.panel-name[Comparison 1]
 
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-2-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-3-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Comparison 2]
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-3-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-4-1.png" style="display: block; margin: auto;" /&gt;
 ]
 .panel[.panel-name[Comparison 3]
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-4-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-5-1.png" style="display: block; margin: auto;" /&gt;
 ]
 
 ]
@@ -96,41 +105,18 @@ Probabilistic causality: `\(X\)` can be said to cause `\(Y\)` if changes in `\(X
 ---
 # What information do we need?
 .panelset[.panel[.panel-name[Central Tendency]
-
-```r
-tibble(group1 = rnorm(100, mean = 0, sd = 5), group2 = rnorm(100, mean = 25, sd = 5)) %&gt;%
-  mutate(blah = "blah") %&gt;%
-  pivot_longer(!blah, names_to = "groups") %&gt;%
-  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
-  geom_segment(aes(x = 25, xend = 25, y = 0, yend = .1), color = "#2D4396")+
-  geom_segment(aes(x = 0, xend = 0, y = 0, yend = .1), color = "#932C2C")+
-  theme_minimal() + xlab("")+ 
-  theme(axis.text.x = element_blank()) 
-```
-
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-5-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-6-1.png" style="display: block; margin: auto;" /&gt;
 
 ]
 .panel[.panel-name[Distribution]
-
-```r
-tibble(group1 = rnorm(1000, mean = 0, sd = 5), group2 = rnorm(1000, mean = 25, sd = 5)) %&gt;%
-  mutate(blah = "blah") %&gt;%
-  pivot_longer(!blah, names_to = "groups") %&gt;%
-  ggplot()+geom_density(aes(x=value, fill = groups), alpha = .6) + 
-  geom_segment(aes(x = 20, xend = 30, y = .0375, yend = .0375), color = "#2D4396")+
-  geom_segment(aes(x = -5, xend = 5, y = .0375, yend = .0375), color = "#932C2C")+
-  theme_minimal() + xlab("")+ 
-  theme(axis.text.x = element_blank()) 
-```
-
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-6-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-7-1.png" style="display: block; margin: auto;" /&gt;
 
 
 ]
 
 .panel[.panel-name[Quality]
 Quality consists of the number of people you've selected and (implicitly) how they were gathered.
+
 --
 
 This tells us how **reliably** we can take the difference observed between the two groups.
@@ -146,7 +132,7 @@ The p value represents how probable it is that the difference you observed, give
 
 ---
 
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-7-1.png)&lt;!-- --&gt;
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-8-1.png" style="display: block; margin: auto;" /&gt;
 
 ---
 
@@ -158,17 +144,77 @@ The p value represents how probable it is that the difference you observed, give
 ---
 ## Linear Regression. 
 
-In order to understand the logic of linear regression, you really don't need to understand *much* more than high school algebra. Specifically:
+In order to understand the *logic* of linear regression, you really don't need to understand *much* more than high school algebra. Specifically:
 
 &lt;center&gt;$Y = mX + b$&lt;/center&gt;
 
 ---
 ## Algebra refresher:
+ - `\(Y\)` is your output value.
+ - `\(X\)` is your input value.
+ - `\(m\)` is your slope (in this case 1)
+ - `\(b\)` is your intercept (in this case 2)
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-9-1.png" style="display: block; margin: auto;" /&gt;
 
-![](Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-8-1.png)&lt;!-- --&gt;
+---
+# What do you "mean"?
+
+- What if the line doesn't represent all of the data but the best fit of the data?
+- They all mean nearly the same, except `\(m\)` is the average slope and `\(b\)` is the average value when `\(x\)` is set at zero.
+
+&lt;img src="Intro-to-Causal-Logic_files/figure-html/unnamed-chunk-10-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+class: center, middle
+
+**Congratulations! You've just understood the basics of linear regression.**
+
+`\(Y = mX + b \rightarrow Y = X\beta_{1}  + \beta_{0}\)`
+
+---
+# To complicate it a bit more...
+Remember solving linear equations?
+--
+
+`\(\begin{bmatrix} 3x + 5y + z = 23\\-3x + 17y -2z = 8 \\9x +0y +7z = 103 \end{bmatrix}\)`
+
+--
+
+You had multiple unknown values that you were solving for? Same thing can be done for linear regression:
+
+--
+
+`\(Y = \beta_1X_1 + \beta_2X_2 + \beta_0\)`
+
+Where `\(\beta_1\)` is the effect your first variable ($x_1$) has on `\(Y\)` when your second variable ($X_2$) is held constant. This is the independent effect of `\(X_1\)` on `\(Y\)`.
+
+--
+
+You can have almost as many variables as you have observations--although your model will run into a variety of different issues if you just chuck the kitchen sink in there.
+
+---
+class: middle
+# What does this mean from a causal perspective?
+--
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+If you have variables in data that satisfy the criteria for causality, generalized linear models (including linear regression), can help you estimate the Average Treatment Effect on the variable. 
+]
 
 
 ---
+
+# Most BASIC Criteria for using linear regression in a causal inference framework:
+--
+
+1. The outcome variable has to be continuous.
+2. The different independent variables have to not be super correlated. (Multicollinearity)
+3. There should not be omitted variables corresponding with both your IV. and DV (Omitted variable bias)
+4. For significance testing, the variance of your IV should stay constant. (Heteroskedasticity)
+
+--
+
+There are more, but these are the biggest ones.
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
