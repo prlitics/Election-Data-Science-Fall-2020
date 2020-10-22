@@ -1,0 +1,79 @@
+---
+title: "Week 8 Lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# If it ain't broke don't fix it.
+
+One of the oldest, most reliable findings in contemporary political science is that party identification is a strong cause of how people view the political world and actors in it. Using the 2016 wave of the ANES (from the `anesr` package), run a linear regression where your dependent variable (or $Y$ variable) is the 100 point favorability scale of Donald Trump (`V161087`) and the explanatory variable is the respondent's party identification (`V161158x`), ranging from 1 to7 (meaning: strong democrat; weak democrat; lean democrat; independent; lean republican; weak republican; strong republican). 
+
+```{r echo=FALSE}
+library(anesr)
+library(tidyverse)
+data("timeseries_2016")
+anes16 <- timeseries_2016
+cleanup <- function(x){ifelse(x <0, NA, x)}
+
+anes16 <- anes16 %>%
+  mutate(across(everything(), cleanup))
+
+
+
+```
+
+After you've done this, I want you to answer the following questions:
+
+
+1. What is the coefficient for party ID? How would you interpret this, substantively?
+2. Interpret the value's statistical significance using the 5% threshold.
+3. Do you believe a linear regression is the appropriate modeling choice for this question? Why or why not?
+
+
+# The Gender Gap
+
+Of course, there is more to life than just party identification. (And with that sentence alone, I have managed to just excommunicate myself from the ranks of political behaviorists.) Another thing that we know is that, over the last 3 decades or so, there has been a gender gap in the support between the two parties---with women being more likely to support Democratic candidates. 
+
+Create a dummy variable (also known as a "binary" or 0/1 variable) that measures the respondent's sex. (You might want to look at `V161342`). Have non-males be the reference category (0). Regress this variable on support for Donald Trump.
+
+
+1. What is the coefficient for sex? How would you interpret this, substantively?
+2. Interpret the value's statistical significance using he 5% threshold.
+3. Do you believe a linear regression is the appropriate modeling choice here?
+
+
+# Futures Past.
+
+In the 1980 election, Ronald Reagan famously asked voters whether or not they were better off then than they were four years ago. Another tried and true finding is that voters tend to base their decisions, at least in part, on a mix of retrospective and prospective evaluations---based off of where they think the country has gone and where they think it's going. One question that gets at this is a common question in political polling is the right/wrong track question. To paraphrase: "Do you think the country is on the right track as of now, or is it on the wrong track?" The ANES tracks this question as well (`V161081`). How does thinking that things are on the wrong track, compared to the right track, affect respondents' feelings towards Donald Trump? 
+
+
+# 
+
+One of the best things about studying electoral behavior is that it is such a multifaceted phenomena you'll never have to worry about running out of things to test, theorize, and explore. Select another variable contained in the ANES that you believe can be a cause of people's perceptions towards Donald Trump Justify your choice of variable using the 3 crieria for causal relationships discussed in the lecture and run a model to test your hypothesis. 
+
+
+# All Together Now
+
+Take all of the variables that you have evaluated and incorporate them into a *multivariate* linear regression model. Answer the following questions.
+
+1. How did including all these variables together affect your previous results? Why do you believe it did so?
+2. Interpret the meaning of each of the four coefficients and their significance at the 5% threshold. 
+
+
+# Visualizing your results.
+
+There are a million ways to report regression results. You can model and graph predicted probabilities, you can report them in tables, you can explain them in prose---and each of these options houses an infinite multitude of alernate aesthetic choices. Here, I want for you to learn how to make a coefficient plot.
+
+Coefficient plots are exactly as they sound: They plot the coefficients and their standard errors to visualize what results are and aren't significant. These can be especially helpful when you're evaulating multiple variables across multiple models. Here's an example from my dissertation looking at how playing games that make people think about social, moral, and political issues, affects the likelihood of people engaging in a variety of political actions.
+
+I would like for you guys to make a coefficient plot of the results from the multivariate model you evaluated in the last question. (Tip: Google is your friend and the universe of R packages is vast...)
+
+
+
+
+
+
+
