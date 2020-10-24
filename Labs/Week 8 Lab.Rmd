@@ -7,11 +7,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# If it ain't broke don't fix it.
+This week, we're learning about the *de facto* workhouse of causal inference in the social sciences: Linear regression. Unfortunately, this class can't go too in depth into how important and all-pervasive linear models are in the social sciences, nor explain all the different varieties contained within the ilk. However, hopefully, by the end of the next couple of weeks, you'll be able to at least have a practitioner's appreciation for the topic and be able to use it for your own analyses (should you choose.)
+
+# Challenge 1: If it ain't broke don't fix it.
 
 One of the oldest, most reliable findings in contemporary political science is that party identification is a strong cause of how people view the political world and actors in it. Using the 2016 wave of the ANES (from the `anesr` package), run a linear regression where your dependent variable (or $Y$ variable) is the 100 point favorability scale of Donald Trump (`V161087`) and the explanatory variable is the respondent's party identification (`V161158x`), ranging from 1 to7 (meaning: strong democrat; weak democrat; lean democrat; independent; lean republican; weak republican; strong republican). 
 
-```{r echo=FALSE}
+```{r echo=FALSE, message=FALSE, warning=FALSE}
 library(anesr)
 library(tidyverse)
 data("timeseries_2016")
@@ -33,7 +35,7 @@ After you've done this, I want you to answer the following questions:
 3. Do you believe a linear regression is the appropriate modeling choice for this question? Why or why not?
 
 
-# The Gender Gap
+# Challenge 2: The Gender Gap
 
 Of course, there is more to life than just party identification. (And with that sentence alone, I have managed to just excommunicate myself from the ranks of political behaviorists.) Another thing that we know is that, over the last 3 decades or so, there has been a gender gap in the support between the two parties---with women being more likely to support Democratic candidates. 
 
@@ -45,17 +47,17 @@ Create a dummy variable (also known as a "binary" or 0/1 variable) that measures
 3. Do you believe a linear regression is the appropriate modeling choice here?
 
 
-# Futures Past.
+# Challenge 3: Futures Past.
 
 In the 1980 election, Ronald Reagan famously asked voters whether or not they were better off then than they were four years ago. Another tried and true finding is that voters tend to base their decisions, at least in part, on a mix of retrospective and prospective evaluations---based off of where they think the country has gone and where they think it's going. One question that gets at this is a common question in political polling is the right/wrong track question. To paraphrase: "Do you think the country is on the right track as of now, or is it on the wrong track?" The ANES tracks this question as well (`V161081`). How does thinking that things are on the wrong track, compared to the right track, affect respondents' feelings towards Donald Trump? 
 
 
-# 
+# Challenge 4: Putting a Personal Spin on Things.
 
 One of the best things about studying electoral behavior is that it is such a multifaceted phenomena you'll never have to worry about running out of things to test, theorize, and explore. Select another variable contained in the ANES that you believe can be a cause of people's perceptions towards Donald Trump Justify your choice of variable using the 3 crieria for causal relationships discussed in the lecture and run a model to test your hypothesis. 
 
 
-# All Together Now
+# Challenge 5: All Together Now
 
 Take all of the variables that you have evaluated and incorporate them into a *multivariate* linear regression model. Answer the following questions.
 
@@ -63,15 +65,22 @@ Take all of the variables that you have evaluated and incorporate them into a *m
 2. Interpret the meaning of each of the four coefficients and their significance at the 5% threshold. 
 
 
-# Visualizing your results.
+# Challenge 6: Visualizing your results.
 
 There are a million ways to report regression results. You can model and graph predicted probabilities, you can report them in tables, you can explain them in prose---and each of these options houses an infinite multitude of alernate aesthetic choices. Here, I want for you to learn how to make a coefficient plot.
 
 Coefficient plots are exactly as they sound: They plot the coefficients and their standard errors to visualize what results are and aren't significant. These can be especially helpful when you're evaulating multiple variables across multiple models. Here's an example from my dissertation looking at how playing games that make people think about social, moral, and political issues, affects the likelihood of people engaging in a variety of political actions.
 
+```{r, echo=F, fig.align='center'}
+knitr::include_graphics("Week 8 Files/capture.png")
+```
+
+
 I would like for you guys to make a coefficient plot of the results from the multivariate model you evaluated in the last question. (Tip: Google is your friend and the universe of R packages is vast...)
 
+***
 
+<center> Be Safe! Enjoy your week.</center>
 
 
 
