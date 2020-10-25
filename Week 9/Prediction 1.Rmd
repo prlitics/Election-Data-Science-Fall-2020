@@ -1,0 +1,72 @@
+---
+title: "Intro to Exploratory Data Analysis"
+subtitle: "Election Data Science"  
+author: 
+  - "Peter Licari"
+date: '`r Sys.Date()`'
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    css: xaringan-themer.css
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+```
+
+```{r xaringan-themer, include=FALSE, warning=FALSE}
+library(xaringanthemer)
+style_duo_accent(
+  primary_color = "#1381B0",
+  secondary_color = "#FF961C",
+  inverse_header_color = "#FFFFFF",
+  text_font_google = google_font("Poppins")
+)
+
+xaringanExtra::use_xaringan_extra()
+library(tidyverse)
+library(kableExtra)
+```
+
+```{css, echo=FALSE}
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+```
+
+--
+
+*Passphrase is: *
+
+---
+
+We all like to joke about how poorly weather people perform in their predictions.
+--
+
+[weather person]
+
+--
+
+*What if I told you I knew a way to forecast tomorrow's weather with about 75-80% accuracy*
+
+??? Looks out the window
+
+---
+
+BOX: In theory, prediction is relatively easy since the future is not drastically disimilar from the past. But, in theory, prediction is relatively complicated because the future is different in ways we've never experienced in the past.
+--
+
+BOX: In practice, prediction is made even *more* difficult by dint of the fact that the things that are most interesting aren't simple processes, but *complex* or *chaotic* ones. So we're often wrong. (But we still try anyways.)
+
+---
+
+# Two Main "Classes" of Prediction
+.pull-left[<center><strong>Regression</strong></center>]
+
+
+.pull-right[<center><strong>Classification</strong></center>]
+
