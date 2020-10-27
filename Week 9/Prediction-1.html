@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Intro to Prediction</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-10-26" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Intro to Prediction
+## Election Data Science
+### Peter Licari
+### 2020-10-26
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+
+--
+
+*Passphrase is: *
+
+---
+
+We all like to joke about how poorly weather people perform in their predictions.
+--
+
+&lt;img src="imageassets/stonks.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+--
+
+&lt;center&gt; &lt;i&gt;What if I told you I knew a way to forecast tomorrow's weather with about 75-80% accuracy&lt;/i&gt; &lt;/center&gt;
+
+
+
+---
+
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+In theory, prediction is relatively easy since the future is not drastically disimilar from the past. But, in theory, prediction is relatively complicated because the future is different in ways we've never experienced in the past.
+
+] 
+
+
+--
+
+.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
+In practice, prediction is made even *more* difficult by dint of the fact that the things that are most interesting aren't simple processes, but *complex* or *chaotic* ones. So we're often wrong. (But we still try anyways.)
+] 
+
+---
+
+# Two Main "Classes" of Prediction
+.pull-left[&lt;center&gt;&lt;strong&gt;Regression&lt;/strong&gt;&lt;/center&gt;
+- Continuous variables.
+- Primarily uses regression to make specific estimates.
+  - &lt;i&gt;Tries to get as close to the original value as possible to predict new data.&lt;/i&gt;
+- &lt;strong&gt;&lt;em&gt;Example:&lt;/strong&gt;&lt;/em&gt; Amount of money donated to a candidate via a website.]
+
+
+.pull-right[&lt;center&gt;&lt;strong&gt;Classification&lt;/strong&gt;&lt;/center&gt;
+- Discrete and/or categorical variables.
+- Uses a host of different techniques: Trees, Regression, SVM, Cluster Analysis...
+  - &lt;i&gt;Tries to predict the class of the original data to predict new data.&lt;/i&gt;
+- &lt;strong&gt;&lt;em&gt;Example:&lt;/strong&gt;&lt;/em&gt; Whether someone voted or not; whether someone's ballot will/won't be rejected.]
+ 
+--
+&lt;center&gt; In both cases, you are going to specify models with an output variable `\(Y\)` and a series of predictor variables, `\(X\)`, with the hope of being better than their most naive predictors (generally expected value). 
+
+---
+
+# Intuition for Predictive Inference:
+&lt;img src="imageassets/intuition.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+--
+
+&lt;center&gt;&lt;i&gt;Implies a relatively continuous stream of new data. This isn't necessarily common in practice&lt;/i&gt;&lt;/center&gt;
+
+---
+
+# Data Alchemy
+--
+
+*How do you get "new" data?* **_You use the data you already have._**
+--
+
+- You split the data randomly into two groups: *Training data* and **Testing data**.
+  - You will do your model building on your training data and your model evaluations through your testing data.
+  - Common splits (depending on data size): 90/10, 80/20, 70/30.
+- You'll do this **_before_** feature engineering. 
+
+--
+- **Doing this carries a number of implicit assumptions about your data-generating process.**
+
+---
+
+# Bias-Variance Trade-off (or Under vs Overfitting)
+
+--
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="imageassets/biasvariance.png" alt="Adapted from Boehmke &amp;amp; Greenwell (2020)" width="60%" /&gt;
+&lt;p class="caption"&gt;Adapted from Boehmke &amp; Greenwell (2020)&lt;/p&gt;
+&lt;/div&gt;
+--
+&lt;center&gt;
+.bg-washed-red.b--dark-red.ba.bw2.br3.shadow-5.ph4.mt5[
+ It is &lt;strong&gt;impossible&lt;/strong&gt; to avoid this dilemma.] 
+&lt;/center&gt;
+
+---
+# How do we improve underfitting?
+--
+
+.pull-left[
+- Increase the number of predictors in the model (but be smart about it!)
+- Don't have your individual-level predictions be dependent on overly large amounts of input from other variables.
+- Consider whether you need a parametric versus and non-parametric model.
+]
+.pull-right[Bias meme.]
+
+
+---
+# How do we improve overfitting?
+--
+
+.pull-left[
+- Curate predicted variables.
+- Limit idiosyncratic model behavior.
+- Cross-Validation. `\(\rightarrow\)`
+]
+
+.pull-right[
+&lt;div class="figure"&gt;
+&lt;img src="imageassets/xfold.png" alt="Boehmke &amp;amp; Greenwell (2020)" width="1215" /&gt;
+&lt;p class="caption"&gt;Boehmke &amp; Greenwell (2020)&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+# Prediction Models: Regression cases
+--
+
+.pull-left[
+- You'll (often) use regression. (Might be a smidge obvious...)
+- Hoping to maximize `\(R^2\)` while minimizing mean-squared-error (*MSE*).
+  - `\(R^2\)`: The amount of the variation in `\(Y\)` "explained" by your `\(X\)` variables.
+  - *MSE*: The mean squared error your guesses are from the actual value ("residuals").
+- In this case **you're not really interested in the ** `\(\beta\)`. 
+- Other models: Decision trees, Support Vector Machines, Ridge/LASSO/Elastic Net regression.
+]
+.pull-right[
+&lt;div class="figure"&gt;
+&lt;img src="imageassets/linear.png" alt="Boehmke &amp;amp; Greenwell (2020)" width="645" /&gt;
+&lt;p class="caption"&gt;Boehmke &amp; Greenwell (2020)&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+# Classification Models: K - Nearest Neighbor. 
+.pull-left[
+- Variety of different classification algorithims with their own underlying logic.
+- In KNN, you'll use information from other, similar data to estimate unknown values from new data.
+- Hoping to minimize *MSE* and minimize *misclassification*
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
