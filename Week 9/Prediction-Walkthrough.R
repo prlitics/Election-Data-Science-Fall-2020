@@ -19,10 +19,11 @@ anes16_clean <- anes16 %>%
 
 select(PID = V161158x , Gender = V161342, Income = V161361x, Religion = V161265x,
        Education = V161270, Age = V161267, Ideology = V161126, Race = V161310x, Trump_Fav = V161087) %>%
-  mutate(across(c(PID, Gender, Income, Religion, Education, Ideology, Race),as.factor))
+  mutate(across(c(PID, Gender, Income, Religion, Education, Ideology, Race),as.factor)) %>%
+  drop_na()
 
 
-# Sokut the data
+# Split the data
 set.seed(131313)
 split1 <- initial_split(anes16_clean, prop = .7)
 Train_Data <- training(split1)
@@ -50,17 +51,16 @@ baked_test <- bake(anes_recipe, new_data = Test_Data)
 
 
 
-
-
-set.seed(123)
+set.seed(131313)
 trump_lm <- train(
   Trump_Fav ~ ., 
   data = Train_Data, 
   method = "lm",
-  trControl = trainControl(method = "cv", number = 10)
+  trControl = trainControl(method = "cv", number = 5)
 )
 
 
+trump_lm[["results"]]
 
 
 
@@ -73,38 +73,6 @@ trump_lm <- train(
 
 
 
-
-
-
-
-
-
-
-# Qualitative Variable
-
-kn_control <- trainControl(
-  method = "repeatedcv",
-  number = 5,
-  classProbs = T
-)
-
-grid_params <- expand.grid(
-  k = floor(seq(1,30,by = 2))
-)
-
-
-cv_knn_findK <-train(
-  DV~ . ,
-  data = baked_train,
-  method = "knn",
-  trControl = kn_control,
-  tuneGrid = grid_params,
-  metric = "ROC"
-  
-)
-
-
-cv_knn_findK$results
 
 
 

@@ -48,7 +48,7 @@ We all like to joke about how poorly weather people perform in their predictions
 --
 
 ```{r, echo=FALSE, fig.align='center', out.width="60%"}
-knitr::include_graphics("imageassets/stonks.jpeg")
+knitr::include_graphics("imageassets/stonks.jpg")
 ```
 
 

@@ -4,7 +4,7 @@
     <title>Intro to Prediction</title>
     <meta charset="utf-8" />
     <meta name="author" content="Peter Licari" />
-    <meta name="date" content="2020-10-26" />
+    <meta name="date" content="2020-10-27" />
     <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
     <script src="libs/tile-view/tile-view.js"></script>
     <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
@@ -25,7 +25,7 @@ class: center, middle, inverse, title-slide
 # Intro to Prediction
 ## Election Data Science
 ### Peter Licari
-### 2020-10-26
+### 2020-10-27
 
 ---
 
@@ -49,7 +49,7 @@ pre code, pre, code {
 We all like to joke about how poorly weather people perform in their predictions.
 --
 
-&lt;img src="imageassets/stonks.png" width="60%" style="display: block; margin: auto;" /&gt;
+&lt;img src="imageassets/stonks.jpg" width="60%" style="display: block; margin: auto;" /&gt;
 
 
 --
@@ -136,12 +136,10 @@ In practice, prediction is made even *more* difficult by dint of the fact that t
 # How do we improve underfitting?
 --
 
-.pull-left[
 - Increase the number of predictors in the model (but be smart about it!)
 - Don't have your individual-level predictions be dependent on overly large amounts of input from other variables.
 - Consider whether you need a parametric versus and non-parametric model.
-]
-.pull-right[Bias meme.]
+
 
 
 ---
@@ -186,6 +184,13 @@ In practice, prediction is made even *more* difficult by dint of the fact that t
 - Variety of different classification algorithims with their own underlying logic.
 - In KNN, you'll use information from other, similar data to estimate unknown values from new data.
 - Hoping to minimize *MSE* and minimize *misclassification*
+]
+
+.pull-right[
+&lt;div class="figure"&gt;
+&lt;img src="imageassets/knn.png" alt="Italo Jose (2018)" width="1004" /&gt;
+&lt;p class="caption"&gt;Italo Jose (2018)&lt;/p&gt;
+&lt;/div&gt;
 ]
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
