@@ -1,5 +1,5 @@
 ---
-title: "Intro to Prediction"
+title: "Exploration II"
 subtitle: "Election Data Science"  
 author: 
   - "Peter Licari"
@@ -41,7 +41,7 @@ pre code, pre, code {
 --
 
 ```{r, echo=F, fig.align='center', out.width="50%", fig.cap="My prediction"}
-knitr::include_graphics("bells.jpg")
+knitr::include_graphics("thebells.jpg")
 
 ```
 
@@ -105,157 +105,47 @@ knitr::include_graphics("https://miro.medium.com/max/625/1*x7P7gqjo8k2_bj2rTQWAf
 
 
 .pull-right[
-```{r, echo=F, fig.align='center', out.width="50%"}
+```{r, echo=F, fig.align='center', out.width="80%"}
 knitr::include_graphics("https://bookdown.org/rdpeng/exdata/images/kmeans-unnamed-chunk-2-1.png")
 ```
 ]
 
 ---
 # But let's expand our minds about what we mean by "distance"
+```{r, echo=F, fig.align='center', out.width="50%", fig.cap="My prediction"}
+knitr::include_graphics("galaxybrain.jpg")
+
+```
+
+---
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+Normally by distance, we think euclidean distance ($Y = \sqrt{x^2 + z^2}$)--and that's a totally valid way. But distance can be thought of as simply a measure of *association.* And association can *also* be measured by how much variables **correlate** and/or **covary** with each other.
+] 
+
+---
+# Principal Components Analysis (PCA): Intuition.
+
+.pull-left[
+- Set of observations exist, defined by multiple dimensions.
+  - PCA is part of a family of *dimension reduction* techniques. Meaning it helps you take many variables and bring it down to fewer.
+- Takes your data, decomposes it, and identifies vectors explaining the maximum amount of variance.
+  - These are called factors.
+  - Different variables will load onto the same factor.
+  - 
+]
 
 
+.pull-right[
+```{r, echo=F, fig.align='center', out.width="80%", fig.cap="Source: Boehmke & Greenwell"}
+knitr::include_graphics("https://bradleyboehmke.github.io/HOML/15-pca_files/figure-html/create-pca-image-1.png")
+```
+]
 
+---
+#PCA: In practice.
 
 ```{r, echo=FALSE, fig.align='center', out.width="60%"}
-knitr::include_graphics("imageassets/stonks.jpg")
+knitr::include_graphics("pca.png")
 ```
 
 
---
-
-<center> <i>What if I told you I knew a way to forecast tomorrow's weather with about 75-80% accuracy</i> </center>
-
-
-
----
-
-.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
-In theory, prediction is relatively easy since the future is not drastically disimilar from the past. But, in theory, prediction is relatively complicated because the future is different in ways we've never experienced in the past.
-
-] 
-
-
---
-
-.bg-washed-green.b--dark-green.ba.bw2.br3.shadow-5.ph4.mt5[
-In practice, prediction is made even *more* difficult by dint of the fact that the things that are most interesting aren't simple processes, but *complex* or *chaotic* ones. So we're often wrong. (But we still try anyways.)
-] 
-
----
-
-# Two Main "Classes" of Prediction
-.pull-left[<center><strong>Regression</strong></center>
-- Continuous variables.
-- Primarily uses regression to make specific estimates.
-  - <i>Tries to get as close to the original value as possible to predict new data.</i>
-- <strong><em>Example:</strong></em> Amount of money donated to a candidate via a website.]
-
-
-.pull-right[<center><strong>Classification</strong></center>
-- Discrete and/or categorical variables.
-- Uses a host of different techniques: Trees, Regression, SVM, Cluster Analysis...
-  - <i>Tries to predict the class of the original data to predict new data.</i>
-- <strong><em>Example:</strong></em> Whether someone voted or not; whether someone's ballot will/won't be rejected.]
- 
---
-<center> In both cases, you are going to specify models with an output variable $Y$ and a series of predictor variables, $X$, with the hope of being better than their most naive predictors (generally expected value). 
-
----
-
-# Intuition for Predictive Inference:
-```{r, fig.align='center', echo=FALSE, out.width= "50%"}
-knitr::include_graphics("imageassets/intuition.png")
-```
-
---
-
-<center><i>Implies a relatively continuous stream of new data. This isn't necessarily common in practice</i></center>
-
----
-
-# Data Alchemy
---
-
-*How do you get "new" data?* **_You use the data you already have._**
---
-
-- You split the data randomly into two groups: *Training data* and **Testing data**.
-  - You will do your model building on your training data and your model evaluations through your testing data.
-  - Common splits (depending on data size): 90/10, 80/20, 70/30.
-- You'll do this **_before_** feature engineering. 
-
---
-- **Doing this carries a number of implicit assumptions about your data-generating process.**
-
----
-
-# Bias-Variance Trade-off (or Under vs Overfitting)
-
---
-
-```{r, fig.align='center', out.width="60%", echo=FALSE, fig.cap="Adapted from Boehmke & Greenwell (2020)"}
-knitr::include_graphics("imageassets/biasvariance.png")
-```
---
-<center>
-.bg-washed-red.b--dark-red.ba.bw2.br3.shadow-5.ph4.mt5[
- It is <strong>impossible</strong> to avoid this dilemma.] 
-</center>
-
----
-# How do we improve underfitting?
---
-
-- Increase the number of predictors in the model (but be smart about it!)
-- Don't have your individual-level predictions be dependent on overly large amounts of input from other variables.
-- Consider whether you need a parametric versus and non-parametric model.
-
-
-
----
-# How do we improve overfitting?
---
-
-.pull-left[
-- Curate predicted variables.
-- Limit idiosyncratic model behavior.
-- Cross-Validation. $\rightarrow$
-]
-
-.pull-right[
-```{r, echo=F, fig.cap= "Boehmke & Greenwell (2020)"}
-knitr::include_graphics("imageassets/xfold.png")
-```
-]
-
----
-# Prediction Models: Regression cases
---
-
-.pull-left[
-- You'll (often) use regression. (Might be a smidge obvious...)
-- Hoping to maximize $R^2$ while minimizing mean-squared-error (*MSE*).
-  - $R^2$: The amount of the variation in $Y$ "explained" by your $X$ variables.
-  - *MSE*: The mean squared error your guesses are from the actual value ("residuals").
-- In this case **you're not really interested in the ** $\beta$. 
-- Other models: Decision trees, Support Vector Machines, Ridge/LASSO/Elastic Net regression.
-]
-.pull-right[
-```{r, echo=F, fig.cap= "Boehmke & Greenwell (2020)"}
-knitr::include_graphics("imageassets/linear.png")
-```
-]
-
----
-# Classification Models: K - Nearest Neighbor. 
-.pull-left[
-- Variety of different classification algorithims with their own underlying logic.
-- In KNN, you'll use information from other, similar data to estimate unknown values from new data.
-- Hoping to minimize *MSE* and minimize *misclassification*
-]
-
-.pull-right[
-```{r, echo=F, fig.cap= "Italo Jose (2018)"}
-knitr::include_graphics("imageassets/knn.png")
-```
-]

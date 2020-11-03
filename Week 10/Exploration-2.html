@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Exploration II</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Peter Licari" />
+    <meta name="date" content="2020-11-03" />
+    <link href="libs/tile-view/tile-view.css" rel="stylesheet" />
+    <script src="libs/tile-view/tile-view.js"></script>
+    <link href="libs/animate.css/animate.xaringan.css" rel="stylesheet" />
+    <link href="libs/tachyons/tachyons.min.css" rel="stylesheet" />
+    <link href="libs/panelset/panelset.css" rel="stylesheet" />
+    <script src="libs/panelset/panelset.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Exploration II
+## Election Data Science
+### Peter Licari
+### 2020-11-03
+
+---
+
+
+
+
+
+
+&lt;style type="text/css"&gt;
+pre code, pre, code {
+  white-space: pre !important;
+  height: 100px !important;}
+&lt;/style&gt;
+
+--
+
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="thebells.jpg" alt="My prediction" width="50%" /&gt;
+&lt;p class="caption"&gt;My prediction&lt;/p&gt;
+&lt;/div&gt;
+
+---
+# What we're learning today:
+--
+
+1. Cluster analysis
+2. Principal component factor analysis
+--
+
+3. The intuition for unsupervised exploratory methods, more generally.
+
+---
+#Let's tie this into machine learning.
+
+.pull-left[
+- There are two\* kinds of machine learning algorithims:
+  - **Supervised**
+  - **Unsupervised**
+
+- We spent the last two weeks talking about algorithms and tools that fall under the *supervised* umbrella.
+- For exploration, we're going to talk about a couple prominent things that fall under the *unsupervised* umbrella.
+]
+
+.pull-right[
+&lt;img src="https://miro.medium.com/max/625/1*x7P7gqjo8k2_bj2rTQWAfg.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+#What's the difference?
+
+.pull-left[
+&lt;center&gt;&lt;strong&gt;Supervised&lt;/strong&gt;&lt;/center&gt;
+
+- Some kind of ex ante classification or labeling of the data.
+  - A person has labeled this observation as a "voter", has inputted how much money they've donated, has determined this picture is a cat, etc.
+- Usually a closed-form solution (or relatively consistent algorithm.)
+]
+.pull-right[&lt;center&gt;&lt;strong&gt;Unsupervised&lt;/strong&gt;&lt;center&gt;
+
+- The data &lt;em&gt;itself&lt;/em&gt; provides the information\* that creates the categories. 
+- Solutions are usually algorithmic, although some relatively consistent solutions exist.]
+
+--
+&lt;center&gt;&lt;em&gt;The main way these algorithms ascertain groups is through some conception of &lt;strong&gt;distance&lt;/strong&gt;&lt;/em&gt;&lt;/center&gt;
+
+---
+# Cluster analysis. 
+.pull-left[
+- Set of observations exist, defined by multiple dimensions.
+  - In this case 2.
+- The algorithm does 2 things:
+  1. Defines the center of clusters. 
+  2. Classifies data based upon proximity to the center.
+- *You have to define the number of clusters.*
+  - There are techniques if you don't know the cluster center, though.
+]
+
+
+.pull-right[
+&lt;img src="https://bookdown.org/rdpeng/exdata/images/kmeans-unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
+]
+
+---
+# But let's expand our minds about what we mean by "distance"
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="galaxybrain.jpg" alt="My prediction" width="50%" /&gt;
+&lt;p class="caption"&gt;My prediction&lt;/p&gt;
+&lt;/div&gt;
+
+---
+.bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
+Normally by distance, we think euclidean distance ($Y = \sqrt{x^2 + z^2}$)--and that's a totally valid way. But distance can be thought of as simply a measure of *association.* And association can *also* be measured by how much variables **correlate** and/or **covary** with each other.
+] 
+
+---
+# Principal Components Analysis (PCA): Intuition.
+
+.pull-left[
+- Set of observations exist, defined by multiple dimensions.
+  - PCA is part of a family of *dimension reduction* techniques. Meaning it helps you take many variables and bring it down to fewer.
+- Takes your data, decomposes it, and identifies vectors explaining the maximum amount of variance.
+  - These are called factors.
+  - Different variables will load onto the same factor.
+  - 
+]
+
+
+.pull-right[
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="https://bradleyboehmke.github.io/HOML/15-pca_files/figure-html/create-pca-image-1.png" alt="Source: Boehmke &amp;amp; Greenwell" width="80%" /&gt;
+&lt;p class="caption"&gt;Source: Boehmke &amp; Greenwell&lt;/p&gt;
+&lt;/div&gt;
+]
+
+---
+#PCA: In practice.
+
+&lt;img src="pca.png" width="60%" style="display: block; margin: auto;" /&gt;
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
