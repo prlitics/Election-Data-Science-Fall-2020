@@ -1,0 +1,19 @@
+---
+title: "Week 9 lab"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## "If you can look into the seeds of time, and say which grain will grow and which will not, speak then to me, who neither beg nor fear your favours nor your hate."
+
+At the end of class on Tuesday, we made a predictive model using the data from the 2016 ANES (via `anesr`) to predict respondents' level of affinity/opprobrium of then-candidate (later President) Donald Trump. The model used religious identity, gender, race, income, education, party id, and political ideology for this model. Unfortunately, the model's predictive power was pretty lackluster...
+
+Your challenge this week, using the 2016 time series data from the `anesr` package, is to improve upon this predictive model. 
+
+
+# Challenge 1:
+
+Make a predictive regression model, using at least 5 folds of cross-validation, that substantially outperforms the predictive model we made on Tuesday. Use the [Prediction Walkthrough](https://github.com/prlitics/Election-Data-Science-Fall-2020/blob/master/Week%209/Prediction-Walkthrough.R) document on GitHub as well as Chapters 3 and 4 of the [Boehmke & Greenwell book](https://bradleyboehmke.github.io/HOML/index.html). (For reference, the model's $R^2$ was about 0.37. Try to surpass 0.50.)
