@@ -40,7 +40,10 @@ pre code, pre, code {
 
 --
 
-*Passphrase is: *
+```{r, fig.align='center', echo=F}
+knitr::include_graphics("points.png")
+```
+
 
 ---
 # What did you expect to happen?
