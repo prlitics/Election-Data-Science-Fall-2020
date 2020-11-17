@@ -37,12 +37,10 @@
     }
 
     function getAuthor () {
-      let author = document.head.querySelector('meta[name="author"]')
+      let author = document.head.querySelector('meta[name="author"]').content
 
-      if (author) {
-        author = author.content + ' — '
-      } else {
-        author = ''
+      if (author.length > 0) {
+        author = author + ' — '
       }
       return author
     }
@@ -56,7 +54,7 @@
     };
 
     function getShortTitle () {
-      return truncate(window.document.title || '', 50)
+      return truncate(window.document.title, 50)
     }
 
     const navbar = document.createElement('nav')
@@ -67,7 +65,7 @@
       <button type="button" class="shareagain-button" id="shareagain-slide-prev" title="Next Slide">${icons.left}</button>
       <button type="button" class="shareagain-button" id="shareagain-slide-next" title="Previous Slide">${icons.right}</button>
     </li>
-    <li class="shareagain-title" title="${getAuthor()}${window.document.title || ''}">${getShortTitle()}</li>
+    <li class="shareagain-title" title="${getAuthor()}${window.document.title}">${getShortTitle()}</li>
     <li class="shareagain-buttons">
       <button type="button" class="shareagain-button" id="shareagain-fullscreen" title="View in Full Screen">${icons.fullScreen}</button>
       <button type="button" class="shareagain-button" id="shareagain-share" title="Share">${icons.share}</button>
@@ -144,7 +142,7 @@
       })
     })
 
-    navbar.addEventListener('touchend', function (ev) {
+    navbar.addEventListener('touchend', function(ev) {
       ev.preventDefault()
       ev.stopPropagation()
     })
