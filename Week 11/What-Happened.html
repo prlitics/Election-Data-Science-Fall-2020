@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Exploration II</title>
+    <title>What Happened?</title>
     <meta charset="utf-8" />
     <meta name="author" content="Peter Licari" />
     <meta name="date" content="2020-11-10" />
@@ -22,7 +22,7 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Exploration II
+# What Happened?
 ## Election Data Science
 ### Peter Licari
 ### 2020-11-10
@@ -42,108 +42,86 @@ pre code, pre, code {
 
 --
 
+&lt;img src="points.png" width="2720" style="display: block; margin: auto;" /&gt;
+
+
+---
+# What did you expect to happen?
+--
+
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="thebells.jpg" alt="My prediction" width="50%" /&gt;
-&lt;p class="caption"&gt;My prediction&lt;/p&gt;
+&lt;img src="https://www.awildpoliticalnerd.com/post/2020-11-03-some-thoughts-about-the-2020-election_files/likelyoutcome.png" alt="My (actual) prediction."  /&gt;
+&lt;p class="caption"&gt;My (actual) prediction.&lt;/p&gt;
+&lt;/div&gt;
+---
+
+#Lol
+&lt;div class="figure" style="text-align: center"&gt;
+&lt;img src="whatwrong.png" alt="Written November 3rd" width="891" /&gt;
+&lt;p class="caption"&gt;Written November 3rd&lt;/p&gt;
 &lt;/div&gt;
 
 ---
-# What we're learning today:
---
-
-1. Cluster analysis
-2. Principal component factor analysis
---
-
-3. The intuition for unsupervised exploratory methods, more generally.
+# What did you expect to happen?
 
 ---
-#Let's tie this into machine learning.
+
+We're not going to truly **know** *anything* for quite some time. But there are a few things that seem to be fairly clear:
+--
+
+1. Trump outperformed the polls in virtually every state and across the nation. (The source of error(s) is unclear.)
+3. *A lot* of people expected a blowout that never materialized. 
+--
 
 .pull-left[
-- There are two\* kinds of machine learning algorithims:
-  - **Supervised**
-  - **Unsupervised**
-
-- We spent the last two weeks talking about algorithms and tools that fall under the *supervised* umbrella.
-- For exploration, we're going to talk about a couple prominent things that fall under the *unsupervised* umbrella.
+&lt;img src="wtfleft.png" width="80%" style="display: block; margin: auto;" /&gt;
 ]
-
 .pull-right[
-&lt;img src="https://miro.medium.com/max/625/1*x7P7gqjo8k2_bj2rTQWAfg.jpeg" width="50%" style="display: block; margin: auto;" /&gt;
+&lt;img src="wtfright.png" width="70%" style="display: block; margin: auto;" /&gt;
 ]
-
 ---
-#What's the difference?
+#ALSO! Quick PSA
 
-.pull-left[
-&lt;center&gt;&lt;strong&gt;Supervised&lt;/strong&gt;&lt;/center&gt;
-
-- Some kind of ex ante classification or labeling of the data.
-  - A person has labeled this observation as a "voter", has inputted how much money they've donated, has determined this picture is a cat, etc.
-- Usually a closed-form solution (or relatively consistent algorithm.)
-]
-.pull-right[&lt;center&gt;&lt;strong&gt;Unsupervised&lt;/strong&gt;&lt;center&gt;
-
-- The data &lt;em&gt;itself&lt;/em&gt; provides the information\* that creates the categories. 
-- Solutions are usually algorithmic, although some relatively consistent solutions exist.]
-
---
-&lt;center&gt;&lt;em&gt;The main way these algorithms ascertain groups is through some conception of &lt;strong&gt;distance&lt;/strong&gt;&lt;/em&gt;&lt;/center&gt;
-
----
-# Cluster analysis. 
-.pull-left[
-- Set of observations exist, defined by multiple dimensions.
-  - In this case 2.
-- The algorithm does 2 things:
-  1. Defines the center of clusters. 
-  2. Classifies data based upon proximity to the center.
-- *You have to define the number of clusters.*
-  - There are techniques if you don't know the cluster center, though.
-]
-
-
-.pull-right[
-&lt;img src="https://bookdown.org/rdpeng/exdata/images/kmeans-unnamed-chunk-2-1.png" width="80%" style="display: block; margin: auto;" /&gt;
-]
-
----
-# But let's expand our minds about what we mean by "distance"
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="galaxybrain.jpg" alt="My prediction" width="50%" /&gt;
-&lt;p class="caption"&gt;My prediction&lt;/p&gt;
+&lt;img src="exitpoll.png" alt="FRIENDS DON'T LET FRIENDS MAKE SUBGROUP JUDGEMENTS ON UNWEIGHTED EXIT POLLS" width="55%" /&gt;
+&lt;p class="caption"&gt;FRIENDS DON'T LET FRIENDS MAKE SUBGROUP JUDGEMENTS ON UNWEIGHTED EXIT POLLS&lt;/p&gt;
 &lt;/div&gt;
 
 ---
+# Why might people have expected a blowout?
+--
+
+1. **On the right:**
+  - Partisan reasoning leading to a repudiation of mainstream information sources.
+2. On the left:
+  - Partisan reasoning aspirationally interpreting "best case" scenarios as "likely"
+  - But also:
+--
+
+&lt;img src="econfinal.png" width="50%" style="display: block; margin: auto auto auto 0;" /&gt;
+
+---
+# Is this a fair indictment, though?
+&lt;img src="probability.png" width="55%" style="display: block; margin: auto;" /&gt;
+
+---
+class: middle
+
 .bg-washed-blue.b--dark-blue.ba.bw2.br3.shadow-5.ph4.mt5[
-Normally by distance, we think euclidean distance ($Y = \sqrt{x^2 + z^2}$)--and that's a totally valid way. But distance can be thought of as simply a measure of *association.* And association can *also* be measured by how much variables **correlate** and/or **covary** with each other.
-] 
-
----
-# Principal Components Analysis (PCA): Intuition.
-
-.pull-left[
-- Set of observations exist, defined by multiple dimensions.
-  - PCA is part of a family of *dimension reduction* techniques. Meaning it helps you take many variables and bring it down to fewer.
-- Takes your data, decomposes it, and identifies vectors explaining the maximum amount of variance.
-  - These are called factors.
-  - Different variables will load onto the same factor.
-  - 
+At the same time, when you are creating things for *public consumption* you need to take into account how the public **in fact** consumes the kinds of things you are producing. 
 ]
 
-
-.pull-right[
+---
+# Best uncertainty visual I saw
 &lt;div class="figure" style="text-align: center"&gt;
-&lt;img src="https://bradleyboehmke.github.io/HOML/15-pca_files/figure-html/create-pca-image-1.png" alt="Source: Boehmke &amp;amp; Greenwell" width="80%" /&gt;
-&lt;p class="caption"&gt;Source: Boehmke &amp; Greenwell&lt;/p&gt;
+&lt;img src="uncertainty.jpg" alt="Source: Peter K. Enns" width="25%" /&gt;
+&lt;p class="caption"&gt;Source: Peter K. Enns&lt;/p&gt;
 &lt;/div&gt;
-]
+
 
 ---
-#PCA: In practice.
-
-&lt;img src="pca.png" width="60%" style="display: block; margin: auto;" /&gt;
+class: middle, center
+# What do you think? Do you see a value in election projections?
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>

@@ -19,6 +19,7 @@ anes16_clean <- anes16 %>%
   mutate(across(c(PID, Gender, Income, Religion, Education, Ideology, Race, Contact, Vote),as.factor)) %>%
   drop_na()
 
+anes16_clean$Vote <- plyr::revalue(anes16_clean$Vote, c("1" = "Vote", "0"="Not_Vote"))
 
 # Split the data
 set.seed(131313)
@@ -29,9 +30,10 @@ Test_Data<-testing(split1)
 # Feature Engineering
 
 anes_recipe <- recipe(Vote ~ ., data = Train_Data) %>% 
-  step_dummy(PID, Gender, Income, Religion, Education, Ideology, Race, Contact, Vote) %>%
+  step_dummy(PID, Gender, Income, Religion, Education, Ideology, Race, Contact) %>%
   step_center(Age) %>%
-  step_scale(Age)
+  step_scale(Age) %>%
+  prep(training = Train_Data)
 
 # Split the data
 
@@ -47,7 +49,7 @@ cv <- trainControl(
   method = "repeatedcv", 
   number = 10, 
   repeats = 5,
-  classProbs = TRUE,                 
+  classProbs = T,
   summaryFunction = twoClassSummary
 )
 
@@ -58,8 +60,8 @@ hyper_grid <- expand.grid(
 
 # Fit knn model and perform grid search
 knn_grid <- train(
-  anes_recipe, 
-  data = Train_Data, 
+  Vote ~ .,
+  data = baked_train, 
   method = "knn", 
   trControl = cv, 
   tuneGrid = hyper_grid,
@@ -67,3 +69,5 @@ knn_grid <- train(
 )
 
 ggplot(knn_grid)
+
+knn_grid$results
