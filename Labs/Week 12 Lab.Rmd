@@ -21,18 +21,18 @@ knitr::include_graphics("https://i.insider.com/5dd2cac879d757330b3ab572?width=75
 
 You're on a campaign for a county office in North Carolina. You've identified 20 the addresses of 20 voters who you feel are absolutely critical to your election chances. However, you only have 4 volunteers. You have no other choice but to divide and conquer.
 
-The wk12addr.csv file in the github has the latitude and longitude coordinates. Using the `kmeans` function, find 4 clusters in the data that you can point your volunteers to. Make them map in ggplot that shows them where the clusters are.
+The wk12addr.csv file in the [GitHub](https://github.com/prlitics/Election-Data-Science-Fall-2020/tree/master/Data) has the latitude and longitude coordinates for the addresses. Using the `kmeans` function, find 4 clusters in the data that you can point your volunteers to. Make them map in ggplot that shows them where the clusters are.
 
 <center>*Bonus: Add County Boundaries to your map (the addresses are from Tyrrell county).*</center>
 
 ## Challenge 2: A Better Turnout Model. 
-A few weeks ago, we investigated another k-algorithm (k-nearest neighbors) for predictive modeling to see what might predict whether someone voted or not. The original walkthrough can be found in the GitHub. Using a combination of new variables and hyperparameter tuning, improve upon the best fit of the model. 
+A few weeks ago, we investigated another k-algorithm (k-nearest neighbors) for predictive modeling to see what might predict whether someone voted or not. The original walkthrough can be found in the [GitHub](https://github.com/prlitics/Election-Data-Science-Fall-2020/blob/master/Week%2011/Prediction%20Walkthrough%202.R). Using a combination of new variables and hyperparameter tuning, improve upon the best fit of the model. 
 
 ## Challenge 3: Au Naturale (or is it?)
 As data scientists interested in causation, it's important to keep on the lookout for natural experiments to help generate causal insights. Below are three possible scenarios. Determine if these are truly natural experiments.
 
-1: COVID concerns caused some precincts to be shut down during the Presidential primary.
-2: Some states that switch to all mail-in elections allowed counties to take varying amounts of time. 
-3: 4 years ago, high school students in a county were registered to vote--but only if they were going to be 18 by the time of the election. (The measure of interest is whether or not they voted presently.) 
+1. COVID concerns caused some precincts to be shut down during the Presidential primary.
+2. Some states that switch to all mail-in elections allowed counties to take varying amounts of time. 
+3. 4 years ago, high school students in a county were registered to vote--but only if they were going to be 18 by the time of the election. (The measure of interest is whether or not they voted presently.) 
 
 <center>*Bonus: Come up with your own field experiment. Briefly explain how it would leverage randomness to uncover the causal forces behind an election-related event--and how you would collect the data that you would later use to analyze it. (It doesn't have to be more than a paragraph or so.)*</center>

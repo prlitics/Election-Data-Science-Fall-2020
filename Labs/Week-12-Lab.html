@@ -426,19 +426,23 @@ Me trying to code in R without my coffee.
 <div id="challenge-1-limited-resources" class="section level2">
 <h2>Challenge 1: Limited Resources</h2>
 <p>You’re on a campaign for a county office in North Carolina. You’ve identified 20 the addresses of 20 voters who you feel are absolutely critical to your election chances. However, you only have 4 volunteers. You have no other choice but to divide and conquer.</p>
-<p>The wk12addr.csv file in the github has the latitude and longitude coordinates. Using the <code>kmeans</code> function, find 4 clusters in the data that you can point your volunteers to. Make them map in ggplot that shows them where the clusters are.</p>
+<p>The wk12addr.csv file in the <a href="https://github.com/prlitics/Election-Data-Science-Fall-2020/tree/master/Data">GitHub</a> has the latitude and longitude coordinates for the addresses. Using the <code>kmeans</code> function, find 4 clusters in the data that you can point your volunteers to. Make them map in ggplot that shows them where the clusters are.</p>
 <center>
 <em>Bonus: Add County Boundaries to your map (the addresses are from Tyrrell county).</em>
 </center>
 </div>
 <div id="challenge-2-a-better-turnout-model." class="section level2">
 <h2>Challenge 2: A Better Turnout Model.</h2>
-<p>A few weeks ago, we investigated another k-algorithm (k-nearest neighbors) for predictive modeling to see what might predict whether someone voted or not. The original walkthrough can be found in the GitHub. Using a combination of new variables and hyperparameter tuning, improve upon the best fit of the model.</p>
+<p>A few weeks ago, we investigated another k-algorithm (k-nearest neighbors) for predictive modeling to see what might predict whether someone voted or not. The original walkthrough can be found in the <a href="https://github.com/prlitics/Election-Data-Science-Fall-2020/blob/master/Week%2011/Prediction%20Walkthrough%202.R">GitHub</a>. Using a combination of new variables and hyperparameter tuning, improve upon the best fit of the model.</p>
 </div>
 <div id="challenge-3-au-naturale-or-is-it" class="section level2">
 <h2>Challenge 3: Au Naturale (or is it?)</h2>
 <p>As data scientists interested in causation, it’s important to keep on the lookout for natural experiments to help generate causal insights. Below are three possible scenarios. Determine if these are truly natural experiments.</p>
-<p>1: COVID concerns caused some precincts to be shut down during the Presidential primary. 2: Some states that switch to all mail-in elections allowed counties to take varying amounts of time. 3: 4 years ago, high school students in a county were registered to vote–but only if they were going to be 18 by the time of the election. (The measure of interest is whether or not they voted presently.)</p>
+<ol style="list-style-type: decimal">
+<li>COVID concerns caused some precincts to be shut down during the Presidential primary.</li>
+<li>Some states that switch to all mail-in elections allowed counties to take varying amounts of time.</li>
+<li>4 years ago, high school students in a county were registered to vote–but only if they were going to be 18 by the time of the election. (The measure of interest is whether or not they voted presently.)</li>
+</ol>
 <center>
 <em>Bonus: Come up with your own field experiment. Briefly explain how it would leverage randomness to uncover the causal forces behind an election-related event–and how you would collect the data that you would later use to analyze it. (It doesn’t have to be more than a paragraph or so.)</em>
 </center>
