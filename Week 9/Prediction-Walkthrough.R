@@ -60,6 +60,7 @@ trump_lm <- train(
 )
 
 
+
 trump_lm[["results"]]
 
 
